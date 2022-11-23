@@ -5,5 +5,6 @@ clients (id, name, cpf)
 tables (id, number, isAvailable)
 meals (id, name, desc, MealType, price)
 mealTypes (id, name -> bebida, prato)
-orderItems (id, Meal, quantity, price)
+orderItems (id, Meal, quantity, value, obs)
 order (id, Client, Table, OrderItem[], value, paidValue, date)
+

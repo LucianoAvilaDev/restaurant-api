@@ -11,10 +11,6 @@ export default class extends BaseSchema {
       table.integer('table_id').unsigned().references('tables.id')
       table.decimal('total_value', 8, 2).notNullable()
       table.decimal('paid_value', 8, 2).notNullable()
-
-      /**
-       * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
-       */
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
     })

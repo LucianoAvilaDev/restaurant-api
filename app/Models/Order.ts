@@ -10,16 +10,22 @@ export default class Order extends BaseModel {
   @column.dateTime()
   public date: DateTime
 
-  @column({ isPrimary: true })
+  @column()
   public total_value: number
 
-  @column({ isPrimary: true })
+  @column()
   public paid_value: number
+
+  @column()
+  public client_id: number
 
   @hasOne(() => Client, {
     foreignKey: 'client_id'
   })
   public client: HasOne<typeof Client>
+
+  @column()
+  public table_id: number
 
   @hasOne(() => Table, {
     foreignKey: 'table_id'

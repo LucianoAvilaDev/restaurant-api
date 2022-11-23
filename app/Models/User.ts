@@ -18,6 +18,9 @@ export default class User extends BaseModel {
   @column()
   public token: string
 
+  @column()
+  public role_id: number
+
   @hasOne(() => Role, {
     foreignKey: 'role_id'
   })

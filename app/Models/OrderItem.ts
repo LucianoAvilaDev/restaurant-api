@@ -15,6 +15,9 @@ export default class OrderItem extends BaseModel {
   @column()
   public price: number
 
+  @column()
+  public meal_id: number
+
   @hasOne(() => Meal, {
     foreignKey: 'meal_id'
   })

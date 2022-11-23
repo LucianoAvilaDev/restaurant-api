@@ -16,6 +16,9 @@ export default class Meal extends BaseModel {
   @column()
   public price: number
 
+  @column()
+  public meal_type_id: number
+
   @hasOne(() => MealType, {
     foreignKey: 'meal_type_id'
   })

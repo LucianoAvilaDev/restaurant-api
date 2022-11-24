@@ -77,7 +77,7 @@ export default class ClientsController {
   public async edit({ params, response }: HttpContextContract) {
 
     try {
-      const { id } = params
+      const id: Number = params.id
 
       const client: Client | null = await Client.find(id)
 

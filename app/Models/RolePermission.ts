@@ -5,11 +5,11 @@ export default class RolePermission extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
-  @column()
-  public role_id: number
+  @column({ columnName: 'role_id' })
+  public roleId: number
 
-  @column()
-  public permission_id: number
+  @column({ columnName: 'permission_id' })
+  public permissionId: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

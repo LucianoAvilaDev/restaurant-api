@@ -6,8 +6,13 @@ export default class extends BaseSeeder {
     await new Seeder.default(this.client).run()
   }
 
-  public async run () {
-    await this.runSeeder(await import('../MealType'))
+  public async run() {
+    // await this.runSeeder(await import('../MealType'))
+    // await this.runSeeder(await import('../Permission'))
+    // await this.runSeeder(await import('../Role'))
+    // await this.runSeeder(await import('../RolePermission'))
+    await this.runSeeder(await import('../User'))
+
   }
 
 }

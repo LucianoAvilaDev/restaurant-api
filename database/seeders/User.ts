@@ -1,7 +1,18 @@
+import Hash from '@ioc:Adonis/Core/Hash'
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder'
+import User from 'App/Models/User'
 
 export default class extends BaseSeeder {
-  public async run () {
-    // Write your database queries inside the run method
+  public async run() {
+
+    await User.createMany([
+      {
+        id: 1,
+        name: "Luciano",
+        email: "luciano.diniz@sagatechbrasil.com.br",
+        password: await Hash.make("123456"),
+        role_id: 1
+      }
+    ])
   }
 }

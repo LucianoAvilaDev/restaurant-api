@@ -16,16 +16,16 @@ export default class OrderItem extends BaseModel {
   public price: number
 
   @column()
-  public meal_id: number
-
-  @hasOne(() => Meal, {
-    foreignKey: 'meal_id'
-  })
-  public meal: HasOne<typeof Meal>
+  public mealId: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @hasOne(() => Meal, {
+    foreignKey: 'mealId'
+  })
+  public meal: HasOne<typeof Meal>
 }

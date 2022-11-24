@@ -8,8 +8,8 @@ export default class Table extends BaseModel {
   @column()
   public number: string
 
-  @column()
-  public is_available: boolean
+  @column({ columnName: 'is_available' })
+  public isAvailable: boolean
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

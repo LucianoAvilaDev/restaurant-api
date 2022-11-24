@@ -16,20 +16,20 @@ export default class Meal extends BaseModel {
   @column()
   public price: number
 
-  @column()
-  public meal_type_id: number
-
-  @hasOne(() => MealType, {
-    foreignKey: 'meal_type_id'
-  })
-  public meal_type: HasOne<typeof MealType>
-
-  @belongsTo(() => OrderItem)
-  public order_item: BelongsTo<typeof OrderItem>
+  @column({ columnName: 'meal_type_id' })
+  public mealTypeId: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @hasOne(() => MealType, {
+    foreignKey: 'mealTypeId'
+  })
+  public mealType: HasOne<typeof MealType>
+
+  @belongsTo(() => OrderItem)
+  public orderItem: BelongsTo<typeof OrderItem>
 }

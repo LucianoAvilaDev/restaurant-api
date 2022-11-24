@@ -9,12 +9,12 @@ export default class MealType extends BaseModel {
   @column({ isPrimary: true })
   public name: string
 
-  @belongsTo(() => Meal)
-  public meal: BelongsTo<typeof Meal>
-
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @belongsTo(() => Meal)
+  public meal: BelongsTo<typeof Meal>
 }

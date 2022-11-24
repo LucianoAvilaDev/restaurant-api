@@ -1,6 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, beforeSave, BelongsTo, belongsTo, column, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
 import Role from './Role'
+import Hash from '@ioc:Adonis/Core/Hash'
+import Permission from './Permission'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -15,20 +17,38 @@ export default class User extends BaseModel {
   @column()
   public password: string
 
-  @column()
+  @column({ columnName: 'remember_me_token' })
   public token: string
 
-  @column()
-  public role_id: number
-
-  @hasOne(() => Role, {
-    foreignKey: 'role_id'
-  })
-  public profile: HasOne<typeof Role>
+  @column({ columnName: 'role_id' })
+  public roleId: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @belongsTo(() => Role)
+  public role: BelongsTo<typeof Role>
+
+  @beforeSave()
+  public static async hashPassword(user: User) {
+    if (user.$dirty.password) {
+      user.password = await Hash.make(user.password)
+    }
+  }
+
+  permissions = async () => {
+
+    const user: User | null = await User.query().preload('role', (roleQuery) => {
+      roleQuery.preload('permissions')
+    }).where('id', this.id).first()
+
+    return user?.role.permissions.map((permission: Permission) => {
+      return permission.name
+    })
+
+  }
+
 }

@@ -12,12 +12,14 @@ export default class Permission extends BaseModel {
   @column()
   public description: string
 
-  @manyToMany(() => Role)
-  public roles: ManyToMany<typeof Role>
-
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @manyToMany(() => Role, {
+    pivotTable: 'role_permissions',
+  })
+  public roles: ManyToMany<typeof Role>
 }

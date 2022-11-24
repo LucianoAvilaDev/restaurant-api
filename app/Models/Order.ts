@@ -10,31 +10,32 @@ export default class Order extends BaseModel {
   @column.dateTime()
   public date: DateTime
 
-  @column()
-  public total_value: number
+  @column({ columnName: 'total_value' })
+  public totalValue: number
 
-  @column()
-  public paid_value: number
+  @column({ columnName: 'paid_value' })
+  public paidValue: number
 
-  @column()
-  public client_id: number
+  @column({ columnName: 'client_id' })
+  public clientId: number
 
-  @hasOne(() => Client, {
-    foreignKey: 'client_id'
-  })
-  public client: HasOne<typeof Client>
-
-  @column()
-  public table_id: number
-
-  @hasOne(() => Table, {
-    foreignKey: 'table_id'
-  })
-  public table: HasOne<typeof Table>
+  @column({ columnName: 'table_id' })
+  public tableId: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @hasOne(() => Client, {
+    foreignKey: 'clientId'
+  })
+  public client: HasOne<typeof Client>
+
+  @hasOne(() => Table, {
+    foreignKey: 'tableId'
+  })
+  public table: HasOne<typeof Table>
+
 }

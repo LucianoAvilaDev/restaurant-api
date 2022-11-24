@@ -2,7 +2,9 @@ import BaseSeeder from '@ioc:Adonis/Lucid/Seeder'
 import RolePermission from 'App/Models/RolePermission'
 
 export default class extends BaseSeeder {
+
   public async run() {
+
     await RolePermission.createMany([
       //ROLE: ADMINISTRADOR
       {
@@ -25,7 +27,7 @@ export default class extends BaseSeeder {
         role_id: 1,
         permission_id: 5
       },
-      // ROLE:COLABORADOR
+      // ROLE: COLABORADOR
       {
         role_id: 2,
         permission_id: 2
@@ -43,5 +45,7 @@ export default class extends BaseSeeder {
         permission_id: 5
       },
     ])
+
   }
+
 }

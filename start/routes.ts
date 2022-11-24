@@ -24,4 +24,8 @@ Route.get('/', async () => {
   return { hello: 'world' }
 })
 
-Route.resource('clients', 'ClientsController').apiOnly()
+Route.resource('clients', 'ClientsController').apiOnly().except(['create'])
+Route.resource('users', 'UsersController').apiOnly().except(['create'])
+
+
+Route.post('login', 'AuthController.login')

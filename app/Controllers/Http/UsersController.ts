@@ -8,7 +8,9 @@ export default class UsersController {
 
     try {
 
-      const user: User[] = await User.query().preload('role')
+      const user: User[] = await User.query().preload('role', (roleQuery) => {
+        return roleQuery.preload('permissions')
+      })
 
       return response.ok(user)
 
@@ -77,18 +79,16 @@ export default class UsersController {
 
   public async update({ request, params, response }: HttpContextContract) {
     try {
-      const id: Number = params.id
+      const { id } = params
 
-      const user: any = await User.find(id)
-      if (!user) {
-        return response.notFound({ message: 'usere não encontrado' })
-      }
+      const updatedUser: User | null = await UsersService.UpdateUserFields(id, request)
 
-      const updateUser: User = UsersService.UpdateUserFields(id, request)
+      if (!updatedUser)
+        return response.notFound("Usuário não encontrado!")
 
-      await updateUser.save()
+      await updatedUser.save()
 
-      return response.ok(updateUser)
+      return response.ok(updatedUser)
     }
     catch (error: any) {
       return error

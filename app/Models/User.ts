@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeSave, BelongsTo, belongsTo, column, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, beforeSave, BelongsTo, belongsTo, column, computed, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
 import Role from './Role'
 import Hash from '@ioc:Adonis/Core/Hash'
 import Permission from './Permission'
@@ -39,16 +39,11 @@ export default class User extends BaseModel {
     }
   }
 
-  permissions = async () => {
-
-    const user: User | null = await User.query().preload('role', (roleQuery) => {
-      roleQuery.preload('permissions')
-    }).where('id', this.id).first()
-
-    return user?.role.permissions.map((permission: Permission) => {
+  @computed()
+  public get permissions() {
+    return this.role.permissions.map((permission: Permission) => {
       return permission.name
     })
-
   }
 
 }

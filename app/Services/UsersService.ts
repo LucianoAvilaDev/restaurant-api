@@ -3,21 +3,7 @@ import User from "App/Models/User"
 
 class UsersService {
 
-  public static UpdateUserFields = async (id: Number, request: any) => {
 
-    const existingUser: User | null = await this.GetUserById(id as number)
-
-    if (!existingUser) return null
-
-    return {
-      ...existingUser,
-      name: request.input('name'),
-      email: request.input('email'),
-      password: request.input('password'),
-      roleId: request.input('roleId')
-    }
-
-  }
 
   public static GetUserById = async (id: number) => {
 
@@ -27,18 +13,20 @@ class UsersService {
 
   }
 
-  public static GetPermissionsByUserId = async (id: number) => {
+  public static UpdateUserFields = async (id: Number, request: any) => {
 
-    const user: User | null = await User.query().preload('role', (roleQuery) => {
-      roleQuery.preload('permissions')
-    }).where('id', id).first()
+    const existingUser: User | null = await this.GetUserById(id as number)
 
-    return user?.role.permissions.map((permission: Permission) => {
-      return permission.name
-    })
+    if (!existingUser) return null
+
+    existingUser.name = request.input('name')
+    existingUser.email = request.input('email')
+    existingUser.password = request.input('password')
+    existingUser.roleId = request.input('roleId')
+
+    return existingUser
 
   }
-
 
 }
 

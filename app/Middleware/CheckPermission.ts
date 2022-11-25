@@ -30,10 +30,6 @@ export default class CheckPermission {
           })
       })
 
-
-
-
-
   }
 
   public async handle({ route, auth, response }: HttpContextContract, next: () => Promise<void>) {

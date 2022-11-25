@@ -1,10 +1,8 @@
-// import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class AuthController {
 
-  public async login({ request, auth, response }: HttpContextContract) {
+  public async Login({ request, auth, response }: HttpContextContract) {
 
     try {
       const [email, password] = [request.input('email'), request.input('password')]
@@ -16,7 +14,22 @@ export default class AuthController {
       return token.toJSON()
     }
     catch (e: any) {
-      return response.internalServerError(e.message)
+      throw new Error(e.message)
+    }
+
+  }
+
+  public async Logout({ auth, response }: HttpContextContract) {
+
+    try {
+
+      await auth.use('api').logout()
+
+      return response.ok('Usuário deslogado com sucesso!')
+
+    }
+    catch (e: any) {
+      throw new Error(e.message)
     }
 
   }

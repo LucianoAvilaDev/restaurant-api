@@ -1,7 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
 import UsersService from 'App/Services/UsersService'
-
+import { ServiceReturnType } from 'App/Types/types'
 export default class UsersController {
 
   public async index({ response }: HttpContextContract) {
@@ -28,16 +28,14 @@ export default class UsersController {
   public async store({ request, response }: HttpContextContract) {
 
     try {
-      const data: unknown = {
-        name: request.input('name'),
-        email: request.input('email'),
-        password: request.input('password'),
-        roleId: request.input('roleId')
-      }
 
-      const user: User = await User.create(data as User)
+      const returnObject: ServiceReturnType = await UsersService.CreateUser(request)
 
-      return response.created(user)
+      if (!returnObject.success)
+        throw new Error(returnObject.message)
+
+      return response.ok(returnObject.object)
+
     }
     catch (error: any) {
       return error
@@ -49,9 +47,12 @@ export default class UsersController {
 
     try {
 
-      const user: User | null = await UsersService.GetUserById(params.id)
+      const returnObject: ServiceReturnType = await UsersService.GetUserById(params.id)
 
-      return response.ok(user)
+      if (!returnObject.success)
+        return response.internalServerError(returnObject.message)
+
+      return response.ok(returnObject.object)
 
     }
 
@@ -65,9 +66,12 @@ export default class UsersController {
 
     try {
 
-      const user: User | null = await UsersService.GetUserById(params.id)
+      const returnObject: ServiceReturnType = await UsersService.GetUserById(params.id)
 
-      return response.ok(user)
+      if (!returnObject.success)
+        return response.internalServerError(returnObject.message)
+
+      return response.ok(returnObject.object)
 
     }
 
@@ -79,21 +83,38 @@ export default class UsersController {
 
   public async update({ request, params, response }: HttpContextContract) {
     try {
-      const { id } = params
 
-      const updatedUser: User | null = await UsersService.UpdateUserFields(id, request)
+      const returnObject: ServiceReturnType = await UsersService.UpdateUser(params.id, request)
 
-      if (!updatedUser)
-        return response.notFound("Usuário não encontrado!")
+      if (!returnObject.success)
+        return response.internalServerError(returnObject.message)
 
-      await updatedUser.save()
-
-      return response.ok(updatedUser)
+      return response.ok(returnObject.object)
     }
     catch (error: any) {
       return error
     }
   }
 
-  public async destroy({ }: HttpContextContract) { }
+  public async destroy({ params, response }: HttpContextContract) {
+
+    try {
+
+      const { id } = params
+
+      const user: any = await User.find(id)
+      if (!user) {
+        return response.notFound({ message: 'Usuário não encontrado' })
+      }
+
+      await user.delete()
+
+      return response.ok({ message: 'Usuário excluído com sucesso.' })
+
+    }
+    catch (err: unknown) {
+      return err
+    }
+
+  }
 }

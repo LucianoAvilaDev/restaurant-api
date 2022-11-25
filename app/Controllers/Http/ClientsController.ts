@@ -141,8 +141,8 @@ export default class ClientsController {
 
       return response.ok({ message: 'Cliente excluído com sucesso.' })
     }
-    catch (error: any) {
-      return error
+    catch (e: any) {
+      throw new Error(e.message)
     }
   }
 }

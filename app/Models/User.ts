@@ -39,11 +39,4 @@ export default class User extends BaseModel {
     }
   }
 
-  @computed()
-  public get permissions() {
-    return this.role.permissions.map((permission: Permission) => {
-      return permission.name
-    })
-  }
-
 }

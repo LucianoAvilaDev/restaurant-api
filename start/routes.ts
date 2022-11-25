@@ -57,8 +57,10 @@ Route.group(() => {
     .middleware({ '*': ['auth'] })
 
   Route.get('user-permissions', 'UserPermissionsController')
-    .middleware('auth')
-
+    .middleware([
+      'auth',
+      'can:manage_userd,manage_people'
+    ])
 
 }).prefix('api')
 

@@ -56,6 +56,10 @@ Route.group(() => {
     .except(['create'])
     .middleware({ '*': ['auth'] })
 
+  Route.get('user-permissions', 'UserPermissionsController')
+    .middleware('auth')
+
+
 }).prefix('api')
 
 

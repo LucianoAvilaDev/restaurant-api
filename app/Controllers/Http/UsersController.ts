@@ -1,6 +1,9 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import User from 'App/Models/User'
-import UsersService from 'App/Services/UsersService'
+import { CreateUserService } from 'App/Services/UsersServices/CreateUserService'
+import { DeleteUserByIdService } from 'App/Services/UsersServices/DeleteUserByIdService'
+import { GetAllUsersService } from 'App/Services/UsersServices/GetAllUsersService'
+import { GetUserByIdService } from 'App/Services/UsersServices/GetUserByIdService'
+import { UpdateUserByIdService } from 'App/Services/UsersServices/UpdateUserByIdService'
 import { ServiceReturnType } from 'App/Types/types'
 export default class UsersController {
 
@@ -8,11 +11,12 @@ export default class UsersController {
 
     try {
 
-      const user: User[] = await User.query().preload('role', (roleQuery) => {
-        return roleQuery.preload('permissions')
-      })
+      const returnObject: ServiceReturnType = await GetAllUsersService()
 
-      return response.ok(user)
+      if (!returnObject.success)
+        throw new Error(returnObject.message)
+
+      return response.ok(returnObject.object)
 
     }
 
@@ -29,7 +33,7 @@ export default class UsersController {
 
     try {
 
-      const returnObject: ServiceReturnType = await UsersService.CreateUser(request)
+      const returnObject: ServiceReturnType = await CreateUserService(request)
 
       if (!returnObject.success)
         throw new Error(returnObject.message)
@@ -47,10 +51,10 @@ export default class UsersController {
 
     try {
 
-      const returnObject: ServiceReturnType = await UsersService.GetUserById(params.id)
+      const returnObject: ServiceReturnType = await GetUserByIdService(params.id)
 
       if (!returnObject.success)
-        return response.internalServerError(returnObject.message)
+        throw new Error(returnObject.message)
 
       return response.ok(returnObject.object)
 
@@ -66,10 +70,10 @@ export default class UsersController {
 
     try {
 
-      const returnObject: ServiceReturnType = await UsersService.GetUserById(params.id)
+      const returnObject: ServiceReturnType = await GetUserByIdService(params.id)
 
       if (!returnObject.success)
-        return response.internalServerError(returnObject.message)
+        throw new Error(returnObject.message)
 
       return response.ok(returnObject.object)
 
@@ -84,10 +88,10 @@ export default class UsersController {
   public async update({ request, params, response }: HttpContextContract) {
     try {
 
-      const returnObject: ServiceReturnType = await UsersService.UpdateUser(params.id, request)
+      const returnObject: ServiceReturnType = await UpdateUserByIdService(params.id, request)
 
       if (!returnObject.success)
-        return response.internalServerError(returnObject.message)
+        throw new Error(returnObject.message)
 
       return response.ok(returnObject.object)
     }
@@ -100,16 +104,12 @@ export default class UsersController {
 
     try {
 
-      const { id } = params
+      const returnObject: ServiceReturnType = await DeleteUserByIdService(params.id)
 
-      const user: any = await User.find(id)
-      if (!user) {
-        return response.notFound({ message: 'Usuário não encontrado' })
-      }
+      if (!returnObject.success)
+        throw new Error(returnObject.message)
 
-      await user.delete()
-
-      return response.ok({ message: 'Usuário excluído com sucesso.' })
+      return response.ok(returnObject.object)
 
     }
     catch (err: unknown) {
@@ -118,3 +118,4 @@ export default class UsersController {
 
   }
 }
+

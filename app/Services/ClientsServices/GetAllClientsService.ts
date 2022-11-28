@@ -4,7 +4,7 @@ import { ServiceReturnType } from "App/Types/types"
 export default class GetAllClientsService {
   public static async run(): Promise<ServiceReturnType> {
 
-    const clients: Client[] = await Client.query()
+    const clients: Client[] = await Client.query().preload('orders')
 
     return {
       message: 'Sucesso',

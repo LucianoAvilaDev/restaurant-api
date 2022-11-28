@@ -64,6 +64,7 @@ export default class UsersController {
   }
 
   public async update({ request, params, response }: HttpContextContract) {
+
     try {
 
       const returnObject: ServiceReturnType = await UpdateUserByIdService.run(params.id, request)
@@ -72,10 +73,15 @@ export default class UsersController {
         throw new Error(returnObject.message)
 
       return response.ok(returnObject.object)
+
     }
+
     catch (error: any) {
+
       return error
+
     }
+
   }
 
   public async destroy({ params, response }: HttpContextContract) {

@@ -7,10 +7,10 @@ export default class GetAllUsersForSelectService {
 
     const users: User[] = await User.query()
 
-    const selectUsers: SelectType[] = users.map((value: User, key: number) => {
+    const selectUsers: SelectType[] = users.map((user: User) => {
       return {
-        key: key,
-        value: value.name
+        key: user.id,
+        value: user.name
       }
     })
 

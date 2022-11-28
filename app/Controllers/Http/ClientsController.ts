@@ -1,53 +1,42 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { schema, rules } from '@ioc:Adonis/Core/Validator'
-import Client from 'App/Models/Client'
+import CreateClientService from 'App/Services/ClientsServices/CreateClientService'
+import DeleteClientByIdService from 'App/Services/ClientsServices/DeleteClientByIdService'
+import GetAllClientsService from 'App/Services/ClientsServices/GetAllClientsService'
+import GetClientByIdService from 'App/Services/ClientsServices/GetClientByIdService'
+import UpdateClientByIdService from 'App/Services/ClientsServices/UpdateClientByIdService'
+import { ServiceReturnType } from 'App/Types/types'
 
 export default class ClientsController {
+
   public async index({ response }: HttpContextContract) {
 
     try {
-      const clients: Client[] = await Client.all()
-      return response.ok(clients)
+
+      const returnObject: ServiceReturnType = await GetAllClientsService.run()
+
+      if (!returnObject.success)
+        throw new Error(returnObject.message)
+
+      return response.ok(returnObject.object)
+
     }
     catch (error: any) {
       return error
     }
 
-  }
-
-  public async create({ params, response }: HttpContextContract) {
-    try {
-      const { id } = params
-
-      const client: Client | null = await Client.find(id)
-
-      if (!client) {
-        return response.notFound({ message: 'Cliente não encontrado' })
-      }
-
-      return response.ok(client)
-    }
-    catch (error: any) {
-      return error
-    }
   }
 
   public async store({ request, response }: HttpContextContract) {
 
     try {
-      const clientSchema = schema.create({
-        name: schema.string([
-          rules.maxLength(255)
-        ]),
-        cpf: schema.string([
-          rules.maxLength(11)
-        ]),
-      })
 
-      const payload: any = await request.validate({ schema: clientSchema })
-      const client: Client = await Client.create(payload)
+      const returnObject: ServiceReturnType = await CreateClientService.run(request)
 
-      return response.created(client)
+      if (!returnObject.success)
+        throw new Error(returnObject.message)
+
+      return response.ok(returnObject.object)
+
     }
     catch (error: any) {
       return error
@@ -58,34 +47,14 @@ export default class ClientsController {
   public async show({ params, response }: HttpContextContract) {
 
     try {
-      const { id } = params
 
-      const client: Client | null = await Client.find(id)
+      const returnObject: ServiceReturnType = await GetClientByIdService.run(params.id)
 
-      if (!client) {
-        return response.notFound({ message: 'Cliente não encontrado' })
-      }
+      if (!returnObject.success)
+        throw new Error(returnObject.message)
 
-      return response.ok(client)
-    }
-    catch (error: any) {
-      return error
-    }
+      return response.ok(returnObject.object)
 
-  }
-
-  public async edit({ params, response }: HttpContextContract) {
-
-    try {
-      const id: Number = params.id
-
-      const client: Client | null = await Client.find(id)
-
-      if (!client) {
-        return response.notFound({ message: 'Cliente não encontrado' })
-      }
-
-      return response.ok(client)
     }
     catch (error: any) {
       return error
@@ -96,33 +65,20 @@ export default class ClientsController {
   public async update({ request, params, response }) {
 
     try {
-      const clientSchema = schema.create({
-        name: schema.string([
-          rules.maxLength(255)
-        ]),
-        cpf: schema.string([
-          rules.maxLength(11)
-        ]),
-      })
 
-      const payload: any = await request.validate({ schema: clientSchema })
+      const returnObject: ServiceReturnType = await UpdateClientByIdService.run(params.id, request)
 
-      const { id }: { id: Number } = params
+      if (!returnObject.success)
+        throw new Error(returnObject.message)
 
-      const client: any = await Client.find(id)
-      if (!client) {
-        return response.notFound({ message: 'Cliente não encontrado' })
-      }
+      return response.ok(returnObject.object)
 
-      client.name = payload.name
-      client.cpf = payload.cpf
-
-      await client.save()
-
-      return response.ok(client)
     }
+
     catch (error: any) {
+
       return error
+
     }
 
   }
@@ -130,19 +86,20 @@ export default class ClientsController {
   public async destroy({ params, response }: HttpContextContract) {
 
     try {
-      const { id } = params
 
-      const client: any = await Client.find(id)
-      if (!client) {
-        return response.notFound({ message: 'Cliente não encontrado' })
-      }
+      const returnObject: ServiceReturnType = await DeleteClientByIdService.run(params.id)
 
-      await client.delete()
+      if (!returnObject.success)
+        throw new Error(returnObject.message)
 
-      return response.ok({ message: 'Cliente excluído com sucesso.' })
+      return response.ok(returnObject.object)
+
     }
-    catch (e: any) {
-      throw new Error(e.message)
+
+    catch (err: unknown) {
+
+      return err
+
     }
   }
 }

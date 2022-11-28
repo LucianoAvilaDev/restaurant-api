@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
+import Order from './Order'
 
 export default class Table extends BaseModel {
   @column({ isPrimary: true })
@@ -16,4 +17,9 @@ export default class Table extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @hasMany(() => Order, {
+    foreignKey: 'tableId'
+  })
+  public orders: HasMany<typeof Order>
 }

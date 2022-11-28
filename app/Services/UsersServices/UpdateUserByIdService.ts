@@ -1,26 +1,29 @@
 import User from "App/Models/User"
 import { ServiceReturnType } from "App/Types/types"
 import { usersSchema, usersMessages } from "App/Validators/UserValidator"
-import { GetUserByIdService } from "./GetUserByIdService"
+import GetUserByIdService, { } from "./GetUserByIdService"
 
-export const UpdateUserByIdService = async (id: Number, request: any): Promise<ServiceReturnType> => {
+export default class UpdateUserByIdService {
 
-  const payload: any = await request.validate(usersSchema, usersMessages)
+  public static async run(id: Number, request: any): Promise<ServiceReturnType> {
 
-  const returnObject: ServiceReturnType = await GetUserByIdService(id as number)
+    const payload: any = await request.validate(usersSchema, usersMessages)
 
-  if (!returnObject.success)
-    throw new Error(returnObject.message)
+    const returnObject: ServiceReturnType = await GetUserByIdService.run(id as number)
 
-  const existingUser: User = returnObject.object as User
+    if (!returnObject.success)
+      throw new Error(returnObject.message)
 
-  existingUser.name = payload.name
-  existingUser.email = payload.email
-  existingUser.password = payload.password
-  existingUser.roleId = payload.roleId
+    const existingUser: User = returnObject.object as User
 
-  existingUser.save()
+    existingUser.name = payload.name
+    existingUser.email = payload.email
+    existingUser.password = payload.password
+    existingUser.roleId = payload.roleId
 
-  return { ...returnObject, object: existingUser }
+    existingUser.save()
 
+    return { ...returnObject, object: existingUser }
+
+  }
 }

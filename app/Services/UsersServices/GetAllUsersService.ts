@@ -1,14 +1,17 @@
 import User from "App/Models/User"
 import { ServiceReturnType } from "App/Types/types"
 
-export const GetAllUsersService = async (): Promise<ServiceReturnType> => {
+export default class GetAllUsersService {
 
-  const users: User[] = await User.query().preload('role')
+  public static async run(): Promise<ServiceReturnType> {
 
-  return {
-    message: 'Sucesso',
-    success: true,
-    object: users
+    const users: User[] = await User.query().preload('role')
+
+    return {
+      message: 'Sucesso',
+      success: true,
+      object: users
+    }
+
   }
-
 }

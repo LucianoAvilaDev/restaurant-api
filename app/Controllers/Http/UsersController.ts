@@ -1,9 +1,9 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { CreateUserService } from 'App/Services/UsersServices/CreateUserService'
-import { DeleteUserByIdService } from 'App/Services/UsersServices/DeleteUserByIdService'
-import { GetAllUsersService } from 'App/Services/UsersServices/GetAllUsersService'
-import { GetUserByIdService } from 'App/Services/UsersServices/GetUserByIdService'
-import { UpdateUserByIdService } from 'App/Services/UsersServices/UpdateUserByIdService'
+import CreateUserService from 'App/Services/UsersServices/CreateUserService'
+import DeleteUserByIdService from 'App/Services/UsersServices/DeleteUserByIdService'
+import GetAllUsersService from 'App/Services/UsersServices/GetAllUsersService'
+import GetUserByIdService from 'App/Services/UsersServices/GetUserByIdService'
+import UpdateUserByIdService from 'App/Services/UsersServices/UpdateUserByIdService'
 import { ServiceReturnType } from 'App/Types/types'
 export default class UsersController {
 
@@ -11,7 +11,7 @@ export default class UsersController {
 
     try {
 
-      const returnObject: ServiceReturnType = await GetAllUsersService()
+      const returnObject: ServiceReturnType = await GetAllUsersService.run()
 
       if (!returnObject.success)
         throw new Error(returnObject.message)
@@ -33,7 +33,7 @@ export default class UsersController {
 
     try {
 
-      const returnObject: ServiceReturnType = await CreateUserService(request)
+      const returnObject: ServiceReturnType = await CreateUserService.run(request)
 
       if (!returnObject.success)
         throw new Error(returnObject.message)
@@ -51,7 +51,7 @@ export default class UsersController {
 
     try {
 
-      const returnObject: ServiceReturnType = await GetUserByIdService(params.id)
+      const returnObject: ServiceReturnType = await GetUserByIdService.run(params.id)
 
       if (!returnObject.success)
         throw new Error(returnObject.message)
@@ -70,7 +70,7 @@ export default class UsersController {
 
     try {
 
-      const returnObject: ServiceReturnType = await GetUserByIdService(params.id)
+      const returnObject: ServiceReturnType = await GetUserByIdService.run(params.id)
 
       if (!returnObject.success)
         throw new Error(returnObject.message)
@@ -88,7 +88,7 @@ export default class UsersController {
   public async update({ request, params, response }: HttpContextContract) {
     try {
 
-      const returnObject: ServiceReturnType = await UpdateUserByIdService(params.id, request)
+      const returnObject: ServiceReturnType = await UpdateUserByIdService.run(params.id, request)
 
       if (!returnObject.success)
         throw new Error(returnObject.message)
@@ -104,7 +104,7 @@ export default class UsersController {
 
     try {
 
-      const returnObject: ServiceReturnType = await DeleteUserByIdService(params.id)
+      const returnObject: ServiceReturnType = await DeleteUserByIdService.run(params.id)
 
       if (!returnObject.success)
         throw new Error(returnObject.message)
@@ -117,5 +117,6 @@ export default class UsersController {
     }
 
   }
+
 }
 

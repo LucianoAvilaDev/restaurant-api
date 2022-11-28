@@ -1,23 +1,26 @@
 import { AuthContract } from "@ioc:Adonis/Addons/Auth"
 import { ServiceReturnType } from "App/Types/types"
 import User from "App/Models/User"
-import { GetCurrentUserFullDataService } from "./GetCurrentUserFullDataService"
 import Permission from "App/Models/Permission"
+import GetCurrentUserFullDataService from "./GetCurrentUserFullDataService"
 
-export const GetCurrentUserPermissionsService = async (auth: AuthContract): Promise<string[]> => {
+export default class GetCurrentUserPermissionsService {
 
-  const returnData: ServiceReturnType = await GetCurrentUserFullDataService(auth)
+  public static async run(auth: AuthContract): Promise<string[]> {
 
-  if (!returnData.object)
-    throw new Error('Houve um erro')
+    const returnData: ServiceReturnType = await GetCurrentUserFullDataService.run(auth)
 
-  const user: User = returnData.object as User
+    if (!returnData.object)
+      throw new Error('Houve um erro')
 
-  const permissions: string[] = user.role.permissions.map((permission: Permission) => {
-    return permission.name
-  })
+    const user: User = returnData.object as User
 
-  return permissions
+    const permissions: string[] = user.role.permissions.map((permission: Permission) => {
+      return permission.name
+    })
 
+    return permissions
+
+  }
 }
 

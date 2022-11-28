@@ -1,25 +1,28 @@
 import User from "App/Models/User"
 import { ServiceReturnType } from "App/Types/types"
-import { GetUserByIdService } from "./GetUserByIdService"
+import GetUserByIdService from "./GetUserByIdService"
 
-export const DeleteUserByIdService = async (id: Number): Promise<ServiceReturnType> => {
+export default class DeleteUserByIdService {
 
-  const returnObject: ServiceReturnType = await GetUserByIdService(id as number)
+  public static async run(id: Number): Promise<ServiceReturnType> {
 
-  if (!returnObject.object)
-    throw new Error(returnObject.message)
+    const returnObject: ServiceReturnType = await GetUserByIdService.run(id as number)
 
-  const user = returnObject.object as User
+    if (!returnObject.object)
+      throw new Error(returnObject.message)
 
-  if (user.$hasRelated('orders'))
-    throw new Error(returnObject.message)
+    const user = returnObject.object as User
 
-  await user.delete()
+    if (user.$hasRelated('orders'))
+      throw new Error(returnObject.message)
 
-  return {
-    object: user,
-    message: "Usuário excluído com sucesso!",
-    success: true
+    await user.delete()
+
+    return {
+      object: user,
+      message: "Usuário excluído com sucesso!",
+      success: true
+    }
+
   }
-
 }

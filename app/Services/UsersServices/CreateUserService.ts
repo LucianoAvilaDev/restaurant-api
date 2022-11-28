@@ -2,24 +2,27 @@ import User from "App/Models/User"
 import { ServiceReturnType } from "App/Types/types"
 import { usersMessages, usersSchema } from "App/Validators/UserValidator"
 
-export const CreateUserService = async (request: any): Promise<ServiceReturnType> => {
+export default class CreateUserService {
 
-  try {
+  public static async run(request: any): Promise<ServiceReturnType> {
 
-    const payload = await request.validate(usersSchema, usersMessages)
+    try {
 
-    const user: User = await User.create(payload)
+      const payload = await request.validate(usersSchema, usersMessages)
 
-    return {
-      message: "Usuário cadastrado com Sucesso",
-      success: true,
-      object: user
+      const user: User = await User.create(payload)
+
+      return {
+        message: "Usuário cadastrado com Sucesso",
+        success: true,
+        object: user
+      }
+
+    }
+
+    catch (e: any) {
+      throw new Error(e.message)
     }
 
   }
-
-  catch (e: any) {
-    throw new Error(e.message)
-  }
-
 }

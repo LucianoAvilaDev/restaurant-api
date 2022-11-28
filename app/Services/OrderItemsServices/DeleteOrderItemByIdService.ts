@@ -9,18 +9,26 @@ export default class DeleteOrderItemByIdService {
     const returnObject: ServiceReturnType = await GetOrderItemWithRelationsByIdService.run(id as number)
 
     if (!returnObject.object)
-      throw new Error(returnObject.message)
+      return {
+        message: returnObject.message,
+        success: false,
+        object: null
+      }
 
-    const OrderItem = returnObject.object as OrderItem
+    const orderItem = returnObject.object as OrderItem
 
-    if (OrderItem.$hasRelated('orders'))
-      throw new Error(returnObject.message)
+    if (orderItem.$hasRelated('orders'))
+      return {
+        message: "Esse Item de Pedido está sendo usada em um ou mais Pedidos.",
+        success: false,
+        object: null
+      }
 
-    await OrderItem.delete()
+    await orderItem.delete()
 
     return {
-      object: OrderItem,
-      message: "Refeição excluída com sucesso!",
+      object: orderItem,
+      message: "Item de Pedido excluído com sucesso!",
       success: true
     }
 

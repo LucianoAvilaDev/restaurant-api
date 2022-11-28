@@ -23,7 +23,11 @@ export default class CreateOrderService {
     }
 
     catch (e: any) {
-      throw new Error(e.message)
+      return {
+        message: e.message,
+        success: false,
+        object: null
+      }
     }
 
   }

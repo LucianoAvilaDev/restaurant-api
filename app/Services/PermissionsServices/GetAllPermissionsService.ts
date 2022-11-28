@@ -1,5 +1,5 @@
 import Permission from "App/Models/Permission"
-import { ServiceReturnType, SelectType } from "App/Types/types"
+import { ServiceReturnType } from "App/Types/types"
 
 export default class GetAllPermissionsForSelectService {
 
@@ -16,8 +16,12 @@ export default class GetAllPermissionsForSelectService {
       }
 
     }
-    catch (err: any) {
-      throw new Error(err.message)
+    catch (e: any) {
+      return {
+        message: e.message,
+        success: false,
+        object: null
+      }
     }
 
   }

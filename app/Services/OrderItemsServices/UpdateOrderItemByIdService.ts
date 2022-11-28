@@ -7,15 +7,19 @@ export default class UpdateOrderItemByIdService {
 
   public static async run(id: Number, request: any): Promise<ServiceReturnType> {
 
-    const OrderItemsSchema = OrderItemValidator.orderItemsSchema
-    const OrderItemsMessages = OrderItemValidator.orderItemsMessages
+    const orderItemsSchema = OrderItemValidator.orderItemsSchema
+    const orderItemsMessages = OrderItemValidator.orderItemsMessages
 
-    const payload: any = await request.validate(OrderItemsSchema, OrderItemsMessages)
+    const payload: any = await request.validate(orderItemsSchema, orderItemsMessages)
 
     const returnObject: ServiceReturnType = await GetOrderItemByIdService.run(id as number)
 
     if (!returnObject.success)
-      throw new Error(returnObject.message)
+      return {
+        message: returnObject.message,
+        success: false,
+        object: null
+      }
 
     const existingOrderItem: OrderItem = returnObject.object as OrderItem
 

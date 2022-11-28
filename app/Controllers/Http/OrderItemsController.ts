@@ -15,13 +15,13 @@ export default class OrderItemsController {
       const returnObject: ServiceReturnType = await GetAllOrderItemsService.run()
 
       if (!returnObject.success)
-        throw new Error(returnObject.message)
+        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
 
       return response.ok(returnObject.object)
 
     }
-    catch (error: any) {
-      return error
+    catch (e: any) {
+      return response.internalServerError(`Houve um erro: ${e.message}`)
     }
 
   }
@@ -33,13 +33,13 @@ export default class OrderItemsController {
       const returnObject: ServiceReturnType = await CreateOrderItemService.run(request)
 
       if (!returnObject.success)
-        throw new Error(returnObject.message)
+        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
 
       return response.ok(returnObject.object)
 
     }
-    catch (error: any) {
-      return error
+    catch (e: any) {
+      return response.internalServerError(`Houve um erro: ${e.message}`)
     }
 
   }
@@ -51,13 +51,13 @@ export default class OrderItemsController {
       const returnObject: ServiceReturnType = await GetOrderItemByIdService.run(params.id)
 
       if (!returnObject.success)
-        throw new Error(returnObject.message)
+        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
 
       return response.ok(returnObject.object)
 
     }
-    catch (error: any) {
-      return error
+    catch (e: any) {
+      return response.internalServerError(`Houve um erro: ${e.message}`)
     }
 
   }
@@ -69,15 +69,15 @@ export default class OrderItemsController {
       const returnObject: ServiceReturnType = await UpdateOrderItemByIdService.run(params.id, request)
 
       if (!returnObject.success)
-        throw new Error(returnObject.message)
+        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
 
       return response.ok(returnObject.object)
 
     }
 
-    catch (error: any) {
+    catch (e: any) {
 
-      return error
+      return response.internalServerError(`Houve um erro: ${e.message}`)
 
     }
 
@@ -90,7 +90,7 @@ export default class OrderItemsController {
       const returnObject: ServiceReturnType = await DeleteOrderItemByIdService.run(params.id)
 
       if (!returnObject.success)
-        throw new Error(returnObject.message)
+        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
 
       return response.ok(returnObject.object)
 

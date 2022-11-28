@@ -9,7 +9,11 @@ export default class DeleteOrderByIdService {
     const returnObject: ServiceReturnType = await GetOrderWithRelationsByIdService.run(id as number)
 
     if (!returnObject.object)
-      throw new Error(returnObject.message)
+      return {
+        message: returnObject.message,
+        success: false,
+        object: null
+      }
 
     const order = returnObject.object as Order
 
@@ -17,7 +21,7 @@ export default class DeleteOrderByIdService {
 
     return {
       object: order,
-      message: "Pedido excluída com sucesso!",
+      message: "Pedido excluído com sucesso!",
       success: true
     }
 

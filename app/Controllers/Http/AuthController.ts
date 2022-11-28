@@ -14,7 +14,7 @@ export default class AuthController {
       return response.ok(token.toJSON())
     }
     catch (e: any) {
-      throw new Error(e.message)
+      return response.internalServerError(`Houve um erro: ${e.message}`)
     }
 
   }
@@ -25,11 +25,11 @@ export default class AuthController {
 
       await auth.use('api').logout()
 
-      return response.ok('Usuário deslogado com sucesso!')
+      return response.ok('Usuário desconectado com sucesso!')
 
     }
     catch (e: any) {
-      throw new Error(e.message)
+      return response.internalServerError(`Houve um erro: ${e.message}`)
     }
 
   }

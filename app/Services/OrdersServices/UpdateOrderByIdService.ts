@@ -15,7 +15,11 @@ export default class UpdateOrderByIdService {
     const returnObject: ServiceReturnType = await GetOrderByIdService.run(id as number)
 
     if (!returnObject.success)
-      throw new Error(returnObject.message)
+      return {
+        message: returnObject.message,
+        success: false,
+        object: null
+      }
 
     const existingOrder: Order = returnObject.object as Order
 

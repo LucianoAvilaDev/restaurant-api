@@ -9,18 +9,26 @@ export default class DeleteMealTypeByIdService {
     const returnObject: ServiceReturnType = await GetMealTypeWithRelationsByIdService.run(id as number)
 
     if (!returnObject.object)
-      throw new Error(returnObject.message)
+      return {
+        message: returnObject.message,
+        success: false,
+        object: null
+      }
 
     const mealType = returnObject.object as MealType
 
-    if (mealType.$hasRelated('orders'))
-      throw new Error(returnObject.message)
+    if (mealType.$hasRelated('meals'))
+      return {
+        message: "Esse Tipo de Refeição está sendo usado por uma ou mais Refeições.",
+        success: false,
+        object: null
+      }
 
     await mealType.delete()
 
     return {
       object: mealType,
-      message: "Refeição excluída com sucesso!",
+      message: "Tipo de Refeição excluída com sucesso!",
       success: true
     }
 

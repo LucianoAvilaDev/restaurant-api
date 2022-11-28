@@ -15,7 +15,7 @@ export default class CreateOrderItemService {
       const orderItem: OrderItem = await OrderItem.create(payload)
 
       return {
-        message: "Item de pedido cadastrada com Sucesso",
+        message: "Item de Pedido cadastrado com Sucesso",
         success: true,
         object: orderItem
       }
@@ -23,7 +23,11 @@ export default class CreateOrderItemService {
     }
 
     catch (e: any) {
-      throw new Error(e.message)
+      return {
+        message: e.message,
+        success: false,
+        object: null
+      }
     }
 
   }

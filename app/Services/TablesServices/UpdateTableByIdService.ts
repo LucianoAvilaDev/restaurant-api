@@ -15,7 +15,12 @@ export default class UpdateTableByIdService {
     const returnObject: ServiceReturnType = await GetTableByIdService.run(id as number)
 
     if (!returnObject.success)
-      throw new Error(returnObject.message)
+      return {
+        success: true,
+        message: returnObject.message,
+        object: null
+      }
+
 
     const existingTable: Table = returnObject.object as Table
 
@@ -27,7 +32,7 @@ export default class UpdateTableByIdService {
     return {
       success: true,
       object: existingTable,
-      message: "Mesa excluída com sucesso"
+      message: "Mesa atualizada com sucesso"
     }
 
   }

@@ -7,15 +7,15 @@ export default class CreateMealTypeService {
 
     try {
 
-      const MealTypesSchema = MealTypesValidator.mealTypesSchema
-      const MealTypesMessages = MealTypesValidator.mealTypesMessages
+      const mealTypesSchema = MealTypesValidator.mealTypesSchema
+      const mealTypesMessages = MealTypesValidator.mealTypesMessages
 
-      const payload = await request.validate(MealTypesSchema, MealTypesMessages)
+      const payload = await request.validate(mealTypesSchema, mealTypesMessages)
 
       const mealType: MealType = await MealType.create(payload)
 
       return {
-        message: "Refeição cadastrada com Sucesso",
+        message: "Tipo de Refeição cadastrado com Sucesso",
         success: true,
         object: mealType
       }
@@ -23,7 +23,11 @@ export default class CreateMealTypeService {
     }
 
     catch (e: any) {
-      throw new Error(e.message)
+      return {
+        message: e.message,
+        success: false,
+        object: null
+      }
     }
 
   }

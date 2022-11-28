@@ -9,18 +9,27 @@ export default class DeleteTableByIdService {
     const returnObject: ServiceReturnType = await GetTableWithRelationsByIdService.run(id as number)
 
     if (!returnObject.object)
-      throw new Error(returnObject.message)
+      return {
+        success: true,
+        message: returnObject.message,
+        object: null
+      }
+
 
     const Table = returnObject.object as Table
 
-    if (Table.$hasRelated('users'))
-      throw new Error("Existem Usuários cadastrados com este Perfil.")
+    if (Table.$hasRelated('orders'))
+      return {
+        success: true,
+        message: "Essa Mesa está sendo usada por um ou mais Pedidos",
+        object: null
+      }
 
     await Table.delete()
 
     return {
       object: Table,
-      message: "Perfil cadastrado com sucesso!",
+      message: "Mesa excluída com sucesso!",
       success: true
     }
 

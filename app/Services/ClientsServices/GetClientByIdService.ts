@@ -8,8 +8,8 @@ export default class GetClientByIdService {
     const client: Client | null = await Client.query().where('id', id).first()
 
     return {
-      message: !Client ? "Cliente não encontrado" : 'Sucesso',
-      success: !Client ? false : true,
+      message: !client ? "Cliente não encontrado" : 'Sucesso',
+      success: !client ? false : true,
       object: client
     }
 

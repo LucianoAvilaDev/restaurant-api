@@ -23,7 +23,12 @@ export default class CreateTableService {
     }
 
     catch (e: any) {
-      throw new Error(e.message)
+      return {
+        success: true,
+        message: e.message,
+        object: null
+      }
+
     }
 
   }

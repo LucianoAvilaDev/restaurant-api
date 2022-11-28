@@ -15,7 +15,11 @@ export default class UpdateRoleByIdService {
     const returnObject: ServiceReturnType = await GetRoleByIdService.run(id as number)
 
     if (!returnObject.success)
-      throw new Error(returnObject.message)
+      return {
+        success: true,
+        message: returnObject.message,
+        object: null
+      }
 
     const existingRole: Role = returnObject.object as Role
 
@@ -26,7 +30,7 @@ export default class UpdateRoleByIdService {
     return {
       success: true,
       object: existingRole,
-      message: "Perfil excluído com sucesso"
+      message: "Perfil atualizado com sucesso"
     }
 
   }

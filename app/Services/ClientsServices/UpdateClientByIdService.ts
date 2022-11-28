@@ -15,7 +15,11 @@ export default class UpdateClientByIdService {
     const returnObject: ServiceReturnType = await GetClientByIdService.run(id as number)
 
     if (!returnObject.success)
-      throw new Error(returnObject.message)
+      return {
+        message: returnObject.message,
+        success: false,
+        object: null
+      }
 
     const existingClient: Client = returnObject.object as Client
 

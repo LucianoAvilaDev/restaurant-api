@@ -9,12 +9,22 @@ export default class DeleteUserByIdService {
     const returnObject: ServiceReturnType = await GetUserByIdService.run(id as number)
 
     if (!returnObject.object)
-      throw new Error(returnObject.message)
+      return {
+        success: true,
+        message: returnObject.message,
+        object: null
+      }
+
 
     const user = returnObject.object as User
 
     if (user.$hasRelated('orders'))
-      throw new Error(returnObject.message)
+      return {
+        success: true,
+        message: "Esse Usuário esta sendo usado por um ou mais Pedidos.",
+        object: null
+      }
+
 
     await user.delete()
 

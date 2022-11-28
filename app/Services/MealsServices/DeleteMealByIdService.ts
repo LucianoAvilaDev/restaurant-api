@@ -9,12 +9,20 @@ export default class DeleteMealByIdService {
     const returnObject: ServiceReturnType = await GetMealWithRelationsByIdService.run(id as number)
 
     if (!returnObject.object)
-      throw new Error(returnObject.message)
+      return {
+        message: returnObject.message,
+        success: false,
+        object: null
+      }
 
     const meal = returnObject.object as Meal
 
     if (meal.$hasRelated('orders'))
-      throw new Error(returnObject.message)
+      return {
+        message: "Essa Refeição está sendo usada por um ou mais Pedidos.",
+        success: false,
+        object: null
+      }
 
     await meal.delete()
 

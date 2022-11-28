@@ -9,12 +9,20 @@ export default class DeleteClientByIdService {
     const returnObject: ServiceReturnType = await GetClientWithRelationsByIdService.run(id as number)
 
     if (!returnObject.object)
-      throw new Error(returnObject.message)
+      return {
+        message: returnObject.message,
+        success: false,
+        object: null
+      }
 
     const client = returnObject.object as Client
 
     if (client.$hasRelated('orders'))
-      throw new Error(returnObject.message)
+      return {
+        message: "Esse Cliente está sendo usado por um ou mais Pedidos.",
+        success: false,
+        object: null
+      }
 
     await client.delete()
 

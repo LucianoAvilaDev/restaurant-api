@@ -14,14 +14,14 @@ export default class UsersController {
       const returnObject: ServiceReturnType = await GetAllUsersService.run()
 
       if (!returnObject.success)
-        throw new Error(returnObject.message)
+        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
 
       return response.ok(returnObject.object)
 
     }
 
-    catch (error: any) {
-      return error
+    catch (e: any) {
+      return response.internalServerError(`Houve um erro: ${e.message}`)
     }
 
   }
@@ -33,13 +33,13 @@ export default class UsersController {
       const returnObject: ServiceReturnType = await CreateUserService.run(request)
 
       if (!returnObject.success)
-        throw new Error(returnObject.message)
+        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
 
       return response.ok(returnObject.object)
 
     }
-    catch (error: any) {
-      return error
+    catch (e: any) {
+      return response.internalServerError(`Houve um erro: ${e.message}`)
     }
 
   }
@@ -51,14 +51,14 @@ export default class UsersController {
       const returnObject: ServiceReturnType = await GetUserByIdService.run(params.id)
 
       if (!returnObject.success)
-        throw new Error(returnObject.message)
+        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
 
       return response.ok(returnObject.object)
 
     }
 
-    catch (error: any) {
-      return error
+    catch (e: any) {
+      return response.internalServerError(`Houve um erro: ${e.message}`)
     }
 
   }
@@ -70,15 +70,15 @@ export default class UsersController {
       const returnObject: ServiceReturnType = await UpdateUserByIdService.run(params.id, request)
 
       if (!returnObject.success)
-        throw new Error(returnObject.message)
+        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
 
       return response.ok(returnObject.object)
 
     }
 
-    catch (error: any) {
+    catch (e: any) {
 
-      return error
+      return response.internalServerError(`Houve um erro: ${e.message}`)
 
     }
 
@@ -91,7 +91,7 @@ export default class UsersController {
       const returnObject: ServiceReturnType = await DeleteUserByIdService.run(params.id)
 
       if (!returnObject.success)
-        throw new Error(returnObject.message)
+        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
 
       return response.ok(returnObject.object)
 

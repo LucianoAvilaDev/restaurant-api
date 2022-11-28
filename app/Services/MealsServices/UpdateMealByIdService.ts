@@ -15,7 +15,11 @@ export default class UpdateMealByIdService {
     const returnObject: ServiceReturnType = await GetMealByIdService.run(id as number)
 
     if (!returnObject.success)
-      throw new Error(returnObject.message)
+      return {
+        message: returnObject.message,
+        success: false,
+        object: null
+      }
 
     const existingMeal: Meal = returnObject.object as Meal
 

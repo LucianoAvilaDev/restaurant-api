@@ -9,14 +9,22 @@ export default class DeleteRoleByIdService {
     const returnObject: ServiceReturnType = await GetRoleWithRelationsByIdService.run(id as number)
 
     if (!returnObject.object)
-      throw new Error(returnObject.message)
+      return {
+        message: returnObject.message,
+        success: false,
+        object: null
+      }
 
-    const Role = returnObject.object as Role
+    const role = returnObject.object as Role
 
-    if (Role.$hasRelated('users'))
-      throw new Error("Existem Usuários cadastrados com este Perfil.")
+    if (role.$hasRelated('users'))
+      return {
+        message: "Esse Perfil está sendo usado por um ou mais Usuários.",
+        success: false,
+        object: null
+      }
 
-    await Role.delete()
+    await role.delete()
 
     return {
       object: Role,

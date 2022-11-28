@@ -15,13 +15,13 @@ export default class TablesController {
       const returnObject: ServiceReturnType = await GetAllTablesService.run()
 
       if (!returnObject.success)
-        throw new Error(returnObject.message)
+        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
 
       return response.ok(returnObject.object)
 
     }
-    catch (error: any) {
-      return error
+    catch (e: any) {
+      return response.internalServerError(`Houve um erro: ${e.message}`)
     }
 
   }
@@ -33,13 +33,13 @@ export default class TablesController {
       const returnObject: ServiceReturnType = await CreateTableService.run(request)
 
       if (!returnObject.success)
-        throw new Error(returnObject.message)
+        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
 
       return response.ok(returnObject.object)
 
     }
-    catch (error: any) {
-      return error
+    catch (e: any) {
+      return response.internalServerError(`Houve um erro: ${e.message}`)
     }
 
   }
@@ -51,13 +51,13 @@ export default class TablesController {
       const returnObject: ServiceReturnType = await GetTableByIdService.run(params.id)
 
       if (!returnObject.success)
-        throw new Error(returnObject.message)
+        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
 
       return response.ok(returnObject.object)
 
     }
-    catch (error: any) {
-      return error
+    catch (e: any) {
+      return response.internalServerError(`Houve um erro: ${e.message}`)
     }
 
   }
@@ -69,15 +69,15 @@ export default class TablesController {
       const returnObject: ServiceReturnType = await UpdateTableByIdService.run(params.id, request)
 
       if (!returnObject.success)
-        throw new Error(returnObject.message)
+        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
 
       return response.ok(returnObject.object)
 
     }
 
-    catch (error: any) {
+    catch (e: any) {
 
-      return error
+      return response.internalServerError(`Houve um erro: ${e.message}`)
 
     }
 
@@ -90,7 +90,7 @@ export default class TablesController {
       const returnObject: ServiceReturnType = await DeleteTableByIdService.run(params.id)
 
       if (!returnObject.success)
-        throw new Error(returnObject.message)
+        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
 
       return response.ok(returnObject.object)
 

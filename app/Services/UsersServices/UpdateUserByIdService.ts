@@ -15,7 +15,12 @@ export default class UpdateUserByIdService {
     const returnObject: ServiceReturnType = await GetUserByIdService.run(id as number)
 
     if (!returnObject.success)
-      throw new Error(returnObject.message)
+      return {
+        success: true,
+        message: returnObject.message,
+        object: null
+      }
+
 
     const existingUser: User = returnObject.object as User
 

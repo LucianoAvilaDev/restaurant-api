@@ -1,11 +1,14 @@
 import User from "App/Models/User"
 import { ServiceReturnType } from "App/Types/types"
-import { usersSchema, usersMessages } from "App/Validators/UserValidator"
+import UserValidator from "App/Validators/UsersValidator"
 import GetUserByIdService, { } from "./GetUserByIdService"
 
 export default class UpdateUserByIdService {
 
   public static async run(id: Number, request: any): Promise<ServiceReturnType> {
+
+    const usersSchema = UserValidator.usersSchema
+    const usersMessages = UserValidator.usersMessages
 
     const payload: any = await request.validate(usersSchema, usersMessages)
 

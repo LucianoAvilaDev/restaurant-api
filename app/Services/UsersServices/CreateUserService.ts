@@ -1,12 +1,15 @@
 import User from "App/Models/User"
 import { ServiceReturnType } from "App/Types/types"
-import { usersMessages, usersSchema } from "App/Validators/UserValidator"
+import UserValidator from "App/Validators/UsersValidator"
 
 export default class CreateUserService {
 
   public static async run(request: any): Promise<ServiceReturnType> {
 
     try {
+
+      const usersSchema = UserValidator.usersSchema
+      const usersMessages = UserValidator.usersMessages
 
       const payload = await request.validate(usersSchema, usersMessages)
 

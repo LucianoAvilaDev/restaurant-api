@@ -24,7 +24,11 @@ export default class UpdateClientByIdService {
 
     existingClient.save()
 
-    return { ...returnObject, object: existingClient }
+    return {
+      success: true,
+      object: existingClient,
+      message: "Cliente atualizado com sucesso"
+    }
 
   }
 }

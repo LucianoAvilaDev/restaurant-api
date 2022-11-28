@@ -8,8 +8,8 @@ export default class GetClientWithRelationsByIdService {
     const client: Client | null = await Client.query().preload('orders').where('id', id).first()
 
     return {
-      message: !Client ? "Cliente não encontrado" : 'Sucesso',
-      success: !Client ? false : true,
+      message: !client ? "Cliente não encontrado" : 'Sucesso',
+      success: !client ? false : true,
       object: client
     }
 

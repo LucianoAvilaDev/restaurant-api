@@ -31,5 +31,5 @@ export default class Meal extends BaseModel {
   public mealType: HasOne<typeof MealType>
 
   @belongsTo(() => OrderItem)
-  public orderItem: BelongsTo<typeof OrderItem>
+  public orderItems: BelongsTo<typeof OrderItem>
 }

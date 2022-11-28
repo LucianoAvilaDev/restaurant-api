@@ -26,7 +26,11 @@ export default class UpdateUserByIdService {
 
     existingUser.save()
 
-    return { ...returnObject, object: existingUser }
+    return {
+      message: "Usuário atulizado com sucesso.",
+      success: true,
+      object: existingUser
+    }
 
   }
 }

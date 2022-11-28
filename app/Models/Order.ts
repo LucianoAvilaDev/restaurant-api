@@ -1,7 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column, hasMany, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
 import Client from './Client'
 import Table from './Table'
+import OrderItem from './OrderItem'
 
 export default class Order extends BaseModel {
   @column({ isPrimary: true })
@@ -37,5 +38,8 @@ export default class Order extends BaseModel {
     foreignKey: 'tableId'
   })
   public table: HasOne<typeof Table>
+
+  @belongsTo(() => OrderItem)
+  public orderItems: BelongsTo<typeof OrderItem>
 
 }

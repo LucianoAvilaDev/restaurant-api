@@ -16,5 +16,5 @@ export default class MealType extends BaseModel {
   public updatedAt: DateTime
 
   @belongsTo(() => Meal)
-  public meal: BelongsTo<typeof Meal>
+  public meals: BelongsTo<typeof Meal>
 }

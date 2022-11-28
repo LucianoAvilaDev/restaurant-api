@@ -1,7 +1,7 @@
 import User from "App/Models/User"
 import { ServiceReturnType } from "App/Types/types"
 import UserValidator from "App/Validators/UsersValidator"
-import GetUserByIdService, { } from "./GetUserByIdService"
+import GetUserByIdService from "./GetUserByIdService"
 
 export default class UpdateUserByIdService {
 

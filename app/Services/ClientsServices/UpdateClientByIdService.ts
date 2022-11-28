@@ -1,7 +1,7 @@
 import Client from "App/Models/Client"
 import { ServiceReturnType } from "App/Types/types"
 import ClientValidator from "App/Validators/ClientsValidator"
-import GetClientByIdService, { } from "./GetClientByIdService"
+import GetClientByIdService from "./GetClientByIdService"
 
 export default class UpdateClientByIdService {
 

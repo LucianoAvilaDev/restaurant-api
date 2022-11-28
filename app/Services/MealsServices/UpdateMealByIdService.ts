@@ -1,7 +1,7 @@
 import Meal from "App/Models/Meal"
 import { ServiceReturnType } from "App/Types/types"
 import MealValidator from "App/Validators/MealsValidator"
-import GetMealByIdService, { } from "./GetMealByIdService"
+import GetMealByIdService from "./GetMealByIdService"
 
 export default class UpdateMealByIdService {
 

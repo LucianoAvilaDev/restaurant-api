@@ -1,17 +1,25 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import GetAllPermissionsService from 'App/Services/PermissionsServices/GetAllPermissionsService'
+import { ServiceReturnType } from 'App/Types/types'
 
 export default class PermissionsController {
-  public async index({}: HttpContextContract) {}
 
-  public async create({}: HttpContextContract) {}
+  public async index({ response }: HttpContextContract) {
 
-  public async store({}: HttpContextContract) {}
+    try {
 
-  public async show({}: HttpContextContract) {}
+      const returnObject: ServiceReturnType = await GetAllPermissionsService.run()
 
-  public async edit({}: HttpContextContract) {}
+      if (!returnObject.success)
+        throw new Error(returnObject.message)
 
-  public async update({}: HttpContextContract) {}
+      return response.ok(returnObject.object)
 
-  public async destroy({}: HttpContextContract) {}
+    }
+    catch (error: any) {
+      return error
+    }
+
+  }
+
 }

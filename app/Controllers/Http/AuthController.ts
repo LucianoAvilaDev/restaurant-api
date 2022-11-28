@@ -11,7 +11,7 @@ export default class AuthController {
         expiresIn: '30 mins'
       })
 
-      return token.toJSON()
+      return response.ok(token.toJSON())
     }
     catch (e: any) {
       throw new Error(e.message)

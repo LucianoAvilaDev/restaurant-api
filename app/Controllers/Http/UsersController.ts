@@ -26,9 +26,6 @@ export default class UsersController {
 
   }
 
-  public async create({ }: HttpContextContract) { }
-
-
   public async store({ request, response }: HttpContextContract) {
 
     try {
@@ -48,25 +45,6 @@ export default class UsersController {
   }
 
   public async show({ params, response }: HttpContextContract) {
-
-    try {
-
-      const returnObject: ServiceReturnType = await GetUserByIdService.run(params.id)
-
-      if (!returnObject.success)
-        throw new Error(returnObject.message)
-
-      return response.ok(returnObject.object)
-
-    }
-
-    catch (error: any) {
-      return error
-    }
-
-  }
-
-  public async edit({ params, response }: HttpContextContract) {
 
     try {
 

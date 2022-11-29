@@ -1,9 +1,9 @@
 import Client from "App/Models/Client"
-import { ServiceReturnType, SelectType } from "App/Types/types"
+import { SelectType } from "App/Types/types"
 
 export default class GetAllClientsForSelectService {
 
-  public static async run(): Promise<ServiceReturnType> {
+  public static async run(): Promise<SelectType[]> {
 
     const clients: Client[] = await Client.query()
 
@@ -14,11 +14,7 @@ export default class GetAllClientsForSelectService {
       }
     })
 
-    return {
-      message: 'Sucesso',
-      success: true,
-      object: selectClients
-    }
+    return selectClients
 
   }
 }

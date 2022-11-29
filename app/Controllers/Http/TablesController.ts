@@ -21,7 +21,7 @@ export default class TablesController {
 
     }
     catch (e: any) {
-      return response.internalServerError(`Houve um erro: ${e.message}`)
+      throw new Error(e)
     }
 
   }
@@ -39,7 +39,7 @@ export default class TablesController {
 
     }
     catch (e: any) {
-      return response.internalServerError(`Houve um erro: ${e.message}`)
+      throw new Error(e)
     }
 
   }
@@ -57,7 +57,7 @@ export default class TablesController {
 
     }
     catch (e: any) {
-      return response.internalServerError(`Houve um erro: ${e.message}`)
+      throw new Error(e)
     }
 
   }
@@ -77,7 +77,7 @@ export default class TablesController {
 
     catch (e: any) {
 
-      return response.internalServerError(`Houve um erro: ${e.message}`)
+      throw new Error(e)
 
     }
 

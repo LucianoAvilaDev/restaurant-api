@@ -1,27 +1,27 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import CreateMealTypeService from 'App/Services/MealTypesServices/CreateMealTypeService'
-import DeleteMealTypeByIdService from 'App/Services/MealTypesServices/DeleteMealTypeByIdService'
-import GetAllMealTypesService from 'App/Services/MealTypesServices/GetAllMealTypesService'
-import GetMealTypeByIdService from 'App/Services/MealTypesServices/GetMealTypeByIdService'
-import UpdateMealTypeByIdService from 'App/Services/MealTypesServices/UpdateMealTypeByIdService'
-import { ServiceReturnType } from 'App/Types/types'
+import { CustomMessages } from '@ioc:Adonis/Core/Validator'
+import MealType from 'App/Models/MealType'
+import MealTypesValidator from 'App/Validators/MealTypesValidator'
 
-export default class MealTypesController {
+export default class MealTypeTypesController {
+
+  private mealTypesSchema: any = MealTypesValidator.mealTypesSchema
+  private mealTypesMessages: CustomMessages = MealTypesValidator.mealTypesMessages
 
   public async index({ response }: HttpContextContract) {
 
     try {
 
-      const returnObject: ServiceReturnType = await GetAllMealTypesService.run()
+      const mealTypes: MealType[] = await MealType.all()
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
-
-      return response.ok(returnObject.object)
+      return response.ok(mealTypes)
 
     }
+
     catch (e: any) {
-      return response.internalServerError(`Houve um erro: ${e.message}`)
+
+      throw new Error(e)
+
     }
 
   }
@@ -30,16 +30,15 @@ export default class MealTypesController {
 
     try {
 
-      const returnObject: ServiceReturnType = await CreateMealTypeService.run(request)
+      const payload = await request.validate({ schema: this.mealTypesSchema, messages: this.mealTypesMessages })
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
+      const mealType: MealType = await MealType.create(payload)
 
-      return response.ok(returnObject.object)
+      return response.ok(mealType)
 
     }
     catch (e: any) {
-      return response.internalServerError(`Houve um erro: ${e.message}`)
+      throw new Error(e)
     }
 
   }
@@ -48,16 +47,13 @@ export default class MealTypesController {
 
     try {
 
-      const returnObject: ServiceReturnType = await GetMealTypeByIdService.run(params.id)
+      const mealType: MealType = await MealType.findOrFail(params.id)
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
-
-      return response.ok(returnObject.object)
+      return response.ok(mealType)
 
     }
     catch (e: any) {
-      return response.internalServerError(`Houve um erro: ${e.message}`)
+      throw new Error(e)
     }
 
   }
@@ -66,18 +62,21 @@ export default class MealTypesController {
 
     try {
 
-      const returnObject: ServiceReturnType = await UpdateMealTypeByIdService.run(params.id, request)
+      const payload: any = await request.validate({ schema: this.mealTypesSchema, messages: this.mealTypesMessages })
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
+      const existingMealType: MealType = await MealType.findOrFail(params.id)
 
-      return response.ok(returnObject.object)
+      existingMealType.name = payload.name
+
+      const updatedMealType: MealType = await existingMealType.save()
+
+      return response.ok(updatedMealType)
 
     }
 
     catch (e: any) {
 
-      return response.internalServerError(`Houve um erro: ${e.message}`)
+      throw new Error(e)
 
     }
 
@@ -87,19 +86,23 @@ export default class MealTypesController {
 
     try {
 
-      const returnObject: ServiceReturnType = await DeleteMealTypeByIdService.run(params.id)
+      const mealType: MealType = await MealType.query().preload('meals').where(params.id).firstOrFail()
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
 
-      return response.ok(returnObject.object)
+      if (mealType.$hasRelated('meals'))
+        return response.badRequest("Esse Tipo de Refeição está sendo usada por uma ou mais Refeições")
+
+      await mealType.delete()
+
+      return response.ok(mealType)
 
     }
 
-    catch (err: unknown) {
+    catch (e: any) {
 
-      return err
+      throw new Error(e)
 
     }
   }
+
 }

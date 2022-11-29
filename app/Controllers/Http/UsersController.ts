@@ -21,7 +21,7 @@ export default class UsersController {
     }
 
     catch (e: any) {
-      return response.internalServerError(`Houve um erro: ${e.message}`)
+      throw new Error(e)
     }
 
   }
@@ -39,7 +39,7 @@ export default class UsersController {
 
     }
     catch (e: any) {
-      return response.internalServerError(`Houve um erro: ${e.message}`)
+      throw new Error(e)
     }
 
   }
@@ -58,7 +58,7 @@ export default class UsersController {
     }
 
     catch (e: any) {
-      return response.internalServerError(`Houve um erro: ${e.message}`)
+      throw new Error(e)
     }
 
   }
@@ -78,7 +78,7 @@ export default class UsersController {
 
     catch (e: any) {
 
-      return response.internalServerError(`Houve um erro: ${e.message}`)
+      throw new Error(e)
 
     }
 

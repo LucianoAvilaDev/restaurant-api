@@ -1,27 +1,27 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import CreateClientService from 'App/Services/ClientsServices/CreateClientService'
-import DeleteClientByIdService from 'App/Services/ClientsServices/DeleteClientByIdService'
-import GetAllClientsService from 'App/Services/ClientsServices/GetAllClientsService'
-import GetClientByIdService from 'App/Services/ClientsServices/GetClientByIdService'
-import UpdateClientByIdService from 'App/Services/ClientsServices/UpdateClientByIdService'
-import { ServiceReturnType } from 'App/Types/types'
+import { CustomMessages } from '@ioc:Adonis/Core/Validator'
+import Client from 'App/Models/Client'
+import ClientsValidator from 'App/Validators/ClientsValidator'
 
 export default class ClientsController {
+
+  private clientsSchema: any = ClientsValidator.clientsSchema
+  private clientsMessages: CustomMessages = ClientsValidator.clientsMessages
 
   public async index({ response }: HttpContextContract) {
 
     try {
 
-      const returnObject: ServiceReturnType = await GetAllClientsService.run()
+      const clients: Client[] = await Client.all()
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
-
-      return response.ok(returnObject.object)
+      return response.ok(clients)
 
     }
+
     catch (e: any) {
-      return response.internalServerError(`Houve um erro: ${e.message}`)
+
+      throw new Error(e)
+
     }
 
   }
@@ -30,16 +30,17 @@ export default class ClientsController {
 
     try {
 
-      const returnObject: ServiceReturnType = await CreateClientService.run(request)
+      const payload = await request.validate({ schema: this.clientsSchema, messages: this.clientsMessages })
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
+      const client: Client = await Client.create(payload)
 
-      return response.ok(returnObject.object)
+      return response.ok(client)
 
     }
     catch (e: any) {
-      return response.internalServerError(`Houve um erro: ${e.message}`)
+
+      throw new Error(e)
+
     }
 
   }
@@ -48,16 +49,13 @@ export default class ClientsController {
 
     try {
 
-      const returnObject: ServiceReturnType = await GetClientByIdService.run(params.id)
+      const client: Client = await Client.findOrFail(params.id)
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
-
-      return response.ok(returnObject.object)
+      return response.ok(client)
 
     }
     catch (e: any) {
-      return response.internalServerError(`Houve um erro: ${e.message}`)
+      throw new Error(e)
     }
 
   }
@@ -66,18 +64,22 @@ export default class ClientsController {
 
     try {
 
-      const returnObject: ServiceReturnType = await UpdateClientByIdService.run(params.id, request)
+      const payload: any = await request.validate({ schema: this.clientsSchema, messages: this.clientsMessages })
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
+      const existingClient: Client = await Client.findOrFail(params.id)
 
-      return response.ok(returnObject.object)
+      existingClient.name = payload.name
+      existingClient.cpf = payload.cpf
+
+      const newClient: Client = await existingClient.save()
+
+      return response.ok(newClient)
 
     }
 
     catch (e: any) {
 
-      return response.internalServerError(`Houve um erro: ${e.message}`)
+      throw new Error(e)
 
     }
 
@@ -87,18 +89,20 @@ export default class ClientsController {
 
     try {
 
-      const returnObject: ServiceReturnType = await DeleteClientByIdService.run(params.id)
+      const client: Client = await Client.query().preload('orders').where('id', params.id).firstOrFail()
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
+      if (client.$hasRelated('orders'))
+        return response.badRequest('Esse Cliente está sendo usado por um ou mais Pedidos')
 
-      return response.ok(returnObject.object)
+      await client.delete()
+
+      return response.ok(client)
 
     }
 
-    catch (err: unknown) {
+    catch (e: any) {
 
-      return err
+      throw new Error(e)
 
     }
   }

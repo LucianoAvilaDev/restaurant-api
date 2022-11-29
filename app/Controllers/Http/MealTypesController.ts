@@ -30,7 +30,7 @@ export default class MealTypeTypesController {
 
     try {
 
-      const payload = await request.validate({ schema: this.mealTypesSchema, messages: this.mealTypesMessages })
+      const payload: MealType = await request.validate({ schema: this.mealTypesSchema, messages: this.mealTypesMessages })
 
       const mealType: MealType = await MealType.create(payload)
 
@@ -53,7 +53,9 @@ export default class MealTypeTypesController {
 
     }
     catch (e: any) {
+
       throw new Error(e)
+
     }
 
   }
@@ -90,7 +92,7 @@ export default class MealTypeTypesController {
 
 
       if (mealType.$hasRelated('meals'))
-        return response.badRequest("Esse Tipo de Refeição está sendo usada por uma ou mais Refeições")
+        return response.badRequest("Esse Tipo de Refeição está em uma ou mais Refeições")
 
       await mealType.delete()
 

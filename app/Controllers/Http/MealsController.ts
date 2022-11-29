@@ -30,7 +30,7 @@ export default class MealsController {
 
     try {
 
-      const payload = await request.validate({ schema: this.mealsSchema, messages: this.mealsMessages })
+      const payload: Meal = await request.validate({ schema: this.mealsSchema, messages: this.mealsMessages })
 
       const meal: Meal = await Meal.create(payload)
 
@@ -91,9 +91,8 @@ export default class MealsController {
 
       const meal: Meal = await Meal.query().preload('orderItems').where(params.id).firstOrFail()
 
-
-      if (meal.$hasRelated('orders'))
-        return response.badRequest("Essa Refeição está sendo usada por um ou mais Pedidos")
+      if (meal.$hasRelated('orderItems'))
+        return response.badRequest("Essa Refeição está em um ou mais Pedidos")
 
       await meal.delete()
 

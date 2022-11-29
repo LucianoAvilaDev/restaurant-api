@@ -1,27 +1,27 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import CreateRoleService from 'App/Services/RolesServices/CreateRoleService'
-import DeleteRoleByIdService from 'App/Services/RolesServices/DeleteRoleByIdService'
-import GetAllRolesService from 'App/Services/RolesServices/GetAllRolesService'
-import GetRoleByIdService from 'App/Services/RolesServices/GetRoleByIdService'
-import UpdateRoleByIdService from 'App/Services/RolesServices/UpdateRoleByIdService'
-import { ServiceReturnType } from 'App/Types/types'
+import { CustomMessages } from '@ioc:Adonis/Core/Validator'
+import Role from 'App/Models/Role'
+import RolesValidator from 'App/Validators/RolesValidator'
 
 export default class RolesController {
+
+  private rolesSchema: any = RolesValidator.rolesSchema
+  private rolesMessages: CustomMessages = RolesValidator.rolesMessages
 
   public async index({ response }: HttpContextContract) {
 
     try {
 
-      const returnObject: ServiceReturnType = await GetAllRolesService.run()
+      const Roles: Role[] = await Role.query().preload('permissions')
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
-
-      return response.ok(returnObject.object)
+      return response.ok(Roles)
 
     }
+
     catch (e: any) {
+
       throw new Error(e)
+
     }
 
   }
@@ -30,12 +30,13 @@ export default class RolesController {
 
     try {
 
-      const returnObject: ServiceReturnType = await CreateRoleService.run(request)
+      const payload: Role = await request.validate({ schema: this.rolesSchema, messages: this.rolesMessages })
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
+      payload.related('permissions').attach(request.input('permissions'))
 
-      return response.ok(returnObject.object)
+      const createdRole: Role = await Role.create(payload)
+
+      return response.ok(createdRole)
 
     }
     catch (e: any) {
@@ -48,12 +49,9 @@ export default class RolesController {
 
     try {
 
-      const returnObject: ServiceReturnType = await GetRoleByIdService.run(params.id)
+      const role: Role = await Role.query().preload('permissions').where(params.id).firstOrFail()
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
-
-      return response.ok(returnObject.object)
+      return response.ok(role)
 
     }
     catch (e: any) {
@@ -66,12 +64,16 @@ export default class RolesController {
 
     try {
 
-      const returnObject: ServiceReturnType = await UpdateRoleByIdService.run(params.id, request)
+      const payload: any = await request.validate({ schema: this.rolesSchema, messages: this.rolesMessages })
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
+      const existingRole: Role = await Role.findOrFail(params.id)
 
-      return response.ok(returnObject.object)
+      existingRole.name = payload.name
+      existingRole.related('permissions').sync(request.input('permissions'))
+
+      const updatedRole: Role = await existingRole.save()
+
+      return response.ok(updatedRole)
 
     }
 
@@ -87,18 +89,20 @@ export default class RolesController {
 
     try {
 
-      const returnObject: ServiceReturnType = await DeleteRoleByIdService.run(params.id)
+      const role: Role = await Role.query().preload('users').where(params.id).firstOrFail()
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
+      if (role.$hasRelated('users'))
+        return response.badRequest("Esse Perfil está um ou mais Usuários")
 
-      return response.ok(returnObject.object)
+      await role.delete()
+
+      return response.ok(role)
 
     }
 
-    catch (err: unknown) {
+    catch (e: any) {
 
-      return err
+      throw new Error(e)
 
     }
   }

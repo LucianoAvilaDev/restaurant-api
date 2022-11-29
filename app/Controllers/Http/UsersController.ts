@@ -1,27 +1,26 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import CreateUserService from 'App/Services/UsersServices/CreateUserService'
-import DeleteUserByIdService from 'App/Services/UsersServices/DeleteUserByIdService'
-import GetAllUsersService from 'App/Services/UsersServices/GetAllUsersService'
-import GetUserByIdService from 'App/Services/UsersServices/GetUserByIdService'
-import UpdateUserByIdService from 'App/Services/UsersServices/UpdateUserByIdService'
-import { ServiceReturnType } from 'App/Types/types'
+import { CustomMessages } from '@ioc:Adonis/Core/Validator'
+import User from 'App/Models/User'
+import UsersValidator from 'App/Validators/UsersValidator'
 export default class UsersController {
+
+  private usersSchema: any = UsersValidator.usersSchema
+  private usersMessages: CustomMessages = UsersValidator.usersMessages
 
   public async index({ response }: HttpContextContract) {
 
     try {
 
-      const returnObject: ServiceReturnType = await GetAllUsersService.run()
+      const Users: User[] = await User.query().preload('role')
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
-
-      return response.ok(returnObject.object)
+      return response.ok(Users)
 
     }
 
     catch (e: any) {
+
       throw new Error(e)
+
     }
 
   }
@@ -30,12 +29,11 @@ export default class UsersController {
 
     try {
 
-      const returnObject: ServiceReturnType = await CreateUserService.run(request)
+      const payload = await request.validate({ schema: this.usersSchema, messages: this.usersMessages })
 
-      if (!returnObject.success)
-        return response.internalServerError(returnObject.message)
+      const user: User = await User.create(payload as User)
 
-      return response.ok(returnObject.object)
+      return response.ok(user)
 
     }
     catch (e: any) {
@@ -48,31 +46,33 @@ export default class UsersController {
 
     try {
 
-      const returnObject: ServiceReturnType = await GetUserByIdService.run(params.id)
+      const user: User = await User.query().preload('role').where(params.id).firstOrFail()
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
-
-      return response.ok(returnObject.object)
+      return response.ok(user)
 
     }
-
     catch (e: any) {
       throw new Error(e)
     }
 
   }
 
-  public async update({ request, params, response }: HttpContextContract) {
+  public async update({ request, params, response }) {
 
     try {
 
-      const returnObject: ServiceReturnType = await UpdateUserByIdService.run(params.id, request)
+      const payload: any = await request.validate({ schema: this.usersSchema, messages: this.usersMessages })
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
+      const existingUser: User = await User.findOrFail(params.id)
 
-      return response.ok(returnObject.object)
+      existingUser.name = payload.name
+      existingUser.email = payload.email
+      existingUser.password = payload.password
+      existingUser.roleId = payload.roleId
+
+      const updatedUser: User = await existingUser.save()
+
+      return response.ok(updatedUser)
 
     }
 
@@ -88,18 +88,19 @@ export default class UsersController {
 
     try {
 
-      const returnObject: ServiceReturnType = await DeleteUserByIdService.run(params.id)
+      const user: User = await User.findOrFail(params.id)
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
+      await user.delete()
 
-      return response.ok(returnObject.object)
+      return response.ok(user)
 
     }
-    catch (err: unknown) {
-      return err
-    }
 
+    catch (e: any) {
+
+      throw new Error(e)
+
+    }
   }
 
 }

@@ -1,27 +1,27 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import CreateOrderService from 'App/Services/OrdersServices/CreateOrderService'
-import DeleteOrderByIdService from 'App/Services/OrdersServices/DeleteOrderByIdService'
-import GetAllOrdersService from 'App/Services/OrdersServices/GetAllOrdersService'
-import GetOrderByIdService from 'App/Services/OrdersServices/GetOrderByIdService'
-import UpdateOrderByIdService from 'App/Services/OrdersServices/UpdateOrderByIdService'
-import { ServiceReturnType } from 'App/Types/types'
+import { CustomMessages } from '@ioc:Adonis/Core/Validator'
+import Order from 'App/Models/Order'
+import OrdersValidator from 'App/Validators/OrdersValidator'
 
 export default class OrdersController {
+
+  private ordersSchema: any = OrdersValidator.ordersSchema
+  private ordersMessages: CustomMessages = OrdersValidator.ordersMessages
 
   public async index({ response }: HttpContextContract) {
 
     try {
 
-      const returnObject: ServiceReturnType = await GetAllOrdersService.run()
+      const orders: Order[] = await Order.query().preload('table').preload('client')
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
-
-      return response.ok(returnObject.object)
+      return response.ok(orders)
 
     }
+
     catch (e: any) {
+
       throw new Error(e)
+
     }
 
   }
@@ -30,12 +30,11 @@ export default class OrdersController {
 
     try {
 
-      const returnObject: ServiceReturnType = await CreateOrderService.run(request)
+      const payload: Order = await request.validate({ schema: this.ordersSchema, messages: this.ordersMessages })
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
+      const order: Order = await Order.create(payload)
 
-      return response.ok(returnObject.object)
+      return response.ok(order)
 
     }
     catch (e: any) {
@@ -48,12 +47,9 @@ export default class OrdersController {
 
     try {
 
-      const returnObject: ServiceReturnType = await GetOrderByIdService.run(params.id)
+      const order: Order = await Order.query().preload('table').preload('client').preload('orderItems').where(params.id).firstOrFail()
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
-
-      return response.ok(returnObject.object)
+      return response.ok(order)
 
     }
     catch (e: any) {
@@ -66,12 +62,19 @@ export default class OrdersController {
 
     try {
 
-      const returnObject: ServiceReturnType = await UpdateOrderByIdService.run(params.id, request)
+      const payload: Order = await request.validate({ schema: this.ordersSchema, messages: this.ordersMessages })
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
+      const existingOrder: Order = await Order.findOrFail(params.id)
 
-      return response.ok(returnObject.object)
+      existingOrder.date = payload.date
+      existingOrder.totalValue = payload.totalValue
+      existingOrder.paidValue = payload.paidValue
+      existingOrder.clientId = payload.clientId
+      existingOrder.tableId = payload.tableId
+
+      const updatedOrder: Order = await existingOrder.save()
+
+      return response.ok(updatedOrder)
 
     }
 
@@ -87,18 +90,17 @@ export default class OrdersController {
 
     try {
 
-      const returnObject: ServiceReturnType = await DeleteOrderByIdService.run(params.id)
+      const order: Order = await Order.findOrFail(params.id)
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
+      await order.delete()
 
-      return response.ok(returnObject.object)
+      return response.ok(Order)
 
     }
 
-    catch (err: unknown) {
+    catch (e: any) {
 
-      return err
+      throw new Error(e)
 
     }
   }

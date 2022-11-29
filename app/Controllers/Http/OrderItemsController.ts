@@ -1,27 +1,27 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import CreateOrderItemService from 'App/Services/OrderItemsServices/CreateOrderItemService'
-import DeleteOrderItemByIdService from 'App/Services/OrderItemsServices/DeleteOrderItemByIdService'
-import GetAllOrderItemsService from 'App/Services/OrderItemsServices/GetAllOrderItemsService'
-import GetOrderItemByIdService from 'App/Services/OrderItemsServices/GetOrderItemByIdService'
-import UpdateOrderItemByIdService from 'App/Services/OrderItemsServices/UpdateOrderItemByIdService'
-import { ServiceReturnType } from 'App/Types/types'
+import { CustomMessages } from '@ioc:Adonis/Core/Validator'
+import OrderItem from 'App/Models/OrderItem'
+import OrderItemsValidator from 'App/Validators/OrderItemsValidator'
 
 export default class OrderItemsController {
+
+  private orderItemsSchema: any = OrderItemsValidator.orderItemsSchema
+  private orderItemsMessages: CustomMessages = OrderItemsValidator.orderItemsMessages
 
   public async index({ response }: HttpContextContract) {
 
     try {
 
-      const returnObject: ServiceReturnType = await GetAllOrderItemsService.run()
+      const orderItems: OrderItem[] = await OrderItem.query().preload('meal')
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
-
-      return response.ok(returnObject.object)
+      return response.ok(orderItems)
 
     }
+
     catch (e: any) {
+
       throw new Error(e)
+
     }
 
   }
@@ -30,12 +30,11 @@ export default class OrderItemsController {
 
     try {
 
-      const returnObject: ServiceReturnType = await CreateOrderItemService.run(request)
+      const payload: OrderItem = await request.validate({ schema: this.orderItemsSchema, messages: this.orderItemsMessages })
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
+      const orderItem: OrderItem = await OrderItem.create(payload)
 
-      return response.ok(returnObject.object)
+      return response.ok(orderItem)
 
     }
     catch (e: any) {
@@ -48,12 +47,9 @@ export default class OrderItemsController {
 
     try {
 
-      const returnObject: ServiceReturnType = await GetOrderItemByIdService.run(params.id)
+      const orderItem: OrderItem = await OrderItem.query().preload('meal').where(params.id).firstOrFail()
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
-
-      return response.ok(returnObject.object)
+      return response.ok(OrderItem)
 
     }
     catch (e: any) {
@@ -66,12 +62,19 @@ export default class OrderItemsController {
 
     try {
 
-      const returnObject: ServiceReturnType = await UpdateOrderItemByIdService.run(params.id, request)
+      const payload: any = await request.validate({ schema: this.orderItemsSchema, messages: this.orderItemsMessages })
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
+      const existingOrderItem: OrderItem = await OrderItem.findOrFail(params.id)
 
-      return response.ok(returnObject.object)
+      existingOrderItem.observation = payload.observation
+      existingOrderItem.quantity = payload.quantity
+      existingOrderItem.price = payload.price
+      existingOrderItem.mealId = payload.mealId
+
+
+      const updatedOrderItem: OrderItem = await existingOrderItem.save()
+
+      return response.ok(updatedOrderItem)
 
     }
 
@@ -87,18 +90,17 @@ export default class OrderItemsController {
 
     try {
 
-      const returnObject: ServiceReturnType = await DeleteOrderItemByIdService.run(params.id)
+      const orderItem: OrderItem = await OrderItem.findOrFail(params.id)
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
+      await orderItem.delete()
 
-      return response.ok(returnObject.object)
+      return response.ok(orderItem)
 
     }
 
-    catch (err: unknown) {
+    catch (e: any) {
 
-      return err
+      throw new Error(e)
 
     }
   }

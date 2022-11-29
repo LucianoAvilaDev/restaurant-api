@@ -30,7 +30,7 @@ export default class ClientsController {
 
     try {
 
-      const payload = await request.validate({ schema: this.clientsSchema, messages: this.clientsMessages })
+      const payload: Client = await request.validate({ schema: this.clientsSchema, messages: this.clientsMessages })
 
       const client: Client = await Client.create(payload)
 
@@ -71,9 +71,9 @@ export default class ClientsController {
       existingClient.name = payload.name
       existingClient.cpf = payload.cpf
 
-      const newClient: Client = await existingClient.save()
+      const updatedClient: Client = await existingClient.save()
 
-      return response.ok(newClient)
+      return response.ok(updatedClient)
 
     }
 
@@ -92,7 +92,7 @@ export default class ClientsController {
       const client: Client = await Client.query().preload('orders').where('id', params.id).firstOrFail()
 
       if (client.$hasRelated('orders'))
-        return response.badRequest('Esse Cliente está sendo usado por um ou mais Pedidos')
+        return response.badRequest('Esse Cliente está em um ou mais Pedidos')
 
       await client.delete()
 

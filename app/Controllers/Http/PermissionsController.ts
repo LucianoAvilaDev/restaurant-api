@@ -1,6 +1,5 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import GetAllPermissionsService from 'App/Services/PermissionsServices/GetAllPermissionsService'
-import { ServiceReturnType } from 'App/Types/types'
+import Permission from 'App/Models/Permission'
 
 export default class PermissionsController {
 
@@ -8,12 +7,9 @@ export default class PermissionsController {
 
     try {
 
-      const returnObject: ServiceReturnType = await GetAllPermissionsService.run()
+      const permisssions: Permission[] = await Permission.all()
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
-
-      return response.ok(returnObject.object)
+      return response.ok(permisssions)
 
     }
     catch (e: any) {

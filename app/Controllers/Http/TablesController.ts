@@ -1,27 +1,27 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import CreateTableService from 'App/Services/TablesServices/CreateTableService'
-import DeleteTableByIdService from 'App/Services/TablesServices/DeleteTableByIdService'
-import GetAllTablesService from 'App/Services/TablesServices/GetAllTablesService'
-import GetTableByIdService from 'App/Services/TablesServices/GetTableByIdService'
-import UpdateTableByIdService from 'App/Services/TablesServices/UpdateTableByIdService'
-import { ServiceReturnType } from 'App/Types/types'
+import { CustomMessages } from '@ioc:Adonis/Core/Validator'
+import Table from 'App/Models/Table'
+import TablesValidator from 'App/Validators/TablesValidator'
 
 export default class TablesController {
+
+  private tablesSchema: any = TablesValidator.tablesSchema
+  private tablesMessages: CustomMessages = TablesValidator.tablesMessages
 
   public async index({ response }: HttpContextContract) {
 
     try {
 
-      const returnObject: ServiceReturnType = await GetAllTablesService.run()
+      const tables: Table[] = await Table.all()
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
-
-      return response.ok(returnObject.object)
+      return response.ok(tables)
 
     }
+
     catch (e: any) {
+
       throw new Error(e)
+
     }
 
   }
@@ -30,12 +30,11 @@ export default class TablesController {
 
     try {
 
-      const returnObject: ServiceReturnType = await CreateTableService.run(request)
+      const payload = await request.validate({ schema: this.tablesSchema, messages: this.tablesMessages })
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
+      const table: Table = await Table.create(payload as Table)
 
-      return response.ok(returnObject.object)
+      return response.ok(table)
 
     }
     catch (e: any) {
@@ -48,12 +47,9 @@ export default class TablesController {
 
     try {
 
-      const returnObject: ServiceReturnType = await GetTableByIdService.run(params.id)
+      const table: Table = await Table.findOrFail(params.id)
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
-
-      return response.ok(returnObject.object)
+      return response.ok(table)
 
     }
     catch (e: any) {
@@ -66,12 +62,16 @@ export default class TablesController {
 
     try {
 
-      const returnObject: ServiceReturnType = await UpdateTableByIdService.run(params.id, request)
+      const payload: any = await request.validate({ schema: this.tablesSchema, messages: this.tablesMessages })
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
+      const existingTable: Table = await Table.findOrFail(params.id)
 
-      return response.ok(returnObject.object)
+      existingTable.number = payload.number
+      existingTable.isAvailable = payload.isAvailable
+
+      const updatedTable: Table = await existingTable.save()
+
+      return response.ok(updatedTable)
 
     }
 
@@ -87,18 +87,21 @@ export default class TablesController {
 
     try {
 
-      const returnObject: ServiceReturnType = await DeleteTableByIdService.run(params.id)
+      const table: Table = await Table.query().preload('orders').where(params.id).firstOrFail()
 
-      if (!returnObject.success)
-        return response.ok(returnObject.message)
 
-      return response.ok(returnObject.object)
+      if (table.$hasRelated('orders'))
+        return response.badRequest("Essa Mesa está em um ou mais Pedidos")
+
+      await table.delete()
+
+      return response.ok(table)
 
     }
 
-    catch (err: unknown) {
+    catch (e: any) {
 
-      return err
+      throw new Error(e)
 
     }
   }

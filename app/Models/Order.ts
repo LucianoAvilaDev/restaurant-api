@@ -30,10 +30,10 @@ export default class Order extends BaseModel {
   public updatedAt: DateTime
 
   @belongsTo(() => Client)
-  public clients: BelongsTo<typeof Client>
+  public client: BelongsTo<typeof Client>
 
   @belongsTo(() => Table)
-  public tables: BelongsTo<typeof Table>
+  public table: BelongsTo<typeof Table>
 
   @hasMany(() => OrderItem)
   public orderItems: HasMany<typeof OrderItem>

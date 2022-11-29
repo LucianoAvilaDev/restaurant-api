@@ -13,46 +13,43 @@ Route.group(() => {
 
   Route.resource('clients', 'ClientsController')
     .apiOnly()
-    .middleware({ '*': ['auth'] })
+    .middleware({ '*': ['auth', 'can:manage_clients'] })
 
   Route.resource('users', 'UsersController')
     .apiOnly()
-    .middleware({ '*': ['auth'] })
+    .middleware({ '*': ['auth', 'can:manage_users'] })
 
   Route.resource('meal-types', 'MealTypesController')
     .apiOnly()
-    .middleware({ '*': ['auth'] })
+    .middleware({ '*': ['auth', 'can:manage_meals'] })
 
   Route.resource('meals', 'MealsController')
     .apiOnly()
-    .middleware({ '*': ['auth'] })
+    .middleware({ '*': ['auth', 'can:manage_meals'] })
 
   Route.resource('orders', 'OrdersController')
     .apiOnly()
-    .middleware({ '*': ['auth'] })
+    .middleware({ '*': ['auth', 'can:manage_orders'] })
 
   Route.resource('order-items', 'OrderItemsController')
     .apiOnly()
-    .middleware({ '*': ['auth'] })
+    .middleware({ '*': ['auth', 'can:manage_orders'] })
 
   Route.resource('roles', 'RolesController')
     .apiOnly()
-    .middleware({ '*': ['auth'] })
+    .middleware({ '*': ['auth', 'can:manage_roles'] })
 
   Route.resource('permissions', 'PermissionsController')
     .apiOnly()
     .only(['show', 'index'])
-    .middleware({ '*': ['auth'] })
+    .middleware({ '*': ['auth', 'can:manage_roles'] })
 
   Route.resource('tables', 'TablesController')
     .apiOnly()
     .middleware({ '*': ['auth'] })
 
   Route.get('user-permissions', 'UserPermissionsController')
-    .middleware([
-      'auth',
-      'can:manage_userd,manage_people'
-    ])
+    .middleware(['auth'])
 
 }).prefix('api')
 

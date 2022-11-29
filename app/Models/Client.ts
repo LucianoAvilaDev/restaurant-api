@@ -18,8 +18,6 @@ export default class Client extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @hasMany(() => Order, {
-    foreignKey: 'clientId'
-  })
+  @hasMany(() => Order)
   public orders: HasMany<typeof Order>
 }

@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, BelongsTo, belongsTo, column, hasMany, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column, HasMany, hasMany, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
 import Client from './Client'
 import Table from './Table'
 import OrderItem from './OrderItem'
@@ -11,16 +11,16 @@ export default class Order extends BaseModel {
   @column.dateTime()
   public date: DateTime
 
-  @column({ columnName: 'total_value' })
+  @column()
   public totalValue: number
 
-  @column({ columnName: 'paid_value' })
+  @column()
   public paidValue: number
 
-  @column({ columnName: 'client_id' })
+  @column()
   public clientId: number
 
-  @column({ columnName: 'table_id' })
+  @column()
   public tableId: number
 
   @column.dateTime({ autoCreate: true })
@@ -29,17 +29,13 @@ export default class Order extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @hasOne(() => Client, {
-    foreignKey: 'clientId'
-  })
-  public client: HasOne<typeof Client>
+  @belongsTo(() => Client)
+  public clients: BelongsTo<typeof Client>
 
-  @hasOne(() => Table, {
-    foreignKey: 'tableId'
-  })
-  public table: HasOne<typeof Table>
+  @belongsTo(() => Table)
+  public tables: BelongsTo<typeof Table>
 
-  @belongsTo(() => OrderItem)
-  public orderItems: BelongsTo<typeof OrderItem>
+  @hasMany(() => OrderItem)
+  public orderItems: HasMany<typeof OrderItem>
 
 }

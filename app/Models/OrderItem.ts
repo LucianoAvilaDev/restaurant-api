@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, hasMany, HasMany, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, belongsTo, BelongsTo, column, hasMany, HasMany, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
 import Meal from './Meal'
 import Order from './Order'
 
@@ -19,19 +19,18 @@ export default class OrderItem extends BaseModel {
   @column()
   public mealId: number
 
+  @column()
+  public orderId: number
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @hasOne(() => Meal, {
-    foreignKey: 'mealId'
-  })
-  public meal: HasOne<typeof Meal>
+  @belongsTo(() => Meal)
+  public meal: BelongsTo<typeof Meal>
 
-  @hasMany(() => Order, {
-    foreignKey: 'orderTypeId'
-  })
-  public orders: HasMany<typeof Order>
+  @belongsTo(() => Order)
+  public order: BelongsTo<typeof Order>
 }

@@ -11,11 +11,7 @@ export default class MealsValidator {
       rules.required()
     ]),
 
-    description: schema.string(
-      [
-        rules.maxLength(200),
-      ]
-    ),
+    description: schema.string(),
 
     price: schema.number(
       [
@@ -25,7 +21,7 @@ export default class MealsValidator {
 
     mealTypeId: schema.number(
       [
-        rules.required()
+        rules.unsigned()
       ]
     )
 
@@ -37,7 +33,7 @@ export default class MealsValidator {
     'name.maxLength': "O Nome pode ter no máximo {{ options.maxLength }} caracteres.",
     'name.required': "O Nome é obrigatório.",
 
-    'description.maxLength': "A Descrição pode ter no máximo 200 caracteres.",
+    'description.maxLength': "A Descrição pode ter no máximo {{ options.maxLength }} caracteres.",
 
     'price.range': "O preço deve estar entre {{ options.start }} e {{ options.stop }}.",
 

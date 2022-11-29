@@ -21,9 +21,7 @@ export default class Role extends BaseModel {
   })
   public permissions: ManyToMany<typeof Permission>
 
-  @hasMany(() => User, {
-    foreignKey: 'roleId'
-  })
+  @hasMany(() => User)
   public users: HasMany<typeof User>
 
 }

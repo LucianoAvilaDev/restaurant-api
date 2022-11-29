@@ -20,7 +20,7 @@ export default class User extends BaseModel {
   @column({ columnName: 'remember_me_token' })
   public token: string
 
-  @column({ columnName: 'role_id' })
+  @column()
   public roleId: number
 
   @column.dateTime({ autoCreate: true })

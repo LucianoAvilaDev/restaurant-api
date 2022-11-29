@@ -9,7 +9,7 @@ export default class Table extends BaseModel {
   @column()
   public number: string
 
-  @column({ columnName: 'is_available' })
+  @column()
   public isAvailable: boolean
 
   @column.dateTime({ autoCreate: true })
@@ -18,8 +18,6 @@ export default class Table extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @hasMany(() => Order, {
-    foreignKey: 'tableId'
-  })
+  @hasMany(() => Order)
   public orders: HasMany<typeof Order>
 }

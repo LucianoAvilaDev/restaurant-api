@@ -1,6 +1,6 @@
 import { AuthContract } from '@ioc:Adonis/Addons/Auth'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { GetCurrentUserPermissionsService } from 'App/Services/UsersServices/GetCurrentUserPermissionsService'
+import GetCurrentUserPermissionsService from 'App/Services/UsersServices/GetCurrentUserPermissionsService'
 
 export default class CheckPermission {
 
@@ -10,7 +10,7 @@ export default class CheckPermission {
     let middlewareIndex: number
     let middlewarePermissions: string[]
 
-    const userPermissions: string[] = await GetCurrentUserPermissionsService(auth)
+    const userPermissions: string[] = await GetCurrentUserPermissionsService.run(auth)
 
     return await Promise.resolve(route?.middleware.forEach((middlewareName: string, key: number) => {
       if (middlewareName.includes('can:'))
@@ -32,9 +32,13 @@ export default class CheckPermission {
 
   }
 
-  public async handle({ route, auth, response }: HttpContextContract, next: () => Promise<void>) {
+  public async handle({ request, route, auth, response }: HttpContextContract, next: () => Promise<void>) {
+
+    if (request.headers().token && request.headers().token == process.env.API_TOKEN)
+      return await next()
 
     const containsPermission: boolean = await this.checkPermissions(auth, route)
+
     if (!containsPermission)
       return response.forbidden("Permissão negada")
 

@@ -15,7 +15,7 @@ export default class ClientsController {
       const returnObject: ServiceReturnType = await GetAllClientsService.run()
 
       if (!returnObject.success)
-        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
+        return response.ok(returnObject.message)
 
       return response.ok(returnObject.object)
 
@@ -33,7 +33,7 @@ export default class ClientsController {
       const returnObject: ServiceReturnType = await CreateClientService.run(request)
 
       if (!returnObject.success)
-        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
+        return response.ok(returnObject.message)
 
       return response.ok(returnObject.object)
 
@@ -51,7 +51,7 @@ export default class ClientsController {
       const returnObject: ServiceReturnType = await GetClientByIdService.run(params.id)
 
       if (!returnObject.success)
-        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
+        return response.ok(returnObject.message)
 
       return response.ok(returnObject.object)
 
@@ -69,7 +69,7 @@ export default class ClientsController {
       const returnObject: ServiceReturnType = await UpdateClientByIdService.run(params.id, request)
 
       if (!returnObject.success)
-        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
+        return response.ok(returnObject.message)
 
       return response.ok(returnObject.object)
 
@@ -90,7 +90,7 @@ export default class ClientsController {
       const returnObject: ServiceReturnType = await DeleteClientByIdService.run(params.id)
 
       if (!returnObject.success)
-        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
+        return response.ok(returnObject.message)
 
       return response.ok(returnObject.object)
 

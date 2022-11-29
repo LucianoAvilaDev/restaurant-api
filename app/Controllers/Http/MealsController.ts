@@ -14,7 +14,7 @@ export default class MealsController {
       const returnObject: ServiceReturnType = await GetAllMealsService.run()
 
       if (!returnObject.success)
-        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
+        return response.ok(returnObject.message)
 
       return response.ok(returnObject.object)
 
@@ -32,7 +32,7 @@ export default class MealsController {
       const returnObject: ServiceReturnType = await CreateMealService.run(request)
 
       if (!returnObject.success)
-        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
+        return response.ok(returnObject.message)
 
       return response.ok(returnObject.object)
 
@@ -50,7 +50,7 @@ export default class MealsController {
       const returnObject: ServiceReturnType = await GetMealByIdService.run(params.id)
 
       if (!returnObject.success)
-        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
+        return response.ok(returnObject.message)
 
       return response.ok(returnObject.object)
 
@@ -68,7 +68,7 @@ export default class MealsController {
       const returnObject: ServiceReturnType = await UpdateMealByIdService.run(params.id, request)
 
       if (!returnObject.success)
-        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
+        return response.ok(returnObject.message)
 
       return response.ok(returnObject.object)
 
@@ -89,7 +89,7 @@ export default class MealsController {
       const returnObject: ServiceReturnType = await DeleteMealByIdService.run(params.id)
 
       if (!returnObject.success)
-        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
+        return response.ok(returnObject.message)
 
       return response.ok(returnObject.object)
 

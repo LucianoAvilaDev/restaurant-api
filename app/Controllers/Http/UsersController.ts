@@ -14,7 +14,7 @@ export default class UsersController {
       const returnObject: ServiceReturnType = await GetAllUsersService.run()
 
       if (!returnObject.success)
-        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
+        return response.ok(returnObject.message)
 
       return response.ok(returnObject.object)
 
@@ -33,7 +33,7 @@ export default class UsersController {
       const returnObject: ServiceReturnType = await CreateUserService.run(request)
 
       if (!returnObject.success)
-        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
+        return response.ok(returnObject.message)
 
       return response.ok(returnObject.object)
 
@@ -51,7 +51,7 @@ export default class UsersController {
       const returnObject: ServiceReturnType = await GetUserByIdService.run(params.id)
 
       if (!returnObject.success)
-        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
+        return response.ok(returnObject.message)
 
       return response.ok(returnObject.object)
 
@@ -70,7 +70,7 @@ export default class UsersController {
       const returnObject: ServiceReturnType = await UpdateUserByIdService.run(params.id, request)
 
       if (!returnObject.success)
-        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
+        return response.ok(returnObject.message)
 
       return response.ok(returnObject.object)
 
@@ -91,7 +91,7 @@ export default class UsersController {
       const returnObject: ServiceReturnType = await DeleteUserByIdService.run(params.id)
 
       if (!returnObject.success)
-        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
+        return response.ok(returnObject.message)
 
       return response.ok(returnObject.object)
 

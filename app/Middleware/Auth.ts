@@ -30,7 +30,10 @@ export default class AuthMiddleware {
   /**
    * Handle request
    */
-  public async handle({ auth }: HttpContextContract, next: () => Promise<void>, customGuards: string[]) {
+  public async handle({ auth, request }: HttpContextContract, next: () => Promise<void>, customGuards: string[]) {
+
+    if (request.headers().token && request.headers().token == process.env.API_TOKEN)
+      return await next()
 
     const guards = customGuards.length ? customGuards : [auth.name]
     await this.authenticate(auth, guards)

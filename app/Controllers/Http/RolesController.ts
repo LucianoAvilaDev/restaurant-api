@@ -15,7 +15,7 @@ export default class RolesController {
       const returnObject: ServiceReturnType = await GetAllRolesService.run()
 
       if (!returnObject.success)
-        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
+        return response.ok(returnObject.message)
 
       return response.ok(returnObject.object)
 
@@ -33,7 +33,7 @@ export default class RolesController {
       const returnObject: ServiceReturnType = await CreateRoleService.run(request)
 
       if (!returnObject.success)
-        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
+        return response.ok(returnObject.message)
 
       return response.ok(returnObject.object)
 
@@ -51,7 +51,7 @@ export default class RolesController {
       const returnObject: ServiceReturnType = await GetRoleByIdService.run(params.id)
 
       if (!returnObject.success)
-        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
+        return response.ok(returnObject.message)
 
       return response.ok(returnObject.object)
 
@@ -69,7 +69,7 @@ export default class RolesController {
       const returnObject: ServiceReturnType = await UpdateRoleByIdService.run(params.id, request)
 
       if (!returnObject.success)
-        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
+        return response.ok(returnObject.message)
 
       return response.ok(returnObject.object)
 
@@ -90,7 +90,7 @@ export default class RolesController {
       const returnObject: ServiceReturnType = await DeleteRoleByIdService.run(params.id)
 
       if (!returnObject.success)
-        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
+        return response.ok(returnObject.message)
 
       return response.ok(returnObject.object)
 

@@ -11,7 +11,7 @@ export default class PermissionsController {
       const returnObject: ServiceReturnType = await GetAllPermissionsService.run()
 
       if (!returnObject.success)
-        return response.internalServerError(`Houve um erro: ${returnObject.message}`)
+        return response.ok(returnObject.message)
 
       return response.ok(returnObject.object)
 

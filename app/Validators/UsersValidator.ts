@@ -9,13 +9,12 @@ export default class UsersValidator {
       rules.minLength(6),
       rules.maxLength(255),
       rules.required()
-
     ]),
 
     email: schema.string(
       { trim: false }, [
-      rules.email(),
       rules.required(),
+      rules.email(),
       rules.unique({ table: 'users', column: 'email' })
     ]
     ),
@@ -28,11 +27,7 @@ export default class UsersValidator {
     ]
     ),
 
-    roleId: schema.number(
-      [
-        rules.required()
-      ]
-    )
+    roleId: schema.number()
 
   })
 

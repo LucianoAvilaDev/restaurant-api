@@ -33,7 +33,7 @@ export default class UsersController {
       const returnObject: ServiceReturnType = await CreateUserService.run(request)
 
       if (!returnObject.success)
-        return response.ok(returnObject.message)
+        return response.internalServerError(returnObject.message)
 
       return response.ok(returnObject.object)
 

@@ -10,7 +10,7 @@ export default class UpdateMealTypeByIdService {
     const mealTypesSchema = MealTypeValidator.mealTypesSchema
     const mealTypesMessages = MealTypeValidator.mealTypesMessages
 
-    const payload: any = await request.validate(mealTypesSchema, mealTypesMessages)
+    const payload: any = await request.validate({ schema: mealTypesSchema, messages: mealTypesMessages })
 
     const returnObject: ServiceReturnType = await GetMealTypeByIdService.run(id as number)
 

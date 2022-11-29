@@ -7,10 +7,10 @@ export default class CreateMealService {
 
     try {
 
-      const MealsSchema = MealsValidator.mealsSchema
-      const MealsMessages = MealsValidator.mealsMessages
+      const mealsSchema = MealsValidator.mealsSchema
+      const mealsMessages = MealsValidator.mealsMessages
 
-      const payload = await request.validate(MealsSchema, MealsMessages)
+      const payload = await request.validate({ schema: mealsSchema, messages: mealsMessages })
 
       const meal: Meal = await Meal.create(payload)
 

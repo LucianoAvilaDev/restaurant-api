@@ -10,7 +10,7 @@ export default class CreateClientService {
       const ClientsSchema = ClientsValidator.clientsSchema
       const ClientsMessages = ClientsValidator.clientsMessages
 
-      const payload = await request.validate(ClientsSchema, ClientsMessages)
+      const payload = await request.validate({ schema: ClientsSchema, messages: ClientsMessages })
 
       const client: Client = await Client.create(payload)
 

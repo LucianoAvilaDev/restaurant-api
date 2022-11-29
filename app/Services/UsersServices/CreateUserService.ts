@@ -11,7 +11,7 @@ export default class CreateUserService {
       const usersSchema = UserValidator.usersSchema
       const usersMessages = UserValidator.usersMessages
 
-      const payload = await request.validate(usersSchema, usersMessages)
+      const payload = await request.validate({ schema: usersSchema, messages: usersMessages })
 
       const user: User = await User.create(payload)
 
@@ -25,8 +25,8 @@ export default class CreateUserService {
 
     catch (e: any) {
       return {
-        success: true,
-        message: e.message,
+        success: false,
+        message: e,
         object: null
       }
 

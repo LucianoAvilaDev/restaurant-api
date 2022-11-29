@@ -10,7 +10,7 @@ export default class UpdateOrderItemByIdService {
     const orderItemsSchema = OrderItemValidator.orderItemsSchema
     const orderItemsMessages = OrderItemValidator.orderItemsMessages
 
-    const payload: any = await request.validate(orderItemsSchema, orderItemsMessages)
+    const payload: any = await request.validate({ schema: orderItemsSchema, messages: orderItemsMessages })
 
     const returnObject: ServiceReturnType = await GetOrderItemByIdService.run(id as number)
 

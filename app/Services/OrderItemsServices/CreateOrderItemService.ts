@@ -7,10 +7,10 @@ export default class CreateOrderItemService {
 
     try {
 
-      const OrderItemsSchema = OrderItemsValidator.orderItemsSchema
-      const OrderItemsMessages = OrderItemsValidator.orderItemsMessages
+      const orderItemsSchema = OrderItemsValidator.orderItemsSchema
+      const orderItemsMessages = OrderItemsValidator.orderItemsMessages
 
-      const payload = await request.validate(OrderItemsSchema, OrderItemsMessages)
+      const payload = await request.validate({ schema: orderItemsSchema, messages: orderItemsMessages })
 
       const orderItem: OrderItem = await OrderItem.create(payload)
 

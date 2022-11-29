@@ -10,7 +10,7 @@ export default class CreateOrderService {
       const ordersSchema = OrdersValidator.ordersSchema
       const ordersMessages = OrdersValidator.ordersMessages
 
-      const payload = await request.validate(ordersSchema, ordersMessages)
+      const payload = await request.validate({ schema: ordersSchema, messages: ordersMessages })
 
       const order: Order = await Order.create(payload)
 

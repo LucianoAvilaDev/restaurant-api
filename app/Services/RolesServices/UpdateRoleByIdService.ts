@@ -10,7 +10,7 @@ export default class UpdateRoleByIdService {
     const rolesSchema = RoleValidator.rolesSchema
     const rolesMessages = RoleValidator.rolesMessages
 
-    const payload: any = await request.validate(rolesSchema, rolesMessages)
+    const payload: any = await request.validate({ schema: rolesSchema, messages: rolesMessages })
 
     const returnObject: ServiceReturnType = await GetRoleByIdService.run(id as number)
 

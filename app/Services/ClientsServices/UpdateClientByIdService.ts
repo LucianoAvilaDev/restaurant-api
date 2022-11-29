@@ -10,7 +10,7 @@ export default class UpdateClientByIdService {
     const clientsSchema = ClientValidator.clientsSchema
     const clientsMessages = ClientValidator.clientsMessages
 
-    const payload: any = await request.validate(clientsSchema, clientsMessages)
+    const payload: any = await request.validate({ schema: clientsSchema, messages: clientsMessages })
 
     const returnObject: ServiceReturnType = await GetClientByIdService.run(id as number)
 

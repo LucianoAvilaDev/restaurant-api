@@ -10,7 +10,7 @@ export default class CreateRoleService {
       const rolesSchema = RolesValidator.rolesSchema
       const rolesMessages = RolesValidator.rolesMessages
 
-      const payload = await request.validate(rolesSchema, rolesMessages)
+      const payload = await request.validate({ schema: rolesSchema, messages: rolesMessages })
 
       const role: Role = await Role.create(payload)
 

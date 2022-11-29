@@ -10,7 +10,7 @@ export default class UpdateUserByIdService {
     const usersSchema = UserValidator.usersSchema
     const usersMessages = UserValidator.usersMessages
 
-    const payload: any = await request.validate(usersSchema, usersMessages)
+    const payload: any = await request.validate({ schema: usersSchema, messages: usersMessages })
 
     const returnObject: ServiceReturnType = await GetUserByIdService.run(id as number)
 

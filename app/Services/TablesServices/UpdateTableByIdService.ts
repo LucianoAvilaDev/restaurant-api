@@ -10,7 +10,7 @@ export default class UpdateTableByIdService {
     const tablesSchema = TableValidator.tablesSchema
     const tablesMessages = TableValidator.tablesMessages
 
-    const payload: any = await request.validate(tablesSchema, tablesMessages)
+    const payload: any = await request.validate({ schema: tablesSchema, messages: tablesMessages })
 
     const returnObject: ServiceReturnType = await GetTableByIdService.run(id as number)
 

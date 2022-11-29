@@ -10,7 +10,7 @@ export default class CreateTableService {
       const tablesSchema = TablesValidator.tablesSchema
       const tablesMessages = TablesValidator.tablesMessages
 
-      const payload = await request.validate(tablesSchema, tablesMessages)
+      const payload = await request.validate({ schema: tablesSchema, messages: tablesMessages })
 
       const table: Table = await Table.create(payload)
 

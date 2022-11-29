@@ -7,10 +7,10 @@ export default class UpdateOrderByIdService {
 
   public static async run(id: Number, request: any): Promise<ServiceReturnType> {
 
-    const OrdersSchema = OrderValidator.ordersSchema
-    const OrdersMessages = OrderValidator.ordersMessages
+    const ordersSchema = OrderValidator.ordersSchema
+    const ordersMessages = OrderValidator.ordersMessages
 
-    const payload: any = await request.validate(OrdersSchema, OrdersMessages)
+    const payload: any = await request.validate({ schema: ordersSchema, messages: ordersMessages })
 
     const returnObject: ServiceReturnType = await GetOrderByIdService.run(id as number)
 

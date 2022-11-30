@@ -3,7 +3,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import GetCurrentUserPermissionsService from 'App/Services/UsersServices/GetCurrentUserPermissionsService'
 
-export default class UserPermissionsController {
+export default class GetUserPermissionsController {
 
   public async handle({ auth }: HttpContextContract) {
 

@@ -5,8 +5,9 @@ import MealsValidator from 'App/Validators/MealsValidator'
 
 export default class MealsController {
 
-  private mealsSchema: any = MealsValidator.mealsSchema
-  private mealsMessages: CustomMessages = MealsValidator.mealsMessages
+  private mealsValidator: any
+  private mealsSchema: any
+  private mealsMessages: CustomMessages
 
   public async index({ response }: HttpContextContract) {
 
@@ -20,7 +21,7 @@ export default class MealsController {
 
     catch (e: any) {
 
-      throw new Error(e)
+      throw e
 
     }
 
@@ -30,6 +31,11 @@ export default class MealsController {
 
     try {
 
+      this.mealsValidator = new MealsValidator()
+
+      this.mealsSchema = this.mealsValidator.mealsSchema
+      this.mealsMessages = this.mealsValidator.mealsMessages
+
       const payload: Meal = await request.validate({ schema: this.mealsSchema, messages: this.mealsMessages })
 
       const meal: Meal = await Meal.create(payload)
@@ -38,7 +44,7 @@ export default class MealsController {
 
     }
     catch (e: any) {
-      throw new Error(e)
+      throw e
     }
 
   }
@@ -53,7 +59,7 @@ export default class MealsController {
 
     }
     catch (e: any) {
-      throw new Error(e)
+      throw e
     }
 
   }
@@ -61,6 +67,11 @@ export default class MealsController {
   public async update({ request, params, response }) {
 
     try {
+
+      this.mealsValidator = new MealsValidator()
+
+      this.mealsSchema = this.mealsValidator.mealsSchema
+      this.mealsMessages = this.mealsValidator.mealsMessages
 
       const payload: any = await request.validate({ schema: this.mealsSchema, messages: this.mealsMessages })
 
@@ -79,7 +90,7 @@ export default class MealsController {
 
     catch (e: any) {
 
-      throw new Error(e)
+      throw e
 
     }
 
@@ -89,9 +100,9 @@ export default class MealsController {
 
     try {
 
-      const meal: Meal = await Meal.query().preload('orderItems').where(params.id).firstOrFail()
+      const meal: Meal = await Meal.query().preload('orderItems').where('id', params.id).firstOrFail()
 
-      if (meal.$hasRelated('orderItems'))
+      if (meal.orderItems.length > 0)
         return response.badRequest("Essa Refeição está em um ou mais Pedidos")
 
       await meal.delete()
@@ -102,7 +113,7 @@ export default class MealsController {
 
     catch (e: any) {
 
-      throw new Error(e)
+      throw e
 
     }
   }

@@ -2,7 +2,7 @@ import { schema, CustomMessages, rules } from '@ioc:Adonis/Core/Validator'
 
 export default class RolesValidator {
 
-  public static rolesSchema: any = schema.create({
+  public rolesSchema: any = schema.create({
 
     name: schema.string(
       { trim: false }, [
@@ -13,7 +13,7 @@ export default class RolesValidator {
 
   })
 
-  public static rolesMessages: CustomMessages = {
+  public rolesMessages: CustomMessages = {
 
     'name.minLength': "O Nome deve ter no mínimo {{ options.minLength }} caracteres.",
     'name.maxLength': "O Nome pode ter no máximo {{ options.maxLength }}  caracteres.",

@@ -2,7 +2,7 @@ import { schema, CustomMessages, rules } from '@ioc:Adonis/Core/Validator'
 
 export default class MealTypesValidator {
 
-  public static mealTypesSchema: any = schema.create({
+  public mealTypesSchema: any = schema.create({
 
     name: schema.string(
       { trim: false }, [
@@ -13,7 +13,7 @@ export default class MealTypesValidator {
 
   })
 
-  public static mealTypesMessages: CustomMessages = {
+  public mealTypesMessages: CustomMessages = {
 
     'name.minLength': "O Nome deve ter no mínimo {{ options.minLength }} caracteres.",
     'name.maxLength': "O Nome pode ter no máximo {{ options.maxLength }}  caracteres.",

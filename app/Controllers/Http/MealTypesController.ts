@@ -5,8 +5,9 @@ import MealTypesValidator from 'App/Validators/MealTypesValidator'
 
 export default class MealTypeTypesController {
 
-  private mealTypesSchema: any = MealTypesValidator.mealTypesSchema
-  private mealTypesMessages: CustomMessages = MealTypesValidator.mealTypesMessages
+  private mealTypesValidator: any
+  private mealTypesSchema: any
+  private mealTypesMessages: CustomMessages
 
   public async index({ response }: HttpContextContract) {
 
@@ -20,7 +21,7 @@ export default class MealTypeTypesController {
 
     catch (e: any) {
 
-      throw new Error(e)
+      throw e
 
     }
 
@@ -30,6 +31,11 @@ export default class MealTypeTypesController {
 
     try {
 
+      this.mealTypesValidator = new MealTypesValidator()
+
+      this.mealTypesSchema = this.mealTypesValidator.mealTypesSchema
+      this.mealTypesMessages = this.mealTypesValidator.mealTypesMessages
+
       const payload: MealType = await request.validate({ schema: this.mealTypesSchema, messages: this.mealTypesMessages })
 
       const mealType: MealType = await MealType.create(payload)
@@ -38,7 +44,7 @@ export default class MealTypeTypesController {
 
     }
     catch (e: any) {
-      throw new Error(e)
+      throw e
     }
 
   }
@@ -54,7 +60,7 @@ export default class MealTypeTypesController {
     }
     catch (e: any) {
 
-      throw new Error(e)
+      throw e
 
     }
 
@@ -63,6 +69,11 @@ export default class MealTypeTypesController {
   public async update({ request, params, response }) {
 
     try {
+
+      this.mealTypesValidator = new MealTypesValidator()
+
+      this.mealTypesSchema = this.mealTypesValidator.mealTypesSchema
+      this.mealTypesMessages = this.mealTypesValidator.mealTypesMessages
 
       const payload: any = await request.validate({ schema: this.mealTypesSchema, messages: this.mealTypesMessages })
 
@@ -78,7 +89,7 @@ export default class MealTypeTypesController {
 
     catch (e: any) {
 
-      throw new Error(e)
+      throw e
 
     }
 
@@ -88,10 +99,10 @@ export default class MealTypeTypesController {
 
     try {
 
-      const mealType: MealType = await MealType.query().preload('meals').where(params.id).firstOrFail()
+      const mealType: MealType = await MealType.query().preload('meals').where('id', params.id).firstOrFail()
 
 
-      if (mealType.$hasRelated('meals'))
+      if (mealType.meals.length > 0)
         return response.badRequest("Esse Tipo de Refeição está em uma ou mais Refeições")
 
       await mealType.delete()
@@ -102,7 +113,7 @@ export default class MealTypeTypesController {
 
     catch (e: any) {
 
-      throw new Error(e)
+      throw e
 
     }
   }

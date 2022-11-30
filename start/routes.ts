@@ -48,10 +48,16 @@ Route.group(() => {
     .apiOnly()
     .middleware({ '*': ['auth'] })
 
-  Route.get('user-permissions', 'UserPermissionsController')
-    .middleware(['auth'])
+
+  Route.get('user-permissions', 'invoke/UserPermissionsController')
+    .middleware('auth')
+
+  Route.get('available-tables', 'invoke/GetAvailableTablesController')
+    .middleware('auth')
 
 }).prefix('api')
+
+
 
 
 

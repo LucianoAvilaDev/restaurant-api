@@ -13,7 +13,7 @@ export default class PermissionsController {
 
     }
     catch (e: any) {
-      throw new Error(e)
+      throw e
     }
 
   }

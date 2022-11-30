@@ -2,11 +2,13 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { CustomMessages } from '@ioc:Adonis/Core/Validator'
 import Client from 'App/Models/Client'
 import ClientsValidator from 'App/Validators/ClientsValidator'
+import UsersValidator from 'App/Validators/UsersValidator'
 
 export default class ClientsController {
 
-  private clientsSchema: any = ClientsValidator.clientsSchema
-  private clientsMessages: CustomMessages = ClientsValidator.clientsMessages
+  private clientsValidator: any
+  private clientsSchema: any
+  private clientsMessages: CustomMessages
 
   public async index({ response }: HttpContextContract) {
 
@@ -20,7 +22,7 @@ export default class ClientsController {
 
     catch (e: any) {
 
-      throw new Error(e)
+      throw e
 
     }
 
@@ -29,6 +31,11 @@ export default class ClientsController {
   public async store({ request, response }: HttpContextContract) {
 
     try {
+
+      this.clientsValidator = new ClientsValidator(0)
+
+      this.clientsSchema = this.clientsValidator.clientsSchema
+      this.clientsMessages = this.clientsValidator.clientsMessages
 
       const payload: Client = await request.validate({ schema: this.clientsSchema, messages: this.clientsMessages })
 
@@ -39,7 +46,7 @@ export default class ClientsController {
     }
     catch (e: any) {
 
-      throw new Error(e)
+      throw e
 
     }
 
@@ -55,7 +62,7 @@ export default class ClientsController {
 
     }
     catch (e: any) {
-      throw new Error(e)
+      throw e
     }
 
   }
@@ -64,7 +71,12 @@ export default class ClientsController {
 
     try {
 
-      const payload: any = await request.validate({ schema: this.clientsSchema, messages: this.clientsMessages })
+      this.clientsValidator = new ClientsValidator(params.id)
+
+      this.clientsSchema = this.clientsValidator.clientsSchema
+      this.clientsMessages = this.clientsValidator.clientsMessages
+
+      const payload: Client = await request.validate({ schema: this.clientsSchema, messages: this.clientsMessages })
 
       const existingClient: Client = await Client.findOrFail(params.id)
 
@@ -79,7 +91,7 @@ export default class ClientsController {
 
     catch (e: any) {
 
-      throw new Error(e)
+      throw e
 
     }
 
@@ -91,7 +103,7 @@ export default class ClientsController {
 
       const client: Client = await Client.query().preload('orders').where('id', params.id).firstOrFail()
 
-      if (client.$hasRelated('orders'))
+      if (client.orders.length > 0)
         return response.badRequest('Esse Cliente está em um ou mais Pedidos')
 
       await client.delete()
@@ -102,7 +114,7 @@ export default class ClientsController {
 
     catch (e: any) {
 
-      throw new Error(e)
+      throw e
 
     }
   }

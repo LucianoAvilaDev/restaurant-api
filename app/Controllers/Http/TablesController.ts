@@ -5,8 +5,9 @@ import TablesValidator from 'App/Validators/TablesValidator'
 
 export default class TablesController {
 
-  private tablesSchema: any = TablesValidator.tablesSchema
-  private tablesMessages: CustomMessages = TablesValidator.tablesMessages
+  private tablesValidator: any
+  private tablesSchema: any
+  private tablesMessages: CustomMessages
 
   public async index({ response }: HttpContextContract) {
 
@@ -20,7 +21,7 @@ export default class TablesController {
 
     catch (e: any) {
 
-      throw new Error(e)
+      throw e
 
     }
 
@@ -30,6 +31,11 @@ export default class TablesController {
 
     try {
 
+      this.tablesValidator = new TablesValidator()
+
+      this.tablesSchema = this.tablesValidator.tablesSchema
+      this.tablesMessages = this.tablesValidator.tablesMessages
+
       const payload = await request.validate({ schema: this.tablesSchema, messages: this.tablesMessages })
 
       const table: Table = await Table.create(payload as Table)
@@ -38,7 +44,7 @@ export default class TablesController {
 
     }
     catch (e: any) {
-      throw new Error(e)
+      throw e
     }
 
   }
@@ -53,7 +59,7 @@ export default class TablesController {
 
     }
     catch (e: any) {
-      throw new Error(e)
+      throw e
     }
 
   }
@@ -61,6 +67,11 @@ export default class TablesController {
   public async update({ request, params, response }) {
 
     try {
+
+      this.tablesValidator = new TablesValidator()
+
+      this.tablesSchema = this.tablesValidator.tablesSchema
+      this.tablesMessages = this.tablesValidator.tablesMessages
 
       const payload: any = await request.validate({ schema: this.tablesSchema, messages: this.tablesMessages })
 
@@ -77,7 +88,7 @@ export default class TablesController {
 
     catch (e: any) {
 
-      throw new Error(e)
+      throw e
 
     }
 
@@ -87,10 +98,10 @@ export default class TablesController {
 
     try {
 
-      const table: Table = await Table.query().preload('orders').where(params.id).firstOrFail()
+      const table: Table = await Table.query().preload('orders').where('id', params.id).firstOrFail()
 
 
-      if (table.$hasRelated('orders'))
+      if (table.orders.length > 0)
         return response.badRequest("Essa Mesa está em um ou mais Pedidos")
 
       await table.delete()
@@ -101,7 +112,7 @@ export default class TablesController {
 
     catch (e: any) {
 
-      throw new Error(e)
+      throw e
 
     }
   }

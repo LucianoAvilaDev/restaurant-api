@@ -5,8 +5,9 @@ import OrderItemsValidator from 'App/Validators/OrderItemsValidator'
 
 export default class OrderItemsController {
 
-  private orderItemsSchema: any = OrderItemsValidator.orderItemsSchema
-  private orderItemsMessages: CustomMessages = OrderItemsValidator.orderItemsMessages
+  private orderItemsValidator: any
+  private orderItemsSchema: any
+  private orderItemsMessages: CustomMessages
 
   public async index({ response }: HttpContextContract) {
 
@@ -20,7 +21,7 @@ export default class OrderItemsController {
 
     catch (e: any) {
 
-      throw new Error(e)
+      throw e
 
     }
 
@@ -30,6 +31,11 @@ export default class OrderItemsController {
 
     try {
 
+      this.orderItemsValidator = new OrderItemsValidator()
+
+      this.orderItemsSchema = this.orderItemsValidator.orderItemsSchema
+      this.orderItemsMessages = this.orderItemsValidator.orderItemsMessages
+
       const payload: OrderItem = await request.validate({ schema: this.orderItemsSchema, messages: this.orderItemsMessages })
 
       const orderItem: OrderItem = await OrderItem.create(payload)
@@ -38,7 +44,7 @@ export default class OrderItemsController {
 
     }
     catch (e: any) {
-      throw new Error(e)
+      throw e
     }
 
   }
@@ -49,11 +55,11 @@ export default class OrderItemsController {
 
       const orderItem: OrderItem = await OrderItem.query().preload('meal').where(params.id).firstOrFail()
 
-      return response.ok(OrderItem)
+      return response.ok(orderItem)
 
     }
     catch (e: any) {
-      throw new Error(e)
+      throw e
     }
 
   }
@@ -61,6 +67,11 @@ export default class OrderItemsController {
   public async update({ request, params, response }) {
 
     try {
+
+      this.orderItemsValidator = new OrderItemsValidator()
+
+      this.orderItemsSchema = this.orderItemsValidator.orderItemsSchema
+      this.orderItemsMessages = this.orderItemsValidator.orderItemsMessages
 
       const payload: any = await request.validate({ schema: this.orderItemsSchema, messages: this.orderItemsMessages })
 
@@ -80,7 +91,7 @@ export default class OrderItemsController {
 
     catch (e: any) {
 
-      throw new Error(e)
+      throw e
 
     }
 
@@ -100,7 +111,7 @@ export default class OrderItemsController {
 
     catch (e: any) {
 
-      throw new Error(e)
+      throw e
 
     }
   }

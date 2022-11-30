@@ -5,8 +5,9 @@ import OrdersValidator from 'App/Validators/OrdersValidator'
 
 export default class OrdersController {
 
-  private ordersSchema: any = OrdersValidator.ordersSchema
-  private ordersMessages: CustomMessages = OrdersValidator.ordersMessages
+  private ordersValidator: any
+  private ordersSchema: any
+  private ordersMessages: CustomMessages
 
   public async index({ response }: HttpContextContract) {
 
@@ -20,7 +21,7 @@ export default class OrdersController {
 
     catch (e: any) {
 
-      throw new Error(e)
+      throw e
 
     }
 
@@ -30,6 +31,11 @@ export default class OrdersController {
 
     try {
 
+      this.ordersValidator = new OrdersValidator()
+
+      this.ordersSchema = this.ordersValidator.ordersSchema
+      this.ordersMessages = this.ordersValidator.ordersMessages
+
       const payload: Order = await request.validate({ schema: this.ordersSchema, messages: this.ordersMessages })
 
       const order: Order = await Order.create(payload)
@@ -38,7 +44,7 @@ export default class OrdersController {
 
     }
     catch (e: any) {
-      throw new Error(e)
+      throw e
     }
 
   }
@@ -47,13 +53,13 @@ export default class OrdersController {
 
     try {
 
-      const order: Order = await Order.query().preload('table').preload('client').preload('orderItems').where(params.id).firstOrFail()
+      const order: Order = await Order.query().preload('table').preload('client').preload('orderItems').where('id', params.id).firstOrFail()
 
       return response.ok(order)
 
     }
     catch (e: any) {
-      throw new Error(e)
+      throw e
     }
 
   }
@@ -61,6 +67,11 @@ export default class OrdersController {
   public async update({ request, params, response }) {
 
     try {
+
+      this.ordersValidator = new OrdersValidator()
+
+      this.ordersSchema = this.ordersValidator.ordersSchema
+      this.ordersMessages = this.ordersValidator.ordersMessages
 
       const payload: Order = await request.validate({ schema: this.ordersSchema, messages: this.ordersMessages })
 
@@ -80,7 +91,7 @@ export default class OrdersController {
 
     catch (e: any) {
 
-      throw new Error(e)
+      throw e
 
     }
 
@@ -94,13 +105,13 @@ export default class OrdersController {
 
       await order.delete()
 
-      return response.ok(Order)
+      return response.ok(order)
 
     }
 
     catch (e: any) {
 
-      throw new Error(e)
+      throw e
 
     }
   }

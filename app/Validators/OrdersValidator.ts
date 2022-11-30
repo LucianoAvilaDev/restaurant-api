@@ -2,7 +2,7 @@ import { schema, CustomMessages, rules } from '@ioc:Adonis/Core/Validator'
 
 export default class OrdersValidator {
 
-  public static ordersSchema: any = schema.create({
+  public ordersSchema: any = schema.create({
 
     date: schema.date(),
 
@@ -24,7 +24,7 @@ export default class OrdersValidator {
 
   })
 
-  public static ordersMessages: CustomMessages = {
+  public ordersMessages: CustomMessages = {
 
     'date': "A Data é obrigatória.",
 

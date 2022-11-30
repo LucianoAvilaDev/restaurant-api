@@ -2,7 +2,9 @@ import { schema, CustomMessages, rules } from '@ioc:Adonis/Core/Validator'
 
 export default class ClientsValidator {
 
-  public static clientsSchema: any = schema.create({
+  constructor(protected clientId: number) { }
+
+  public clientsSchema: any = schema.create({
 
     name: schema.string(
       { trim: false }, [
@@ -12,16 +14,16 @@ export default class ClientsValidator {
 
     ]),
 
-    cpf: schema.number(
+    cpf: schema.string(
       [
         rules.cpfValidation(),
-        rules.unique({ table: 'clients', column: 'cpf' })
+        rules.unique({ table: 'clients', column: 'cpf', whereNot: { id: this.clientId } })
       ]
     ),
 
   })
 
-  public static clientsMessages: CustomMessages = {
+  public clientsMessages: CustomMessages = {
 
     'name.minLength': "O Nome deve ter no mínimo {{ options.minLength }} caracteres.",
     'name.maxLength': "O Nome pode ter no máximo {{ options.maxLength }} caracteres.",

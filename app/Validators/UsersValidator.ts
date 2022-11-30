@@ -1,8 +1,10 @@
-import { schema, CustomMessages, rules } from '@ioc:Adonis/Core/Validator'
+import { schema, CustomMessages, rules, SchemaRef } from '@ioc:Adonis/Core/Validator'
 
 export default class UsersValidator {
 
-  public static usersSchema: any = schema.create({
+  constructor(protected userId: number) { }
+
+  public usersSchema: any = schema.create({
 
     name: schema.string(
       { trim: false }, [
@@ -15,7 +17,7 @@ export default class UsersValidator {
       { trim: false }, [
       rules.required(),
       rules.email(),
-      rules.unique({ table: 'users', column: 'email' })
+      rules.unique({ table: 'users', column: 'email', whereNot: { id: this.userId } })
     ]
     ),
 
@@ -31,7 +33,7 @@ export default class UsersValidator {
 
   })
 
-  public static usersMessages: CustomMessages = {
+  public usersMessages: CustomMessages = {
 
     'name.minLength': "O Nome deve ter no mínimo {{ options.minLength }} caracteres",
     'name.maxLength': "O Nome pode ter no máximo {{ options.maxLength }} caracteres",

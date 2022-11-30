@@ -2,7 +2,7 @@ import { schema, CustomMessages, rules } from '@ioc:Adonis/Core/Validator'
 
 export default class OrderItemsValidator {
 
-  public static orderItemsSchema: any = schema.create({
+  public orderItemsSchema: any = schema.create({
 
     observation: schema.string(
       [
@@ -26,11 +26,17 @@ export default class OrderItemsValidator {
       [
         rules.required()
       ]
+    ),
+
+    orderId: schema.number(
+      [
+        rules.required()
+      ]
     )
 
   })
 
-  public static orderItemsMessages: CustomMessages = {
+  public orderItemsMessages: CustomMessages = {
 
     'observation.maxLength': "A Observação pode ter no máximo {{ options.maxLength }} caracteres.",
 
@@ -38,7 +44,10 @@ export default class OrderItemsValidator {
 
     'price.range': "O Preço deve estar entre {{ options.start }} e {{ options.stop }}.",
 
-    'mealId.required': "A Refeição é obrigatório."
+    'mealId.required': "A Refeição é obrigatório.",
+
+    'orderId.required': "O Pedido é obrigatório."
+
 
   }
 }

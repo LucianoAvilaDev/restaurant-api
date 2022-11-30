@@ -4,8 +4,9 @@ import User from 'App/Models/User'
 import UsersValidator from 'App/Validators/UsersValidator'
 export default class UsersController {
 
-  private usersSchema: any = UsersValidator.usersSchema
-  private usersMessages: CustomMessages = UsersValidator.usersMessages
+  private usersValidator: any
+  private usersSchema: any
+  private usersMessages: CustomMessages
 
   public async index({ response }: HttpContextContract) {
 
@@ -19,7 +20,7 @@ export default class UsersController {
 
     catch (e: any) {
 
-      throw new Error(e)
+      throw e
 
     }
 
@@ -29,6 +30,11 @@ export default class UsersController {
 
     try {
 
+      this.usersValidator = new UsersValidator(0)
+
+      this.usersSchema = this.usersValidator.usersSchema
+      this.usersMessages = this.usersValidator.usersMessages
+
       const payload = await request.validate({ schema: this.usersSchema, messages: this.usersMessages })
 
       const user: User = await User.create(payload as User)
@@ -37,7 +43,7 @@ export default class UsersController {
 
     }
     catch (e: any) {
-      throw new Error(e)
+      throw (e)
     }
 
   }
@@ -46,22 +52,27 @@ export default class UsersController {
 
     try {
 
-      const user: User = await User.query().preload('role').where(params.id).firstOrFail()
+      const user: User = await User.query().preload('role').where('id', params.id).firstOrFail()
 
       return response.ok(user)
 
     }
     catch (e: any) {
-      throw new Error(e)
+      throw e
     }
 
   }
 
-  public async update({ request, params, response }) {
+  public async update({ request, params, response }: HttpContextContract) {
 
     try {
 
-      const payload: any = await request.validate({ schema: this.usersSchema, messages: this.usersMessages })
+      this.usersValidator = new UsersValidator(params.id)
+
+      this.usersSchema = this.usersValidator.usersSchema
+      this.usersMessages = this.usersValidator.usersMessages
+
+      const payload: User = await request.validate({ schema: this.usersSchema, messages: this.usersMessages })
 
       const existingUser: User = await User.findOrFail(params.id)
 
@@ -78,7 +89,7 @@ export default class UsersController {
 
     catch (e: any) {
 
-      throw new Error(e)
+      throw (e)
 
     }
 
@@ -98,7 +109,7 @@ export default class UsersController {
 
     catch (e: any) {
 
-      throw new Error(e)
+      throw e
 
     }
   }

@@ -7,10 +7,24 @@ export default class extends BaseSeeder {
     await User.createMany([
       {
         id: 1,
-        name: "Luciano",
-        email: "luciano.diniz@sagatechbrasil.com.br",
+        name: "SGS Admin",
+        email: "admin.sgs@sagatech.com.br",
         password: "123456",
         roleId: 1
+      },
+      {
+        id: 2,
+        name: "SGS Collaborator",
+        email: "collab.sgs@sagatech.com.br",
+        password: "123456",
+        roleId: 2
+      },
+      {
+        id: 3,
+        name: "SGS Simple User",
+        email: "simple.sgs@sagatech.com.br",
+        password: "123456",
+        roleId: 2
       }
     ])
   }

@@ -9,7 +9,7 @@ export default class UsersValidator {
     name: schema.string(
       { trim: false }, [
       rules.minLength(6),
-      rules.maxLength(255),
+      rules.maxLength(200),
       rules.required()
     ]),
 
@@ -24,12 +24,14 @@ export default class UsersValidator {
     password: schema.string(
       { trim: false }, [
       rules.minLength(6),
-      rules.maxLength(180),
+      rules.maxLength(100),
       rules.required()
     ]
     ),
 
-    roleId: schema.number()
+    roleId: schema.number([
+      rules.required()
+    ])
 
   })
 

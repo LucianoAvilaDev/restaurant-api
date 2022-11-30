@@ -7,7 +7,9 @@
     "build": "node ace build --production",
     "start": "node server.js",
     "lint": "eslint . --ext=.ts",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "test": "node ace test",
+    "test-dev": "node ace test --watch"
   },
   "eslintConfig": {
     "extends": [

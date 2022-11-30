@@ -1,4 +1,6 @@
+import { OpaqueTokenContract } from '@ioc:Adonis/Addons/Auth'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import User from 'App/Models/User'
 
 export default class AuthController {
 
@@ -7,14 +9,14 @@ export default class AuthController {
     try {
       const [email, password] = [request.input('email'), request.input('password')]
 
-      const token = await auth.use('api').attempt(email, password, {
+      const token: OpaqueTokenContract<User> = await auth.use('api').attempt(email, password, {
         expiresIn: '30 mins'
       })
 
       return response.ok(token.toJSON())
     }
     catch (e: any) {
-      throw new Error(e)
+      throw e
     }
 
   }
@@ -29,7 +31,7 @@ export default class AuthController {
 
     }
     catch (e: any) {
-      throw new Error(e)
+      throw e
     }
 
   }

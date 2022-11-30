@@ -8,7 +8,7 @@ test.group('Users store', (group: Group) => {
 
   const url: string = '/api/users'
 
-  test('(general) should store new user with correct informations and permissions', async ({ client }) => {
+  test('(general) SHOULD store new user with correct informations and permissions', async ({ client }) => {
 
     const rsp = await client.post('/api/login').json({
       email: "admin.sgs@sagatech.com.br",
@@ -27,7 +27,7 @@ test.group('Users store', (group: Group) => {
     response.assertStatus(200)
   })
 
-  test('(general) should not store new user without having permission', async ({ client }) => {
+  test('(general) SHOULD NOT store new user without having permission', async ({ client }) => {
 
     const rsp = await client.post('/api/login').json({
       email: "collab.sgs@sagatech.com.br",
@@ -46,7 +46,7 @@ test.group('Users store', (group: Group) => {
     response.assertStatus(403)
   })
 
-  test('(general) should not store new user without being authenticated', async ({ client }) => {
+  test('(general) SHOULD NOT store new user without being authenticated', async ({ client }) => {
 
     const response = await client.post(url).json({
       name: GenerateRandomString(10),
@@ -58,7 +58,7 @@ test.group('Users store', (group: Group) => {
     response.assertStatus(401)
   })
 
-  test('(name) should not store new user without name', async ({ client }) => {
+  test('(name) SHOULD NOT store new user without name', async ({ client }) => {
 
     const rsp = await client.post('/api/login').json({
       email: "admin.sgs@sagatech.com.br",
@@ -76,7 +76,7 @@ test.group('Users store', (group: Group) => {
     response.assertStatus(422)
   })
 
-  test('(name) should not store new user with name shorter than 6 chars', async ({ client }) => {
+  test('(name) SHOULD NOT store new user with name shorter than 6 chars', async ({ client }) => {
 
     const rsp = await client.post('/api/login').json({
       email: "admin.sgs@sagatech.com.br",
@@ -96,7 +96,7 @@ test.group('Users store', (group: Group) => {
     response.assertStatus(422)
   })
 
-  test('(name) should not store new user with name greater than 200 chars', async ({ client }) => {
+  test('(name) SHOULD NOT store new user with name greater than 200 chars', async ({ client }) => {
 
     const rsp = await client.post('/api/login').json({
       email: "admin.sgs@sagatech.com.br",
@@ -116,7 +116,7 @@ test.group('Users store', (group: Group) => {
     response.assertStatus(422)
   })
 
-  test('(email) should not store new user with duplicated email', async ({ client }) => {
+  test('(email) SHOULD NOT store new user with duplicated email', async ({ client }) => {
 
     const rsp = await client.post('/api/login').json({
       email: "admin.sgs@sagatech.com.br",
@@ -136,7 +136,7 @@ test.group('Users store', (group: Group) => {
     response.assertStatus(422)
   })
 
-  test('(email) should not store new user without email', async ({ client }) => {
+  test('(email) SHOULD NOT store new user without email', async ({ client }) => {
 
     const rsp = await client.post('/api/login').json({
       email: "admin.sgs@sagatech.com.br",
@@ -155,7 +155,7 @@ test.group('Users store', (group: Group) => {
     response.assertStatus(422)
   })
 
-  test('(email) should not store new user with invalid email (without @)', async ({ client }) => {
+  test('(email) SHOULD NOT store new user with invalid email (without @)', async ({ client }) => {
 
     const rsp = await client.post('/api/login').json({
       email: "admin.sgs@sagatech.com.br",
@@ -175,7 +175,7 @@ test.group('Users store', (group: Group) => {
     response.assertStatus(422)
   })
 
-  test('(email) should not store new user with invalid email (without .com or .anything)', async ({ client }) => {
+  test('(email) SHOULD NOT store new user with invalid email (without .com or .anything)', async ({ client }) => {
 
     const rsp = await client.post('/api/login').json({
       email: "admin.sgs@sagatech.com.br",
@@ -195,7 +195,7 @@ test.group('Users store', (group: Group) => {
     response.assertStatus(422)
   })
 
-  test('(password) should not store new user without password', async ({ client }) => {
+  test('(password) SHOULD NOT store new user without password', async ({ client }) => {
 
     const rsp = await client.post('/api/login').json({
       email: "admin.sgs@sagatech.com.br",
@@ -214,7 +214,7 @@ test.group('Users store', (group: Group) => {
     response.assertStatus(422)
   })
 
-  test('(password) should not store new user with password shorter than 6 chars', async ({ client }) => {
+  test('(password) SHOULD NOT store new user with password shorter than 6 chars', async ({ client }) => {
 
     const rsp = await client.post('/api/login').json({
       email: "admin.sgs@sagatech.com.br",
@@ -233,7 +233,7 @@ test.group('Users store', (group: Group) => {
     response.assertStatus(422)
   })
 
-  test('(password) should not store new user with password greater than 100 chars', async ({ client }) => {
+  test('(password) SHOULD NOT store new user with password greater than 100 chars', async ({ client }) => {
 
     const rsp = await client.post('/api/login').json({
       email: "admin.sgs@sagatech.com.br",
@@ -253,7 +253,7 @@ test.group('Users store', (group: Group) => {
     response.assertStatus(422)
   })
 
-  test('(roleId) should not store new user without roleId', async ({ client }) => {
+  test('(roleId) SHOULD NOT store new user without roleId', async ({ client }) => {
 
     const rsp = await client.post('/api/login').json({
       email: "admin.sgs@sagatech.com.br",

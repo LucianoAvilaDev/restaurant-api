@@ -4,9 +4,9 @@ test.group('Auth login', (group: Group) => {
 
   group.tap((test) => test.tags(['@login']))
 
-  test('should login successfully', async ({ client }) => {
+  test('SHOULD login successfully', async ({ client }) => {
     const response = await client.post('/api/login').json({
-      email: "luciano.diniz@sagatechbrasil.com.br",
+      email: "admin.sgs@sagatech.com.br",
       password: "123456",
     })
 

@@ -23,6 +23,9 @@ export default class Order extends BaseModel {
   @column()
   public tableId: number
 
+  @column()
+  public isClosed: boolean
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

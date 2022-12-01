@@ -82,6 +82,7 @@ export default class OrdersController {
       existingOrder.paidValue = payload.paidValue
       existingOrder.clientId = payload.clientId
       existingOrder.tableId = payload.tableId
+      existingOrder.isClosed = payload.isClosed
 
       const updatedOrder: Order = await existingOrder.save()
 

@@ -6,21 +6,37 @@ export default class OrdersValidator {
 
     date: schema.date(),
 
+    clientId: schema.number(
+      [
+        rules.required()
+      ]
+    ),
+
+    tableId: schema.number(
+      [
+        rules.required()
+      ]
+    ),
+
     totalValue: schema.number(
       [
         rules.range(0.01, 99999999.99),
+        rules.required()
       ]
     ),
 
     paidValue: schema.number(
       [
         rules.range(0.01, 99999999.99),
+        rules.required()
       ]
     ),
 
-    clientId: schema.number(),
-
-    tableId: schema.number(),
+    isClosed: schema.boolean(
+      [
+        rules.nullable()
+      ]
+    ),
 
   })
 

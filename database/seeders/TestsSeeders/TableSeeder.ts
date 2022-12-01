@@ -17,9 +17,14 @@ export default class extends BaseSeeder {
       },
       {
         id: 3,
-        number: "Delete",
+        number: "Edit",
         isAvailable: false
       },
+      {
+        id: 4,
+        number: "Delete",
+        isAvailable: false
+      }
     ])
   }
 }

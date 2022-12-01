@@ -11,7 +11,9 @@ export default class TablesValidator {
       rules.required()
     ]),
 
-    isAvailable: schema.boolean()
+    isAvailable: schema.boolean([
+      rules.required()
+    ])
 
   })
 
@@ -20,6 +22,8 @@ export default class TablesValidator {
     'name.minLength': "O Nome deve ter no mínimo {{ options.minLength }} caracteres.",
     'name.maxLength': "O Nome pode ter no máximo {{ options.maxLength }}  caracteres.",
     'name.required': "O Nome é obrigatório.",
+
+    'isAvailable.required': "A Disponibilidade é obrigatória.",
 
   }
 }

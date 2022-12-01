@@ -7,18 +7,22 @@ export default class OrderItemsValidator {
     observation: schema.string(
       [
         rules.maxLength(300),
+        rules.nullable()
       ]
     ),
 
     quantity: schema.number(
       [
         rules.range(0.01, 999999.99),
+        rules.required()
       ]
     ),
 
     price: schema.number(
       [
         rules.range(0.01, 99999999.99),
+        rules.required()
+
       ]
     ),
 
@@ -42,7 +46,11 @@ export default class OrderItemsValidator {
 
     'quantity.range': "A Quantidade deve estar entre {{ options.start }} e {{ options.stop }}.",
 
+    'quantity.required': "A Quantidade é obrigatória.",
+
     'price.range': "O Preço deve estar entre {{ options.start }} e {{ options.stop }}.",
+
+    'price.required': "O Preço é obrigatório.",
 
     'mealId.required': "A Refeição é obrigatório.",
 

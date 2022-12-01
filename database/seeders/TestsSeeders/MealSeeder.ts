@@ -21,6 +21,13 @@ export default class extends BaseSeeder {
       },
       {
         id: 3,
+        name: "Refeição Teste Edit",
+        price: 23.50,
+        description: "",
+        mealTypeId: 2
+      },
+      {
+        id: 4,
         name: "Refeição Teste Delete",
         price: 23.50,
         description: "",

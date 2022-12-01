@@ -11,7 +11,12 @@ export default class MealsValidator {
       rules.required()
     ]),
 
-    description: schema.string(),
+    description: schema.string(
+      { trim: false }, [
+      rules.maxLength(300),
+      rules.nullable()
+    ]
+    ),
 
     price: schema.number(
       [

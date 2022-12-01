@@ -98,7 +98,6 @@ test.group('Meal Types store', (group: Group) => {
 
     const response = await client.post(url).header('authorization', token).json({
       name: GenerateRandomString(101),
-
     })
 
     response.assertStatus(422)

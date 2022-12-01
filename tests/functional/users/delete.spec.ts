@@ -10,7 +10,8 @@ test.group('Users delete', (group: Group) => {
     '@users_delete'
   ]))
 
-  const url: string = '/api/users/3'
+  const urlNotDelete: string = '/api/users/3'
+  const urlDelete: string = '/api/users/4'
 
   test('(general) SHOULD delete user with correct informations and permissions', async ({ client }) => {
 
@@ -21,16 +22,7 @@ test.group('Users delete', (group: Group) => {
 
     const token = `bearer ${responseToken.body().token}`
 
-    const responseToGetId = await client.post('/api/users').header('authorization', token).json({
-      name: GenerateRandomString(10),
-      email: GenerateRandomEmail(),
-      password: GenerateRandomString(8),
-      roleId: 1
-    })
-
-    const id = responseToGetId.body().id
-
-    const response = await client.delete(`/api/users/${id}`).header('authorization', token)
+    const response = await client.delete(urlDelete).header('authorization', token)
 
     response.assertStatus(200)
   })
@@ -44,7 +36,7 @@ test.group('Users delete', (group: Group) => {
 
     const token = `bearer ${responseToken.body().token}`
 
-    const response = await client.delete(url).header('authorization', token)
+    const response = await client.delete(urlNotDelete).header('authorization', token)
 
     response.assertStatus(403)
 
@@ -52,7 +44,7 @@ test.group('Users delete', (group: Group) => {
 
   test('(general) SHOULD NOT update user without being authenticated', async ({ client }) => {
 
-    const response = await client.delete(url)
+    const response = await client.delete(urlNotDelete)
 
     response.assertStatus(401)
 

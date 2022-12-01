@@ -10,11 +10,23 @@ export default class extends BaseSeeder {
       },
       {
         id: 2,
-        name: 'Colaborador',
+        name: `Can't Handle Users`,
       },
       {
         id: 3,
-        name: 'Teste Perfil',
+        name: `Can't Handle Clients`,
+      },
+      {
+        id: 4,
+        name: `Can't Handle Meals`,
+      },
+      {
+        id: 5,
+        name: `Can't Handle Roles`,
+      },
+      {
+        id: 6,
+        name: `Can't Handle Orders`,
       }
     ])
   }

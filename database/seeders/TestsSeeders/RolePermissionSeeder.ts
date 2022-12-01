@@ -27,7 +27,7 @@ export default class extends BaseSeeder {
         roleId: 1,
         permissionId: 5
       },
-      // ROLE: COLABORADOR
+      // ROLE: NOT USERS
       {
         roleId: 2,
         permissionId: 2
@@ -44,21 +44,72 @@ export default class extends BaseSeeder {
         roleId: 2,
         permissionId: 5
       },
-      // ROLE: TESTE
+      // ROLE: NO CLIENT
       {
-        roleId: 2,
-        permissionId: 2
-      },
-      {
-        roleId: 2,
+        roleId: 3,
         permissionId: 3
       },
       {
-        roleId: 2,
+        roleId: 3,
+        permissionId: 1
+      },
+      {
+        roleId: 3,
         permissionId: 4
       },
       {
-        roleId: 2,
+        roleId: 3,
+        permissionId: 5
+      },
+      // ROLE: NO MEALS
+      {
+        roleId: 4,
+        permissionId: 2
+      },
+      {
+        roleId: 4,
+        permissionId: 3
+      },
+      {
+        roleId: 4,
+        permissionId: 1
+      },
+      {
+        roleId: 4,
+        permissionId: 5
+      },
+      // ROLE: NO ROLES
+      {
+        roleId: 5,
+        permissionId: 2
+      },
+      {
+        roleId: 5,
+        permissionId: 3
+      },
+      {
+        roleId: 5,
+        permissionId: 4
+      },
+      {
+        roleId: 5,
+        permissionId: 1
+      },
+      // ROLE: NO CLIENT
+      {
+        roleId: 6,
+        permissionId: 3
+      },
+      {
+        roleId: 6,
+        permissionId: 1
+      },
+      {
+        roleId: 6,
+        permissionId: 4
+      },
+      {
+        roleId: 6,
         permissionId: 5
       },
     ])

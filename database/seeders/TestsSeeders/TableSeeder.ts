@@ -7,17 +7,17 @@ export default class extends BaseSeeder {
     await Table.createMany([
       {
         id: 1,
-        number: "Mesa teste 001",
+        number: "001",
         isAvailable: true
       },
       {
         id: 2,
-        number: "Mesa teste 002",
+        number: "002",
         isAvailable: true
       },
       {
         id: 3,
-        number: "Mesa teste delete 003",
+        number: "Delete",
         isAvailable: false
       },
     ])

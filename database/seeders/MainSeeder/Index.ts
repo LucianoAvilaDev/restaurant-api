@@ -7,11 +7,11 @@ export default class extends BaseSeeder {
   }
 
   // public async run() {
-  //   await this.runSeeder(await import('../MealTypeSeeder'))
-  //   await this.runSeeder(await import('../PermissionSeeder'))
-  //   await this.runSeeder(await import('../RoleSeeder'))
-  //   await this.runSeeder(await import('../RolePermissionSeeder'))
-  //   await this.runSeeder(await import('../UserSeeder'))
+  //   await this.runSeeder(await import('../MainSeeders/MealTypeSeeder'))
+  //   await this.runSeeder(await import('../MainSeeders/PermissionSeeder'))
+  //   await this.runSeeder(await import('../MainSeeders/RoleSeeder'))
+  //   await this.runSeeder(await import('../MainSeeders/RolePermissionSeeder'))
+  //   await this.runSeeder(await import('../MainSeeders/UserSeeder'))
   // }
 
   // ***************************** FOR TESTS **********************************
@@ -21,6 +21,7 @@ export default class extends BaseSeeder {
     await this.runSeeder(await import('../TestsSeeders/RoleSeeder'))
     await this.runSeeder(await import('../TestsSeeders/RolePermissionSeeder'))
     await this.runSeeder(await import('../TestsSeeders/UserSeeder'))
+    await this.runSeeder(await import('../TestsSeeders/MealTypeSeeder'))
     await this.runSeeder(await import('../TestsSeeders/ClientSeeder'))
     await this.runSeeder(await import('../TestsSeeders/MealSeeder'))
     await this.runSeeder(await import('../TestsSeeders/TableSeeder'))

@@ -10,7 +10,7 @@ test.group('Users update', async (group: Group) => {
     '@users_update'
   ]))
 
-  const url: string = '/api/users/3'
+  const urlEdit: string = '/api/users/3'
   const urlLogin: string = '/api/login'
 
   test('(general) SHOULD update user with correct informations and permissions', async ({ client }) => {
@@ -22,7 +22,7 @@ test.group('Users update', async (group: Group) => {
 
     const token = `bearer ${responseToken.body().token}`
 
-    const response = await client.put(url).header('authorization', token).json({
+    const response = await client.put(urlEdit).header('authorization', token).json({
       name: GenerateRandomString(10),
       email: GenerateRandomEmail(),
       password: GenerateRandomString(8),
@@ -41,7 +41,7 @@ test.group('Users update', async (group: Group) => {
 
     const token = `bearer ${responseToken.body().token}`
 
-    const response = await client.put(url).header('authorization', token).json({
+    const response = await client.put(urlEdit).header('authorization', token).json({
       name: GenerateRandomString(10),
       email: GenerateRandomEmail(),
       password: GenerateRandomString(8),
@@ -53,7 +53,7 @@ test.group('Users update', async (group: Group) => {
 
   test('(general) SHOULD NOT update user without being authenticated', async ({ client }) => {
 
-    const response = await client.put(url).json({
+    const response = await client.put(urlEdit).json({
       name: GenerateRandomString(10),
       email: GenerateRandomEmail(),
       password: GenerateRandomString(8),
@@ -72,7 +72,7 @@ test.group('Users update', async (group: Group) => {
 
     const token = `bearer ${responseToken.body().token}`
 
-    const response = await client.put(url).header('authorization', token).json({
+    const response = await client.put(urlEdit).header('authorization', token).json({
       email: GenerateRandomEmail(),
       password: GenerateRandomString(8),
       roleId: 1
@@ -91,7 +91,7 @@ test.group('Users update', async (group: Group) => {
     const token = `bearer ${responseToken.body().token}`
 
 
-    const response = await client.put(url).header('authorization', token).json({
+    const response = await client.put(urlEdit).header('authorization', token).json({
       name: GenerateRandomString(5),
       email: GenerateRandomEmail(),
       password: GenerateRandomString(8),
@@ -111,7 +111,7 @@ test.group('Users update', async (group: Group) => {
     const token = `bearer ${responseToken.body().token}`
 
 
-    const response = await client.put(url).header('authorization', token).json({
+    const response = await client.put(urlEdit).header('authorization', token).json({
       name: GenerateRandomString(201),
       email: GenerateRandomEmail(),
       password: GenerateRandomString(8),
@@ -131,7 +131,7 @@ test.group('Users update', async (group: Group) => {
     const token = `bearer ${responseToken.body().token}`
 
 
-    const response = await client.put(url).header('authorization', token).json({
+    const response = await client.put(urlEdit).header('authorization', token).json({
       name: GenerateRandomString(10),
       email: "admin.sgs@sagatech.com.br",
       password: GenerateRandomString(8),
@@ -151,7 +151,7 @@ test.group('Users update', async (group: Group) => {
     const token = `bearer ${responseToken.body().token}`
 
 
-    const response = await client.put(url).header('authorization', token).json({
+    const response = await client.put(urlEdit).header('authorization', token).json({
       name: GenerateRandomString(10),
       password: GenerateRandomString(8),
       roleId: 1
@@ -170,7 +170,7 @@ test.group('Users update', async (group: Group) => {
     const token = `bearer ${responseToken.body().token}`
 
 
-    const response = await client.put(url).header('authorization', token).json({
+    const response = await client.put(urlEdit).header('authorization', token).json({
       name: GenerateRandomString(10),
       email: "dededsagatech.com.br",
       password: GenerateRandomString(8),
@@ -190,7 +190,7 @@ test.group('Users update', async (group: Group) => {
     const token = `bearer ${responseToken.body().token}`
 
 
-    const response = await client.put(url).header('authorization', token).json({
+    const response = await client.put(urlEdit).header('authorization', token).json({
       name: GenerateRandomString(10),
       email: "dededs@sagatechbr",
       password: GenerateRandomString(8),
@@ -210,7 +210,7 @@ test.group('Users update', async (group: Group) => {
     const token = `bearer ${responseToken.body().token}`
 
 
-    const response = await client.put(url).header('authorization', token).json({
+    const response = await client.put(urlEdit).header('authorization', token).json({
       name: GenerateRandomString(10),
       email: GenerateRandomEmail(),
       roleId: 1
@@ -228,7 +228,7 @@ test.group('Users update', async (group: Group) => {
 
     const token = `bearer ${responseToken.body().token}`
 
-    const response = await client.put(url).header('authorization', token).json({
+    const response = await client.put(urlEdit).header('authorization', token).json({
       name: GenerateRandomString(10),
       email: GenerateRandomEmail(),
       password: GenerateRandomString(5),
@@ -248,7 +248,7 @@ test.group('Users update', async (group: Group) => {
     const token = `bearer ${responseToken.body().token}`
 
 
-    const response = await client.put(url).header('authorization', token).json({
+    const response = await client.put(urlEdit).header('authorization', token).json({
       name: GenerateRandomString(10),
       email: GenerateRandomEmail(),
       password: GenerateRandomString(101),
@@ -268,7 +268,7 @@ test.group('Users update', async (group: Group) => {
     const token = `bearer ${responseToken.body().token}`
 
 
-    const response = await client.put(url).header('authorization', token).json({
+    const response = await client.put(urlEdit).header('authorization', token).json({
       name: GenerateRandomString(10),
       email: GenerateRandomEmail(),
       password: GenerateRandomString(8),

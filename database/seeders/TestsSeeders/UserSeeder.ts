@@ -21,8 +21,15 @@ export default class extends BaseSeeder {
       },
       {
         id: 3,
-        name: "Teste User",
-        email: "teste.sgs@sagatech.com.br",
+        name: "Teste User Edit and Not Delete",
+        email: "testeEdit.sgs@sagatech.com.br",
+        password: "123456",
+        roleId: 2
+      },
+      {
+        id: 4,
+        name: "Teste User Delete",
+        email: "testeDelete.sgs@sagatech.com.br",
         password: "123456",
         roleId: 2
       }

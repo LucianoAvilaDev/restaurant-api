@@ -8,41 +8,41 @@ export default class extends BaseSeeder {
     await RolePermission.createMany([
       //ROLE: ADMINISTRADOR
       {
-        role_id: 1,
-        permission_id: 1
+        roleId: 1,
+        permissionId: 1
       },
       {
-        role_id: 1,
-        permission_id: 2
+        roleId: 1,
+        permissionId: 2
       },
       {
-        role_id: 1,
-        permission_id: 3
+        roleId: 1,
+        permissionId: 3
       },
       {
-        role_id: 1,
-        permission_id: 4
+        roleId: 1,
+        permissionId: 4
       },
       {
-        role_id: 1,
-        permission_id: 5
+        roleId: 1,
+        permissionId: 5
       },
       // ROLE: COLABORADOR
       {
-        role_id: 2,
-        permission_id: 2
+        roleId: 2,
+        permissionId: 2
       },
       {
-        role_id: 2,
-        permission_id: 3
+        roleId: 2,
+        permissionId: 3
       },
       {
-        role_id: 2,
-        permission_id: 4
+        roleId: 2,
+        permissionId: 4
       },
       {
-        role_id: 2,
-        permission_id: 5
+        roleId: 2,
+        permissionId: 5
       },
     ])
 

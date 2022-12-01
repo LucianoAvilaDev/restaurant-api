@@ -2,15 +2,15 @@ import { Group, test } from '@japa/runner'
 import { GenerateRandomEmail } from 'App/Functions/GenerateRandomEmail'
 import { GenerateRandomString } from 'App/Functions/GenerateRandomString'
 
-test.group('Users store', (group: Group) => {
+test.group('clients store', (group: Group) => {
 
   group.tap((test) => test.tags([
     '@store',
-    '@users',
-    '@users_store'
+    '@clients',
+    '@clients_store'
   ]))
 
-  const url: string = '/api/users'
+  const url: string = '/api/clients'
   const urlLogin: string = '/api/login'
 
   test('(general) SHOULD store new user with correct informations and permissions', async ({ client }) => {

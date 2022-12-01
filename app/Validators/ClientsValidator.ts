@@ -9,14 +9,14 @@ export default class ClientsValidator {
     name: schema.string(
       { trim: false }, [
       rules.minLength(6),
-      rules.maxLength(255),
+      rules.maxLength(200),
       rules.required()
-
     ]),
 
     cpf: schema.string(
       [
         rules.cpfValidation(),
+        rules.required(),
         rules.unique({ table: 'clients', column: 'cpf', whereNot: { id: this.clientId } })
       ]
     ),

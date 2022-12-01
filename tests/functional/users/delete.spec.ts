@@ -1,6 +1,4 @@
 import { Group, test } from '@japa/runner'
-import { GenerateRandomEmail } from 'App/Functions/GenerateRandomEmail'
-import { GenerateRandomString } from 'App/Functions/GenerateRandomString'
 
 test.group('Users delete', (group: Group) => {
 
@@ -30,7 +28,7 @@ test.group('Users delete', (group: Group) => {
   test('(general) SHOULD NOT delete user without having permission', async ({ client }) => {
 
     const responseToken = await client.post('/api/login').json({
-      email: "collab.sgs@sagatech.com.br",
+      email: "notuser@email.com",
       password: "123456",
     })
 

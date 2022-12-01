@@ -2,7 +2,7 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { CustomMessages } from '@ioc:Adonis/Core/Validator'
 import Client from 'App/Models/Client'
 import ClientsValidator from 'App/Validators/ClientsValidator'
-import UsersValidator from 'App/Validators/UsersValidator'
+import UserFactory from 'Database/factories/UserFactory'
 
 export default class ClientsController {
 

@@ -14,24 +14,38 @@ export default class extends BaseSeeder {
       },
       {
         id: 2,
-        name: "SGS Collaborator",
-        email: "collab.sgs@sagatech.com.br",
+        name: "Not User",
+        email: "notuser@email.com",
         password: "123456",
         roleId: 2
       },
       {
         id: 3,
-        name: "Teste User Edit and Not Delete",
-        email: "testeEdit.sgs@sagatech.com.br",
+        name: "Not Client",
+        email: "notclient@email.com",
         password: "123456",
-        roleId: 2
+        roleId: 3
       },
       {
         id: 4,
-        name: "Teste User Delete",
-        email: "testeDelete.sgs@sagatech.com.br",
+        name: "Not Meal",
+        email: "notmeal@email.com",
         password: "123456",
-        roleId: 2
+        roleId: 4
+      },
+      {
+        id: 5,
+        name: "Not Role",
+        email: "notrole@email.com",
+        password: "123456",
+        roleId: 5
+      },
+      {
+        id: 6,
+        name: "Not Order",
+        email: "notorder@email.com",
+        password: "123456",
+        roleId: 6
       }
     ])
   }

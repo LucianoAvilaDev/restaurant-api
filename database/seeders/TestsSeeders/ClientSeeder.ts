@@ -9,10 +9,15 @@ export default class extends BaseSeeder {
       {
         id: 1,
         name: "Cliente Teste",
-        cpf: cpf.generate()
+        cpf: '11140016601'
       },
       {
         id: 2,
+        name: "Cliente Teste 2",
+        cpf: cpf.generate()
+      },
+      {
+        id: 3,
         name: "Cliente Teste Delete",
         cpf: cpf.generate()
       },

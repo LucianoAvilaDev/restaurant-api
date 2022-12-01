@@ -1,6 +1,4 @@
 import { Group, test } from '@japa/runner'
-import { GenerateRandomString } from 'App/Functions/GenerateRandomString'
-import { cpf } from 'cpf-cnpj-validator'
 
 test.group('clients delete', (group: Group) => {
 
@@ -10,46 +8,33 @@ test.group('clients delete', (group: Group) => {
     '@clients_delete'
   ]))
 
-  const url: string = '/api/clients'
+  const loginUrl: string = '/api/login'
+  const deleteUrl: string = '/api/clients/3'
 
   test('(general) SHOULD delete client with correct informations and permissions', async ({ client }) => {
 
-    const responseToken = await client.post('/api/login').json({
+    const responseToken = await client.post(loginUrl).json({
       email: "admin.sgs@sagatech.com.br",
       password: "123456",
     })
 
     const token = `bearer ${responseToken.body().token}`
 
-    const responseToGetId = await client.post(url).header('authorization', token).json({
-      name: GenerateRandomString(10),
-      cpf: cpf.generate(),
-    })
-
-    const id = responseToGetId.body().id
-
-    const response = await client.delete(`${url}/${id}`).header('authorization', token)
+    const response = await client.delete(deleteUrl).header('authorization', token)
 
     response.assertStatus(200)
   })
 
   test('(general) SHOULD NOT delete client without having permission', async ({ client }) => {
 
-    const responseToken = await client.post('/api/login').json({
-      email: "collab.sgs@sagatech.com.br",
+    const responseToken = await client.post(loginUrl).json({
+      email: "notclient@email.com",
       password: "123456",
     })
 
     const token = `bearer ${responseToken.body().token}`
 
-    const responseToGetId = await client.post(url).header('authorization', token).json({
-      name: GenerateRandomString(10),
-      cpf: cpf.generate(),
-    })
-
-    const id = responseToGetId.body().id
-
-    const response = await client.delete(`${url}/${id}`).header('authorization', token)
+    const response = await client.delete(deleteUrl).header('authorization', token)
 
     response.assertStatus(403)
 
@@ -57,7 +42,7 @@ test.group('clients delete', (group: Group) => {
 
   test('(general) SHOULD NOT update client without being authenticated', async ({ client }) => {
 
-    const response = await client.delete(url)
+    const response = await client.delete(deleteUrl)
 
     response.assertStatus(401)
 

@@ -26,7 +26,7 @@ test.group('Users update', async (group: Group) => {
       name: GenerateRandomString(10),
       email: GenerateRandomEmail(),
       password: GenerateRandomString(8),
-      roleId: 1
+      roleId: 3
     })
 
     response.assertStatus(200)
@@ -35,7 +35,7 @@ test.group('Users update', async (group: Group) => {
   test('(general) SHOULD NOT update user without having permission', async ({ client }) => {
 
     const responseToken = await client.post(urlLogin).json({
-      email: "collab.sgs@sagatech.com.br",
+      email: "notuser@email.com",
       password: "123456",
     })
 
@@ -45,7 +45,7 @@ test.group('Users update', async (group: Group) => {
       name: GenerateRandomString(10),
       email: GenerateRandomEmail(),
       password: GenerateRandomString(8),
-      roleId: 1
+      roleId: 3
     })
 
     response.assertStatus(403)
@@ -57,7 +57,7 @@ test.group('Users update', async (group: Group) => {
       name: GenerateRandomString(10),
       email: GenerateRandomEmail(),
       password: GenerateRandomString(8),
-      roleId: 1
+      roleId: 3
     })
 
     response.assertStatus(401)
@@ -75,7 +75,7 @@ test.group('Users update', async (group: Group) => {
     const response = await client.put(urlEdit).header('authorization', token).json({
       email: GenerateRandomEmail(),
       password: GenerateRandomString(8),
-      roleId: 1
+      roleId: 3
     })
 
     response.assertStatus(422)
@@ -95,7 +95,7 @@ test.group('Users update', async (group: Group) => {
       name: GenerateRandomString(5),
       email: GenerateRandomEmail(),
       password: GenerateRandomString(8),
-      roleId: 1
+      roleId: 3
     })
 
     response.assertStatus(422)
@@ -115,7 +115,7 @@ test.group('Users update', async (group: Group) => {
       name: GenerateRandomString(201),
       email: GenerateRandomEmail(),
       password: GenerateRandomString(8),
-      roleId: 1
+      roleId: 3
     })
 
     response.assertStatus(422)
@@ -135,7 +135,7 @@ test.group('Users update', async (group: Group) => {
       name: GenerateRandomString(10),
       email: "admin.sgs@sagatech.com.br",
       password: GenerateRandomString(8),
-      roleId: 1
+      roleId: 3
     })
 
     response.assertStatus(422)
@@ -154,7 +154,7 @@ test.group('Users update', async (group: Group) => {
     const response = await client.put(urlEdit).header('authorization', token).json({
       name: GenerateRandomString(10),
       password: GenerateRandomString(8),
-      roleId: 1
+      roleId: 3
     })
 
     response.assertStatus(422)
@@ -174,7 +174,7 @@ test.group('Users update', async (group: Group) => {
       name: GenerateRandomString(10),
       email: "dededsagatech.com.br",
       password: GenerateRandomString(8),
-      roleId: 1
+      roleId: 3
     })
 
     response.assertStatus(422)
@@ -194,7 +194,7 @@ test.group('Users update', async (group: Group) => {
       name: GenerateRandomString(10),
       email: "dededs@sagatechbr",
       password: GenerateRandomString(8),
-      roleId: 1
+      roleId: 3
     })
 
     response.assertStatus(422)
@@ -213,7 +213,7 @@ test.group('Users update', async (group: Group) => {
     const response = await client.put(urlEdit).header('authorization', token).json({
       name: GenerateRandomString(10),
       email: GenerateRandomEmail(),
-      roleId: 1
+      roleId: 3
     })
 
     response.assertStatus(422)
@@ -232,7 +232,7 @@ test.group('Users update', async (group: Group) => {
       name: GenerateRandomString(10),
       email: GenerateRandomEmail(),
       password: GenerateRandomString(5),
-      roleId: 1
+      roleId: 3
     })
 
     response.assertStatus(422)
@@ -252,7 +252,7 @@ test.group('Users update', async (group: Group) => {
       name: GenerateRandomString(10),
       email: GenerateRandomEmail(),
       password: GenerateRandomString(101),
-      roleId: 1
+      roleId: 3
     })
 
     response.assertStatus(422)

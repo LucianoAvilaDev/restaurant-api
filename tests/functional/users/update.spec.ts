@@ -10,7 +10,7 @@ test.group('Users update', async (group: Group) => {
     '@users_update'
   ]))
 
-  const urlEdit: string = '/api/users/3'
+  const urlEdit: string = '/api/users/7'
   const urlLogin: string = '/api/login'
 
   test('(general) SHOULD update user with correct informations and permissions', async ({ client }) => {

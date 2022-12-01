@@ -9,7 +9,7 @@ test.group('Users delete', (group: Group) => {
   ]))
 
   const urlNotDelete: string = '/api/users/3'
-  const urlDelete: string = '/api/users/4'
+  const urlDelete: string = '/api/users/8'
 
   test('(general) SHOULD delete user with correct informations and permissions', async ({ client }) => {
 

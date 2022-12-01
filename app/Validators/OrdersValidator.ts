@@ -20,14 +20,14 @@ export default class OrdersValidator {
 
     totalValue: schema.number(
       [
-        rules.range(0.01, 99999999.99),
+        rules.range(0.0, 99999999.99),
         rules.required()
       ]
     ),
 
     paidValue: schema.number(
       [
-        rules.range(0.01, 99999999.99),
+        rules.range(0.0, 99999999.99),
         rules.required()
       ]
     ),

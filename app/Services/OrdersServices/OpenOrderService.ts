@@ -8,12 +8,9 @@ export default class OpenOrderService {
 
       const orderToOpen: Order = await Order.findOrFail(orderId)
 
-      const openedOrder: Order = {
-        ...orderToOpen,
-        isClosed: false
-      }
+      orderToOpen.isClosed = false
 
-      await openedOrder.save()
+      await orderToOpen.save()
 
       return
 

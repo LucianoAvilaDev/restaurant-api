@@ -16,7 +16,7 @@ export default class extends BaseSeeder {
 
       },
       {
-        id: 2,
+        id: 2, //TESTE EDITAR
         date: DateTime.now(),
         clientId: 2,
         tableId: 2,
@@ -24,7 +24,7 @@ export default class extends BaseSeeder {
         paidValue: 45.00
       },
       {
-        id: 3,
+        id: 3, //TESTE DELETE
         date: DateTime.now(),
         clientId: 2,
         tableId: 2,

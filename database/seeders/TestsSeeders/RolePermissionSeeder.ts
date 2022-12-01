@@ -98,7 +98,7 @@ export default class extends BaseSeeder {
       // ROLE: NO CLIENT
       {
         roleId: 6,
-        permissionId: 3
+        permissionId: 2
       },
       {
         roleId: 6,

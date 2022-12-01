@@ -8,12 +8,9 @@ export default class BookTableService {
 
       const tableToBook: Table = await Table.findOrFail(tableId)
 
-      const bookedTable: Table = {
-        ...tableToBook,
-        isAvailable: false
-      }
+      tableToBook.isAvailable = false
 
-      await bookedTable.save()
+      await tableToBook.save()
 
       return
 

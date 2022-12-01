@@ -8,12 +8,9 @@ export default class CloseOrderService {
 
       const orderToClose: Order = await Order.findOrFail(orderId)
 
-      const closedOrder: Order = {
-        ...orderToClose,
-        isClosed: true
-      }
+      orderToClose.isClosed = true
 
-      await closedOrder.save()
+      await orderToClose.save()
 
       return
 

@@ -8,12 +8,9 @@ export default class ReleaseTableService {
 
       const tableToReleas: Table = await Table.findOrFail(tableId)
 
-      const releasedTable: Table = {
-        ...tableToReleas,
-        isAvailable: false
-      }
+      tableToReleas.isAvailable = false
 
-      await releasedTable.save()
+      await tableToReleas.save()
 
       return
 

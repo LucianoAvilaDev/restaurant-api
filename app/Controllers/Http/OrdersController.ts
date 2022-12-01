@@ -2,6 +2,7 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { CustomMessages } from '@ioc:Adonis/Core/Validator'
 import Order from 'App/Models/Order'
 import BookTableService from 'App/Services/TablesServices/BookTableService'
+import CheckBookedTableService from 'App/Services/TablesServices/CheckBookedTableService'
 import ReleaseTableService from 'App/Services/TablesServices/ReleaseTableService'
 import OrdersValidator from 'App/Validators/OrdersValidator'
 
@@ -38,7 +39,13 @@ export default class OrdersController {
       this.ordersSchema = this.ordersValidator.ordersSchema
       this.ordersMessages = this.ordersValidator.ordersMessages
 
+
       const payload: Order = await request.validate({ schema: this.ordersSchema, messages: this.ordersMessages })
+
+      const isTableAvailable: boolean = await CheckBookedTableService.run(request.body().tableId)
+
+      if (!isTableAvailable)
+        return response.badRequest('Mesa indisponível!')
 
       const order: Order = await Order.create(payload)
 
@@ -82,6 +89,11 @@ export default class OrdersController {
       this.ordersMessages = this.ordersValidator.ordersMessages
 
       const payload: Order = await request.validate({ schema: this.ordersSchema, messages: this.ordersMessages })
+
+      const isTableAvailable: boolean = await CheckBookedTableService.run(request.body().tableId)
+
+      if (!isTableAvailable)
+        return response.badRequest('Mesa indisponível!')
 
       const existingOrder: Order = await Order.findOrFail(params.id)
 

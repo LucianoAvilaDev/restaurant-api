@@ -8,7 +8,7 @@ export default class extends BaseSeeder {
       {
         id: 1,
         number: "001",
-        isAvailable: true
+        isAvailable: false
       },
       {
         id: 2,

@@ -1,6 +1,8 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { CustomMessages } from '@ioc:Adonis/Core/Validator'
 import Order from 'App/Models/Order'
+import BookTableService from 'App/Services/TablesServices/BookTableService'
+import ReleaseTableService from 'App/Services/TablesServices/ReleaseTableService'
 import OrdersValidator from 'App/Validators/OrdersValidator'
 
 export default class OrdersController {
@@ -39,6 +41,12 @@ export default class OrdersController {
       const payload: Order = await request.validate({ schema: this.ordersSchema, messages: this.ordersMessages })
 
       const order: Order = await Order.create(payload)
+
+      if (order.isClosed)
+        await ReleaseTableService.run(order.tableId)
+
+      else
+        await BookTableService.run(order.tableId)
 
       return response.ok(order)
 
@@ -85,6 +93,12 @@ export default class OrdersController {
       existingOrder.isClosed = payload.isClosed
 
       const updatedOrder: Order = await existingOrder.save()
+
+      if (updatedOrder.isClosed)
+        await ReleaseTableService.run(updatedOrder.tableId)
+
+      else
+        await BookTableService.run(updatedOrder.tableId)
 
       return response.ok(updatedOrder)
 

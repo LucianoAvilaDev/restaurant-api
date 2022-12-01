@@ -1,5 +1,3 @@
-// import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Table from 'App/Models/Table'
 

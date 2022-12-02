@@ -1,8 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeSave, BelongsTo, belongsTo, column, computed, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, beforeSave, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import Role from './Role'
 import Hash from '@ioc:Adonis/Core/Hash'
-import Permission from './Permission'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -19,6 +18,9 @@ export default class User extends BaseModel {
 
   @column({ columnName: 'remember_me_token' })
   public token: string
+
+  @column()
+  public recoveryToken: string
 
   @column()
   public roleId: number

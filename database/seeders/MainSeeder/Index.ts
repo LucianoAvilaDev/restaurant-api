@@ -7,30 +7,30 @@ export default class extends BaseSeeder {
   }
 
   public async run() {
+
+    if (process.env.NODE_ENV == "test") {
+
+      await this.runSeeder(await import('../TestsSeeders/PermissionSeeder'))
+      await this.runSeeder(await import('../TestsSeeders/RoleSeeder'))
+      await this.runSeeder(await import('../TestsSeeders/RolePermissionSeeder'))
+      await this.runSeeder(await import('../TestsSeeders/UserSeeder'))
+      await this.runSeeder(await import('../TestsSeeders/ClientSeeder'))
+      await this.runSeeder(await import('../TestsSeeders/TableSeeder'))
+      await this.runSeeder(await import('../TestsSeeders/MealTypeSeeder'))
+      await this.runSeeder(await import('../TestsSeeders/MealSeeder'))
+      await this.runSeeder(await import('../TestsSeeders/OrderSeeder'))
+      await this.runSeeder(await import('../TestsSeeders/OrderItemSeeder'))
+
+      return
+
+    }
+
     await this.runSeeder(await import('../SystemSeeders/PermissionSeeder'))
     await this.runSeeder(await import('../SystemSeeders/RoleSeeder'))
     await this.runSeeder(await import('../SystemSeeders/RolePermissionSeeder'))
     await this.runSeeder(await import('../SystemSeeders/UserSeeder'))
     await this.runSeeder(await import('../SystemSeeders/MealTypeSeeder'))
+
   }
-
-  // // ***************************** FOR TESTS **********************************
-
-  // public async run() {
-  //   await this.runSeeder(await import('../TestsSeeders/PermissionSeeder'))
-  //   await this.runSeeder(await import('../TestsSeeders/RoleSeeder'))
-  //   await this.runSeeder(await import('../TestsSeeders/RolePermissionSeeder'))
-  //   await this.runSeeder(await import('../TestsSeeders/UserSeeder'))
-  //   await this.runSeeder(await import('../TestsSeeders/ClientSeeder'))
-  //   await this.runSeeder(await import('../TestsSeeders/TableSeeder'))
-  //   await this.runSeeder(await import('../TestsSeeders/MealTypeSeeder'))
-  //   await this.runSeeder(await import('../TestsSeeders/MealSeeder'))
-  //   await this.runSeeder(await import('../TestsSeeders/OrderSeeder'))
-  //   await this.runSeeder(await import('../TestsSeeders/OrderItemSeeder'))
-
-  // }
-
-  // // **************************************************************************
-
 
 }

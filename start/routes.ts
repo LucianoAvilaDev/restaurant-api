@@ -67,6 +67,11 @@ Route.group(() => {
   Route.put('open-order/:id', 'invoke/OrdersInvokes/OpenOrderController')
     .middleware(['auth', 'can:manage_orders'])
 
+  Route.post('available-tables', 'invoke/TablesInvokes/GetAvailableTablesController')
+    .middleware('auth')
+
+  Route.post('recovery', 'invoke/MailController.SendRecoveryEmail')
+
 
 }).prefix('api')
 

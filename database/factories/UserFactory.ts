@@ -3,7 +3,6 @@ import Factory from '@ioc:Adonis/Lucid/Factory'
 
 export default Factory.define(User, ({ faker }) => {
   return {
-    id: undefined,
     name: faker.lorem.word(10),
     email: faker.internet.email(),
     password: faker.lorem.word(8),

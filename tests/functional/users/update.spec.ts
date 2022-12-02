@@ -1,6 +1,8 @@
 import { Group, test } from '@japa/runner'
 import { GenerateRandomEmail } from 'App/Functions/GenerateRandomEmail'
 import { GenerateRandomString } from 'App/Functions/GenerateRandomString'
+import User from 'App/Models/User'
+import UserFactory from 'Database/factories/UserFactory'
 
 test.group('Users update', async (group: Group) => {
 

@@ -1,6 +1,7 @@
 import { Group, test } from '@japa/runner'
 import { GenerateRandomEmail } from 'App/Functions/GenerateRandomEmail'
 import { GenerateRandomString } from 'App/Functions/GenerateRandomString'
+import User from 'App/Models/User'
 import UserFactory from 'Database/factories/UserFactory'
 
 test.group('Users store', (group: Group) => {
@@ -14,6 +15,10 @@ test.group('Users store', (group: Group) => {
   const url: string = '/api/users'
   const urlLogin: string = '/api/login'
 
+  const createTestUser: Function = async (): Promise<User> => {
+    return await UserFactory.makeStubbed()
+  }
+
   test('(general) SHOULD store new user with correct informations and permissions', async ({ client }) => {
 
     const responseToken = await client.post(urlLogin).json({
@@ -24,10 +29,7 @@ test.group('Users store', (group: Group) => {
     const token = `bearer ${responseToken.body().token}`
 
     const response = await client.post(url).header('authorization', token).json({
-      name: GenerateRandomString(10),
-      email: GenerateRandomEmail(),
-      password: GenerateRandomString(8),
-      roleId: 1
+      ...await createTestUser()
     })
 
     response.assertStatus(200)
@@ -43,10 +45,7 @@ test.group('Users store', (group: Group) => {
     const token = `bearer ${responseToken.body().token}`
 
     const response = await client.post(url).header('authorization', token).json({
-      name: GenerateRandomString(10),
-      email: GenerateRandomEmail(),
-      password: GenerateRandomString(8),
-      roleId: 1
+      ...await createTestUser()
     })
 
     response.assertStatus(403)
@@ -55,10 +54,7 @@ test.group('Users store', (group: Group) => {
   test('(general) SHOULD NOT store new user without being authenticated', async ({ client }) => {
 
     const response = await client.post(url).json({
-      name: GenerateRandomString(10),
-      email: GenerateRandomEmail(),
-      password: GenerateRandomString(8),
-      roleId: 1
+      ...await createTestUser()
     })
 
     response.assertStatus(401)
@@ -74,9 +70,8 @@ test.group('Users store', (group: Group) => {
     const token = `bearer ${responseToken.body().token}`
 
     const response = await client.post(url).header('authorization', token).json({
-      email: GenerateRandomEmail(),
-      password: GenerateRandomString(8),
-      roleId: 1
+      ...await createTestUser(),
+      name: undefined
     })
 
     response.assertStatus(422)
@@ -93,10 +88,8 @@ test.group('Users store', (group: Group) => {
 
 
     const response = await client.post(url).header('authorization', token).json({
-      name: GenerateRandomString(5),
-      email: GenerateRandomEmail(),
-      password: GenerateRandomString(8),
-      roleId: 1
+      ...await createTestUser(),
+      name: GenerateRandomString(5)
     })
 
     response.assertStatus(422)
@@ -113,10 +106,9 @@ test.group('Users store', (group: Group) => {
 
 
     const response = await client.post(url).header('authorization', token).json({
+      ...await createTestUser(),
       name: GenerateRandomString(201),
-      email: GenerateRandomEmail(),
-      password: GenerateRandomString(8),
-      roleId: 1
+
     })
 
     response.assertStatus(422)
@@ -133,10 +125,8 @@ test.group('Users store', (group: Group) => {
 
 
     const response = await client.post(url).header('authorization', token).json({
-      name: GenerateRandomString(10),
+      ...await createTestUser(),
       email: "admin.sgs@sagatech.com.br",
-      password: GenerateRandomString(8),
-      roleId: 1
     })
 
     response.assertStatus(422)
@@ -153,9 +143,8 @@ test.group('Users store', (group: Group) => {
 
 
     const response = await client.post(url).header('authorization', token).json({
-      name: GenerateRandomString(10),
-      password: GenerateRandomString(8),
-      roleId: 1
+      ...await createTestUser(),
+      email: undefined
     })
 
     response.assertStatus(422)
@@ -172,10 +161,8 @@ test.group('Users store', (group: Group) => {
 
 
     const response = await client.post(url).header('authorization', token).json({
-      name: GenerateRandomString(10),
-      email: "dededsagatech.com.br",
-      password: GenerateRandomString(8),
-      roleId: 1
+      ...await createTestUser(),
+      email: "dededsagatech.com.br"
     })
 
     response.assertStatus(422)
@@ -192,10 +179,8 @@ test.group('Users store', (group: Group) => {
 
 
     const response = await client.post(url).header('authorization', token).json({
-      name: GenerateRandomString(10),
-      email: "dededs@sagatechbr",
-      password: GenerateRandomString(8),
-      roleId: 1
+      ...await createTestUser(),
+      email: "dededs@sagatechbr"
     })
 
     response.assertStatus(422)
@@ -210,11 +195,9 @@ test.group('Users store', (group: Group) => {
 
     const token = `bearer ${responseToken.body().token}`
 
-
     const response = await client.post(url).header('authorization', token).json({
-      name: GenerateRandomString(10),
-      email: GenerateRandomEmail(),
-      roleId: 1
+      ...await createTestUser(),
+      password: undefined
     })
 
     response.assertStatus(422)
@@ -230,10 +213,8 @@ test.group('Users store', (group: Group) => {
     const token = `bearer ${responseToken.body().token}`
 
     const response = await client.post(url).header('authorization', token).json({
-      name: GenerateRandomString(10),
-      email: GenerateRandomEmail(),
-      password: GenerateRandomString(5),
-      roleId: 1
+      ...await createTestUser(),
+      password: GenerateRandomString(5)
     })
 
     response.assertStatus(422)
@@ -250,10 +231,8 @@ test.group('Users store', (group: Group) => {
 
 
     const response = await client.post(url).header('authorization', token).json({
-      name: GenerateRandomString(10),
-      email: GenerateRandomEmail(),
-      password: GenerateRandomString(101),
-      roleId: 1
+      ...await createTestUser(),
+      password: GenerateRandomString(101)
     })
 
     response.assertStatus(422)
@@ -270,9 +249,8 @@ test.group('Users store', (group: Group) => {
 
 
     const response = await client.post(url).header('authorization', token).json({
-      name: GenerateRandomString(10),
-      email: GenerateRandomEmail(),
-      password: GenerateRandomString(8),
+      ...await createTestUser(),
+      roleId: undefined
     })
 
     await client.post('/api/logout').header('authorization', token)

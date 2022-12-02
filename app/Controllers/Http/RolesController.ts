@@ -40,7 +40,9 @@ export default class RolesController {
 
       const createdRole: Role = await Role.create(payload)
 
-      createdRole.related('permissions').sync(request.input('permissions'))
+      const rolePermissions: number[] = request.input('permissions') ?? []
+
+      createdRole.related('permissions').sync(rolePermissions)
 
       return response.ok(createdRole)
 
@@ -83,7 +85,9 @@ export default class RolesController {
 
       const updatedRole: Role = await existingRole.save()
 
-      updatedRole.related('permissions').sync(request.input('permissions'))
+      const rolePermissions: number[] = request.input('permissions') ?? []
+
+      updatedRole.related('permissions').sync(rolePermissions)
 
       return response.ok(updatedRole)
 

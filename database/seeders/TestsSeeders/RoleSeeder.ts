@@ -27,6 +27,14 @@ export default class extends BaseSeeder {
       {
         id: 6,
         name: `Can't Handle Orders`,
+      },
+      {
+        id: 7,
+        name: `Test edit`,
+      },
+      {
+        id: 8,
+        name: `Test delete`,
       }
     ])
   }

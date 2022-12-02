@@ -6,31 +6,31 @@ export default class extends BaseSeeder {
     await new Seeder.default(this.client).run()
   }
 
-  // public async run() {
-  //   await this.runSeeder(await import('../MainSeeders/MealTypeSeeder'))
-  //   await this.runSeeder(await import('../MainSeeders/PermissionSeeder'))
-  //   await this.runSeeder(await import('../MainSeeders/RoleSeeder'))
-  //   await this.runSeeder(await import('../MainSeeders/RolePermissionSeeder'))
-  //   await this.runSeeder(await import('../MainSeeders/UserSeeder'))
-  // }
-
-  // ***************************** FOR TESTS **********************************
-
   public async run() {
-    await this.runSeeder(await import('../TestsSeeders/PermissionSeeder'))
-    await this.runSeeder(await import('../TestsSeeders/RoleSeeder'))
-    await this.runSeeder(await import('../TestsSeeders/RolePermissionSeeder'))
-    await this.runSeeder(await import('../TestsSeeders/UserSeeder'))
-    await this.runSeeder(await import('../TestsSeeders/MealTypeSeeder'))
-    await this.runSeeder(await import('../TestsSeeders/ClientSeeder'))
-    await this.runSeeder(await import('../TestsSeeders/MealSeeder'))
-    await this.runSeeder(await import('../TestsSeeders/TableSeeder'))
-    await this.runSeeder(await import('../TestsSeeders/OrderSeeder'))
-    await this.runSeeder(await import('../TestsSeeders/OrderItemSeeder'))
-
+    await this.runSeeder(await import('../SystemSeeders/PermissionSeeder'))
+    await this.runSeeder(await import('../SystemSeeders/RoleSeeder'))
+    await this.runSeeder(await import('../SystemSeeders/RolePermissionSeeder'))
+    await this.runSeeder(await import('../SystemSeeders/UserSeeder'))
+    await this.runSeeder(await import('../SystemSeeders/MealTypeSeeder'))
   }
 
-  // **************************************************************************
+  // // ***************************** FOR TESTS **********************************
+
+  // public async run() {
+  //   await this.runSeeder(await import('../TestsSeeders/PermissionSeeder'))
+  //   await this.runSeeder(await import('../TestsSeeders/RoleSeeder'))
+  //   await this.runSeeder(await import('../TestsSeeders/RolePermissionSeeder'))
+  //   await this.runSeeder(await import('../TestsSeeders/UserSeeder'))
+  //   await this.runSeeder(await import('../TestsSeeders/ClientSeeder'))
+  //   await this.runSeeder(await import('../TestsSeeders/TableSeeder'))
+  //   await this.runSeeder(await import('../TestsSeeders/MealTypeSeeder'))
+  //   await this.runSeeder(await import('../TestsSeeders/MealSeeder'))
+  //   await this.runSeeder(await import('../TestsSeeders/OrderSeeder'))
+  //   await this.runSeeder(await import('../TestsSeeders/OrderItemSeeder'))
+
+  // }
+
+  // // **************************************************************************
 
 
 }

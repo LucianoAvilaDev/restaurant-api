@@ -49,11 +49,24 @@ Route.group(() => {
     .middleware({ '*': ['auth'] })
 
 
-  Route.get('user-permissions', 'invoke/UserPermissionsController')
+  Route.get('user-permissions', 'invoke/UsersInvokes/GetUserPermissionsController')
+    .middleware(['auth', 'can:manage_users'])
+
+  Route.get('available-tables', 'invoke/TablesInvokes/GetAvailableTablesController')
     .middleware('auth')
 
-  Route.get('available-tables', 'invoke/GetAvailableTablesController')
+  Route.put('book-table/:id', 'invoke/TablesInvokes/BookTableController')
     .middleware('auth')
+
+  Route.put('release-table/:id', 'invoke/TablesInvokes/ReleaseTableController')
+    .middleware('auth')
+
+  Route.put('close-order/:id', 'invoke/OrdersInvokes/CloseOrderController')
+    .middleware(['auth', 'can:manage_orders'])
+
+  Route.put('open-order/:id', 'invoke/OrdersInvokes/OpenOrderController')
+    .middleware(['auth', 'can:manage_orders'])
+
 
 }).prefix('api')
 

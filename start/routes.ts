@@ -1,10 +1,11 @@
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', async () => {
-  return { hello: 'world' }
-})
 
 Route.group(() => {
+
+  Route.get('/', async () => {
+    return ({ object: `Api running on port ${process.env.PORT} - status OK`})
+  })
 
   Route.post('login', 'AuthController.Login')
 

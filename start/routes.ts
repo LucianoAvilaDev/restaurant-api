@@ -73,8 +73,7 @@ Route.group(() => {
 
   Route.post('recovery', 'invoke/MailController.SendRecoveryEmail')
 
-
-}).prefix('api')
+})
 
 
 

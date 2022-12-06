@@ -71,6 +71,9 @@ Route.group(() => {
   Route.post('available-tables', 'invoke/TablesInvokes/GetAvailableTablesController')
     .middleware('auth')
 
+    Route.post('get-auth-user', 'invoke/UsersInvokes/GetAuthenticatedUsersController')
+    .middleware('auth')
+
   Route.post('recovery', 'invoke/MailController.SendRecoveryEmail')
 
 })

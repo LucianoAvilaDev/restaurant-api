@@ -18,8 +18,15 @@ export default class AuthController {
       const currUser:User = await GetCurrentUserFullDataService.run(auth)
 
       return response.ok({
-        ...token.toJSON(),
-        userId:currUser.id
+        token: `bearer ${token.toJSON().token}`,
+        user:{
+          id: currUser.id,
+          name: currUser.name,
+          email: currUser.email,
+          permissions: currUser.role.permissions.map((permissions:Permission)=>{
+            return permissions.name
+          }),
+        }
       })
     }
     catch (e: any) {

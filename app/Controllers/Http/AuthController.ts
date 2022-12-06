@@ -1,6 +1,8 @@
 import { OpaqueTokenContract } from '@ioc:Adonis/Addons/Auth'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Permission from 'App/Models/Permission'
 import User from 'App/Models/User'
+import GetCurrentUserFullDataService from 'App/Services/UsersServices/GetCurrentUserFullDataService'
 
 export default class AuthController {
 
@@ -13,7 +15,12 @@ export default class AuthController {
         expiresIn: '30 mins'
       })
 
-      return response.ok(token.toJSON())
+      const currUser:User = await GetCurrentUserFullDataService.run(auth)
+
+      return response.ok({
+        ...token.toJSON(),
+        userId:currUser.id
+      })
     }
     catch (e: any) {
       throw e

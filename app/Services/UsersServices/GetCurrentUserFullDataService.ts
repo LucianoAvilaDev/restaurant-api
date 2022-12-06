@@ -4,25 +4,18 @@ import { ServiceReturnType } from "App/Types/types"
 
 export default class GetCurrentUserFullDataService {
 
-  public static async run(auth: AuthContract): Promise<ServiceReturnType> {
+  public static async run(auth: AuthContract): Promise<User> {
 
     const userId: number | undefined = auth.use('api').user?.id
 
     if (!userId)
-      return {
-        message: 'Não autenticado!',
-        success: false,
-      }
+      throw Error("Usuário não conectado")
 
-    const user: User | null = await User.query().preload('role', (roleQuery) => {
+    const user: User = await User.query().preload('role', (roleQuery) => {
       roleQuery.preload('permissions')
-    }).where('id', userId).first()
+    }).where('id', userId).firstOrFail()
 
-    return {
-      message: user ? 'Sucesso' : 'Usuário não encontrado',
-      success: user ? true : false,
-      object: user
-    }
+    return user
 
   }
 }

@@ -19,6 +19,7 @@ export default class AuthController {
 
       return response.ok({
         token: `bearer ${token.toJSON().token}`,
+        expires: token.toJSON().expires_at,
         user:{
           id: currUser.id,
           name: currUser.name,

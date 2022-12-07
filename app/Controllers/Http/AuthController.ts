@@ -18,7 +18,7 @@ export default class AuthController {
       const currUser:User = await GetCurrentUserFullDataService.run(auth)
 
       return response.ok({
-        token: `bearer ${token.toJSON().token}`,
+        token: token.toJSON().token,
         expires: token.toJSON().expires_at,
         user:{
           id: currUser.id,

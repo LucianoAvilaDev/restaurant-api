@@ -9,7 +9,9 @@ export default class GetCurrentUserFullDataService {
 
     return User.query()
       .preload('role', (roleQuery) => {
-        roleQuery.preload('permissions')
+        roleQuery.preload('permissions', (query) => {
+          query.select('name')
+        })
       })
       .where('id', userId)
       .firstOrFail()

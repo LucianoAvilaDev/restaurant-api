@@ -12,19 +12,19 @@ export default class AuthController {
       const [email, password] = [request.input('email'), request.input('password')]
 
       const token: OpaqueTokenContract<User> = await auth.use('api').attempt(email, password, {
-        expiresIn: '30 mins'
+        expiresIn: '60 mins'
       })
 
-      const currUser:User = await GetCurrentUserFullDataService.run(auth)
+      const currUser: User = await GetCurrentUserFullDataService.run(auth)
 
       return response.ok({
         token: token.toJSON().token,
         expires: token.toJSON().expires_at,
-        user:{
+        user: {
           id: currUser.id,
           name: currUser.name,
           email: currUser.email,
-          permissions: currUser.role.permissions.map((permissions:Permission)=>{
+          permissions: currUser.role.permissions.map((permissions: Permission) => {
             return permissions.name
           }),
         }

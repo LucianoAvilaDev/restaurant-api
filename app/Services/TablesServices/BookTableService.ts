@@ -1,26 +1,13 @@
-import Table from "App/Models/Table"
+import Table from 'App/Models/Table'
 
 export default class BookTableService {
-
   public static async run(tableId: number): Promise<void> {
-
     try {
-
-      const tableToBook: Table = await Table.findOrFail(tableId)
-
-      tableToBook.isAvailable = false
-
-      await tableToBook.save()
+      await Table.query().where('id', tableId).update({ isAvailable: false })
 
       return
-
-    }
-
-    catch (e: any) {
-
+    } catch (e: any) {
       throw e
-
     }
-
   }
 }

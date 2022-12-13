@@ -1,6 +1,5 @@
 import { AuthContract } from "@ioc:Adonis/Addons/Auth"
 import User from "App/Models/User"
-import { ServiceReturnType } from "App/Types/types"
 
 export default class GetCurrentUserFullDataService {
 

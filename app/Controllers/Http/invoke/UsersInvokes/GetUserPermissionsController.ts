@@ -7,7 +7,7 @@ export default class GetUserPermissionsController {
 
   public async handle({ auth }: HttpContextContract) {
 
-    return GetCurrentUserPermissionsService.run(auth)
+    return await GetCurrentUserPermissionsService.run(auth)
 
   }
 

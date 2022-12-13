@@ -4,7 +4,7 @@ import Route from '@ioc:Adonis/Core/Route'
 Route.group(() => {
 
   Route.get('/', async () => {
-    return ({ object: `Api running on port ${process.env.PORT} - status OK`})
+    return ({ object: `Api running on port ${process.env.PORT} - status OK` })
   })
 
   Route.post('login', 'AuthController.Login')
@@ -71,7 +71,7 @@ Route.group(() => {
   Route.post('available-tables', 'invoke/TablesInvokes/GetAvailableTablesController')
     .middleware('auth')
 
-    Route.post('get-auth-user', 'invoke/UsersInvokes/GetAuthenticatedUsersController')
+  Route.post('get-auth-user', 'invoke/UsersInvokes/GetAuthenticatedUsersController')
     .middleware('auth')
 
   Route.post('recovery', 'invoke/MailController.SendRecoveryEmail')

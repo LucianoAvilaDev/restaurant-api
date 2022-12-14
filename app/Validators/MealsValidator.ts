@@ -11,7 +11,7 @@ export default class MealsValidator {
       rules.required()
     ]),
 
-    description: schema.string.nullableAndOptional({ trim: false }, [
+    description: schema.string.optional([
       rules.maxLength(300),
     ]),
 

@@ -3,11 +3,11 @@ import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 export default class extends BaseSchema {
   protected tableName = 'meals'
 
-  public async up () {
+  public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.string('name', 100).notNullable()
-      table.text('description','mediumtext').notNullable()
+      table.text('description', 'mediumtext').nullable()
       table.decimal('price', 8, 2).notNullable()
       table.integer('meal_type_id').unsigned().references('meal_types.id')
       table.timestamp('created_at', { useTz: true })
@@ -15,7 +15,7 @@ export default class extends BaseSchema {
     })
   }
 
-  public async down () {
+  public async down() {
     this.schema.dropTable(this.tableName)
   }
 }

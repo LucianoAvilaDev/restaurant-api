@@ -16,9 +16,15 @@ Route.group(() => {
     .apiOnly()
     .middleware({ '*': ['auth', 'can:manage_clients'] })
 
+  Route.post('clients/filters', 'filters/ClientsFiltersController')
+    .middleware(['auth', 'can:manage_clients'])
+
   Route.resource('users', 'UsersController')
     .apiOnly()
     .middleware({ '*': ['auth', 'can:manage_users'] })
+
+  Route.post('users/filters', 'filters/UsersFiltersController')
+    .middleware(['auth', 'can:manage_users'])
 
   Route.resource('meal-types', 'MealTypesController')
     .apiOnly()
@@ -28,9 +34,15 @@ Route.group(() => {
     .apiOnly()
     .middleware({ '*': ['auth', 'can:manage_meals'] })
 
+  Route.post('meals/filters', 'filters/MealsFiltersController')
+    .middleware(['auth', 'can:manage_meals'])
+
   Route.resource('orders', 'OrdersController')
     .apiOnly()
     .middleware({ '*': ['auth', 'can:manage_orders'] })
+
+  Route.post('orders/filters', 'filters/OrdersFiltersController')
+    .middleware(['auth', 'can:manage_orders'])
 
   Route.resource('order-items', 'OrderItemsController')
     .apiOnly()
@@ -39,6 +51,9 @@ Route.group(() => {
   Route.resource('roles', 'RolesController')
     .apiOnly()
     .middleware({ '*': ['auth', 'can:manage_roles'] })
+
+  Route.post('roles/filters', 'filters/RolesFiltersController')
+    .middleware(['auth', 'can:manage_roles'])
 
   Route.resource('permissions', 'PermissionsController')
     .apiOnly()
@@ -49,6 +64,8 @@ Route.group(() => {
     .apiOnly()
     .middleware({ '*': ['auth'] })
 
+  Route.post('tables/filters', 'filters/TablesFiltersController')
+    .middleware('auth')
 
   Route.get('user-permissions', 'invoke/UsersInvokes/GetUserPermissionsController')
     .middleware(['auth', 'can:manage_users'])
@@ -75,7 +92,6 @@ Route.group(() => {
     .middleware('auth')
 
   Route.post('recovery', 'invoke/MailController.SendRecoveryEmail')
-
 })
 
 

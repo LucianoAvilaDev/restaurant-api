@@ -4,12 +4,9 @@ export default class OrderItemsValidator {
 
   public orderItemsSchema: any = schema.create({
 
-    observation: schema.string(
-      [
-        rules.maxLength(300),
-        rules.nullable()
-      ]
-    ),
+    observation: schema.string.nullableAndOptional({ trim: false }, [
+      rules.maxLength(300),
+    ]),
 
     quantity: schema.number(
       [

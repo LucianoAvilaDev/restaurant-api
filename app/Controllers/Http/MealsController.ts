@@ -53,7 +53,7 @@ export default class MealsController {
 
     try {
 
-      const meal: Meal = await Meal.query().preload('mealType').where(params.id).firstOrFail()
+      const meal: Meal = await Meal.query().preload('mealType').where('id', params.id).firstOrFail()
 
       return response.ok(meal)
 

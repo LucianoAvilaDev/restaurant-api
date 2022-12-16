@@ -1,3 +1,4 @@
+import Hash from '@ioc:Adonis/Core/Hash'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { CustomMessages } from '@ioc:Adonis/Core/Validator'
 import User from 'App/Models/User'
@@ -37,7 +38,7 @@ export default class UsersController {
 
       const payload = await request.validate({ schema: this.usersSchema, messages: this.usersMessages })
 
-      const user: User = await User.create(payload as User)
+      const user: User = await User.create({ ...payload, password: await Hash.make(payload.password) } as User)
 
       return response.ok(user)
 
@@ -76,9 +77,12 @@ export default class UsersController {
 
       const existingUser: User = await User.findOrFail(params.id)
 
+      const defaultPassword: string = "******";
+
       existingUser.name = payload.name
       existingUser.email = payload.email
-      existingUser.password = payload.password
+      existingUser.password = payload.password == defaultPassword ? existingUser.password : await Hash.make(payload.password)
+
       existingUser.roleId = payload.roleId
 
       const updatedUser: User = await existingUser.save()

@@ -68,7 +68,9 @@ export default class OrdersController {
 
     try {
 
-      const order: Order = await Order.query().preload('table').preload('client').preload('orderItems').where('id', params.id).firstOrFail()
+      const order: Order = await Order.query().preload('table').preload('client').preload('orderItems', (query: any) => {
+        query.preload('meal')
+      }).where('id', params.id).firstOrFail()
 
       return response.ok(order)
 

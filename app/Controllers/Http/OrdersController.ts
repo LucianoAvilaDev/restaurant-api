@@ -42,11 +42,6 @@ export default class OrdersController {
 
       const payload: Order = await request.validate({ schema: this.ordersSchema, messages: this.ordersMessages })
 
-      const isTableAvailable: boolean = await CheckBookedTableService.run(request.body().tableId)
-
-      if (!isTableAvailable)
-        return response.badRequest('Mesa indisponível!')
-
       const order: Order = await Order.create(payload)
 
       if (order.isClosed)
@@ -92,7 +87,7 @@ export default class OrdersController {
 
       const payload: Order = await request.validate({ schema: this.ordersSchema, messages: this.ordersMessages })
 
-      const isTableAvailable: boolean = await CheckBookedTableService.run(request.body().tableId)
+      const isTableAvailable: boolean = await CheckBookedTableService.run(params.id, request.body().tableId)
 
       if (!isTableAvailable)
         return response.badRequest('Mesa indisponível!')

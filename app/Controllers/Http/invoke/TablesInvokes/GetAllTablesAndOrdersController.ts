@@ -5,14 +5,14 @@ import Table from 'App/Models/Table'
 
 export default class GetAllTablesAndOrdersController {
 
-  public async handle({ params, response }: HttpContextContract) {
+  public async handle({ response }: HttpContextContract) {
 
     try {
 
       const occupiedTables: Table[] = await Table.query().preload('orders', (query: HasManyQueryBuilderContract<typeof Order, any>) => {
         query.preload('client').preload('orderItems', (queryItems: any) => {
           queryItems.preload('meal')
-        }).orderBy('date', 'desc').first()
+        }).orderBy('date', 'desc')
       }).where('isAvailable', false)
 
       const freeTables: Table[] = await Table.query().where('isAvailable', true)

@@ -91,6 +91,9 @@ Route.group(() => {
   Route.post('get-auth-user', 'invoke/UsersInvokes/GetAuthenticatedUsersController')
     .middleware('auth')
 
+  Route.get('all-tables-and-orders', 'invoke/TablesInvokes/GetAllTablesAndOrdersController')
+    .middleware('auth')
+
   Route.post('recovery', 'invoke/MailController.SendRecoveryEmail')
 })
 

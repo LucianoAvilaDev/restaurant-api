@@ -12,6 +12,8 @@ Route.group(() => {
   Route.post('logout', 'AuthController.Logout')
     .middleware('auth')
 
+  Route.post('reset', 'AuthController.Reset')
+
   Route.resource('clients', 'ClientsController')
     .apiOnly()
     .middleware({ '*': ['auth', 'can:manage_clients'] })
@@ -95,6 +97,9 @@ Route.group(() => {
     .middleware('auth')
 
   Route.post('recovery', 'invoke/MailController.SendRecoveryEmail')
+  Route.put('saveUser/:id', 'invoke/UsersInvokes/SaveUserAfterResetPasswordController').middleware('auth')
+
+
 })
 
 

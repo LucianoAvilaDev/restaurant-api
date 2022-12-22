@@ -1,5 +1,5 @@
-import { DateTime } from 'luxon'
 import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import { DateTime } from 'luxon'
 import Role from './Role'
 
 
@@ -20,7 +20,7 @@ export default class User extends BaseModel {
   public token: string
 
   @column()
-  public recoveryToken: string
+  public recoveryToken?: | null
 
   @column()
   public roleId: number

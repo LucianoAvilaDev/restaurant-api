@@ -51,5 +51,19 @@ export default class AuthController {
 
   }
 
+  public async Reset({ request, response }: HttpContextContract) {
+
+    try {
+
+      const user: User = await User.query().preload('role').where('recoveryToken', request.input('token')).firstOrFail()
+      return response.ok(user)
+
+    }
+    catch (e: any) {
+      throw e
+    }
+
+  }
+
 }
 

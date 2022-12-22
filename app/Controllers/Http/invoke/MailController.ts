@@ -2,9 +2,9 @@
 
 import { SmtpMailResponse } from '@ioc:Adonis/Addons/Mail'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { GenerateRandomString } from 'App/Functions/GenerateRandomString'
 import User from 'App/Models/User'
 import SendRecoveryPasswordEmailService from 'App/Services/MailServices/SendRecoveryPasswordEmailService'
-import { GenerateRandomString } from 'App/Functions/GenerateRandomString'
 
 export default class MailController {
 
@@ -23,7 +23,7 @@ export default class MailController {
 
       await userToRecover.save()
 
-      const link: string = `${process.env.APP_URL_WEB}/recover/${userToRecover.recoveryToken}`
+      const link: string = `${process.env.APP_URL_WEB}/reset/${userToRecover.recoveryToken}`
 
       const mailResponse: SmtpMailResponse = await SendRecoveryPasswordEmailService.run({
         userEmail: userToRecover.email,

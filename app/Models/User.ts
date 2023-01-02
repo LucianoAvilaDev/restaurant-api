@@ -2,7 +2,6 @@ import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 import Role from './Role'
 
-
 export default class User extends BaseModel {
   @column({ isPrimary: true })
   public id: number
@@ -20,7 +19,7 @@ export default class User extends BaseModel {
   public token: string
 
   @column()
-  public recoveryToken?: | null
+  public recoveryToken?: string | null
 
   @column()
   public roleId: number
@@ -33,5 +32,4 @@ export default class User extends BaseModel {
 
   @belongsTo(() => Role)
   public role: BelongsTo<typeof Role>
-
 }

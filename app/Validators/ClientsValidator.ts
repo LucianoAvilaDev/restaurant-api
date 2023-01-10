@@ -1,36 +1,28 @@
-import { schema, CustomMessages, rules } from '@ioc:Adonis/Core/Validator'
+import { CustomMessages, rules, schema } from '@ioc:Adonis/Core/Validator'
 
 export default class ClientsValidator {
-
   constructor(protected clientId: number) { }
 
   public clientsSchema: any = schema.create({
-
-    name: schema.string(
-      { trim: false }, [
+    name: schema.string({ trim: false }, [
       rules.minLength(6),
       rules.maxLength(200),
-      rules.required()
+      rules.required(),
     ]),
 
-    cpf: schema.string(
-      [
-        rules.cpfValidation(),
-        rules.required(),
-        rules.unique({ table: 'clients', column: 'cpf', whereNot: { id: this.clientId } })
-      ]
-    ),
-
+    cpf: schema.string([
+      rules.cpfValidation(),
+      rules.required(),
+      rules.unique({ table: 'clients', column: 'cpf', whereNot: { id: this.clientId } }),
+    ]),
   })
 
   public clientsMessages: CustomMessages = {
+    'name.minLength': 'O Nome deve ter no mínimo {{ options.minLength }} caracteres.',
+    'name.maxLength': 'O Nome pode ter no máximo {{ options.maxLength }} caracteres.',
+    'name.required': 'O Nome é obrigatório.',
 
-    'name.minLength': "O Nome deve ter no mínimo {{ options.minLength }} caracteres.",
-    'name.maxLength': "O Nome pode ter no máximo {{ options.maxLength }} caracteres.",
-    'name.required': "O Nome é obrigatório.",
-
-    'rules.unique': "CPF já cadastrado.",
-    'rules.cpfValidation': "CPF inválido."
-
+    'rules.unique': 'CPF já cadastrado.',
+    'rules.cpfValidation': 'CPF inválido.',
   }
 }

@@ -5,14 +5,12 @@ import User from 'App/Models/User'
 import GetCurrentUserFullDataService from 'App/Services/UsersServices/GetCurrentUserFullDataService'
 
 export default class AuthController {
-
   public async Login({ request, auth, response }: HttpContextContract) {
-
     try {
       const [email, password] = [request.input('email'), request.input('password')]
 
       const token: OpaqueTokenContract<User> = await auth.use('api').attempt(email, password, {
-        expiresIn: '60 mins'
+        expiresIn: '60 mins',
       })
 
       const currUser: User = await GetCurrentUserFullDataService.run(auth)
@@ -27,43 +25,32 @@ export default class AuthController {
           permissions: currUser.role.permissions.map((permissions: Permission) => {
             return permissions.name
           }),
-        }
+        },
       })
-    }
-    catch (e: any) {
+    } catch (e: any) {
       throw e
     }
-
   }
 
   public async Logout({ auth, response }: HttpContextContract) {
-
     try {
-
       await auth.use('api').logout()
 
       return response.ok('Usuário desconectado com sucesso!')
-
-    }
-    catch (e: any) {
+    } catch (e: any) {
       throw e
     }
-
   }
 
   public async Reset({ request, response }: HttpContextContract) {
-
     try {
-
-      const user: User = await User.query().preload('role').where('recoveryToken', request.input('token')).firstOrFail()
+      const user: User = await User.query()
+        .preload('role')
+        .where('recoveryToken', request.input('token'))
+        .firstOrFail()
       return response.ok(user)
-
-    }
-    catch (e: any) {
+    } catch (e: any) {
       throw e
     }
-
   }
-
 }
-

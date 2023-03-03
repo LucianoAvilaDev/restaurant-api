@@ -37,6 +37,6 @@ yarn
 yarn dev
 ```
 
-Use o **Insomnia** ou doftware semelhante para utilizar a api com [http://localhost:3333](http://localhost:3333)e veja o resultado.
+Use o **Insomnia** ou software semelhante para utilizar a api com [http://localhost:3333](http://localhost:3333)e veja o resultado.
 
 ---

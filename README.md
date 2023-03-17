@@ -1,4 +1,4 @@
-# Projeto - Restaurante Restaurante Foods 'N' Drinks API
+# Projeto - Restaurante Foods 'N' Drinks API
 ## Descrição
 - Este é um projeto em **AdonisJs** e **Typescript** com a finalidade de aprendizado e colaboração, onde foi implementada a API de um projeto de restaurante fictício denominado **Eat 'N' Run**.
 - Suas funcionalidades basicamente são:
